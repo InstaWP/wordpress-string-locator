@@ -39,3 +39,7 @@ Search through themes or plugins to identify where the string is used, showing b
 ## Screenshots ##
 
 ## Changelog ##
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Clorith/wordpress-string-locator/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
