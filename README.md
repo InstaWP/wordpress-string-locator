@@ -50,6 +50,11 @@ This error is only related to regex searches, and is based off how PHP reads you
 When writing your search string, make sure to wrap your search in forward slashes (`/`), directly followed by any modifiers like case insensitive (`i`) that you may want to use.
 
 ## Changelog ##
+__2.1.2__
+* Fix for max execution times some times being interpreted as strings and failing when you it should be able to run indefinitely
+* Fix for regex being enabled when you return to the search results, but you hadn't performed a regex search
+* Resolved some code issues with functions being called improperly (future proofing)
+
 __2.1.1__
 * Improved error messages
 * Add regex pattern validation before performing a search
