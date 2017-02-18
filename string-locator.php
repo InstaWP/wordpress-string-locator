@@ -3,7 +3,7 @@
  * Plugin Name: String Locator
  * Plugin URI: http://www.clorith.net/wordpress-string-locator/
  * Description: Scan through theme and plugin files looking for text strings
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: Clorith
  * Author URI: http://www.clorith.net
  * Text Domain: string-locator
@@ -38,7 +38,7 @@ class String_Locator
 	 * @var string $plugin_url The URL to the plugins directory
 	 */
 	public  $string_locator_language = '';
-	public  $version                 = '2.1.1';
+	public  $version                 = '2.1.2';
 	public  $notice                  = array();
 	public  $failed_edit             = false;
 	private $plugin_url              = '';
@@ -62,7 +62,7 @@ class String_Locator
 		$this->path_to_use    = ( is_multisite() ? 'network/admin.php' : 'tools.php' );
 		$this->excerpt_length = apply_filters( 'string_locator_excerpt_length', 25 );
 
-		$this->max_execution_time = ini_get( 'max_execution_time' );
+		$this->max_execution_time = absint( ini_get( 'max_execution_time' ) );
 		$this->start_execution_timer = microtime( true );
 
 		$this->set_memory_limit();
@@ -131,7 +131,7 @@ class String_Locator
 	 *
 	 * @return string
 	 */
-	function get_themes_options( $current = null ) {
+	public static function get_themes_options( $current = null ) {
 		$options = sprintf(
 			'<option value="%s" %s>&mdash; %s &mdash;</option>',
 			't--',
@@ -163,7 +163,7 @@ class String_Locator
 	 *
 	 * @return string
 	 */
-	function get_plugins_options( $current = null ) {
+	public static function get_plugins_options( $current = null ) {
 		$options = sprintf(
 			'<option value="%s" %s>&mdash; %s &mdash;</option>',
 			'p--',
@@ -276,6 +276,22 @@ class String_Locator
 		return false;
 	}
 
+	public static function absbool( $value ) {
+		if ( is_bool( $value ) ) {
+			$bool = $value;
+		}
+		else {
+			if ( 'false' == $value ) {
+				$bool = false;
+			}
+			else {
+				$bool = true;
+			}
+		}
+
+		return $bool;
+	}
+
 	/**
 	 * Search an individual file supplied via AJAX
 	 *
@@ -337,17 +353,7 @@ class String_Locator
 
 		$is_regex = false;
 		if ( isset( $scan_data->regex ) ) {
-			if ( is_bool( $scan_data->regex ) ) {
-				$is_regex = $scan_data->regex;
-			}
-			else {
-				if ( 'false' == $scan_data->regex ) {
-					$is_regex = false;
-				}
-				else {
-					$is_regex = true;
-				}
-			}
+			$is_regex = $this->absbool( $scan_data->regex );
 		}
 
 		if ( $is_regex ) {
@@ -444,7 +450,7 @@ class String_Locator
 	 *
 	 * @return string
 	 */
-	function prepare_table_row( $item ) {
+	public static function prepare_table_row( $item ) {
 		if ( ! is_object( $item ) ) {
 			$item = (object) $item;
 		}
@@ -470,7 +476,7 @@ class String_Locator
 	 *
 	 * @return string
 	 */
-	function prepare_full_table( $items, $table_class = array() ) {
+	public static function prepare_full_table( $items, $table_class = array() ) {
 		$table_class = array_merge( $table_class, array(
 			'wp-list-table',
 			'widefat',
@@ -492,7 +498,7 @@ class String_Locator
 
 		$table_rows = array();
 		foreach( $items AS $item ) {
-			$table_rows[] = $this->prepare_table_row( $item );
+			$table_rows[] = self::prepare_table_row( $item );
 		}
 
 		$table = sprintf(

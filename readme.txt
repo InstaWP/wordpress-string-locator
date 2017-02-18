@@ -56,6 +56,11 @@ When writing your search string, make sure to wrap your search in forward slashe
 3. Smart-Scan has detected an inconsistency in the use of braces
 
 == Changelog ==
+= 2.1.2 =
+* Fix for max execution times some times being interpreted as strings and failing when you it should be able to run indefinitely
+* Fix for regex being enabled when you return to the search results, but you hadn't performed a regex search
+* Resolved some code issues with functions being called improperly (future proofing)
+
 = 2.1.1 =
 * Improved error messages
 * Add regex pattern validation before performing a search

@@ -17,7 +17,7 @@
 
 		$search_string   = $restore->search;
 		$search_location = $restore->directory;
-		$search_regex    = $restore->regex;
+		$search_regex    = String_Locator::absbool( $restore->regex );
 	}
 ?>
 <div class="wrap">
