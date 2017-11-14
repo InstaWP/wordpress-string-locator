@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
                 }
             }
         ).fail(function(xhr, textStatus, errorThrown) {
-            throw_error( errorThrown, string_locator.search_error );
+            throw_error( xhr.status + ' ' + errorThrown, string_locator.search_error );
         });
     };
 
@@ -59,12 +59,17 @@ jQuery(document).ready(function ($) {
             search_request,
             function ( response ) {
                 if ( ! response.success ) {
-                    add_notice( string_locator.warning_title, response.data, 'warning' );
+                    if ( false === response.data.continue ) {
+                        throw_error( string_locator.warning_title, response.data.message );
+                        return false;
+                    } else {
+						add_notice( string_locator.warning_title, response.data.message, 'warning' );
+                    }
                 }
 
                 if ( undefined !== response.data.search ) {
                     $("#string-locator-search-progress").val( response.data.filenum );
-                    $("#string-locator-feedback-text").html( response.data.next_file );
+                    $("#string-locator-feedback-text").html( string_locator.search_current_prefix + response.data.next_file );
 
                     string_locator_append_result( response.data.search );
                 }
@@ -73,7 +78,7 @@ jQuery(document).ready(function ($) {
             },
             'json'
         ).fail(function(xhr, textStatus, errorThrown) {
-            throw_error( errorThrown, string_locator.search_error );
+            throw_error( xhr.status + ' ' + errorThrown, string_locator.search_error );
         });
     };
 
@@ -81,20 +86,25 @@ jQuery(document).ready(function ($) {
         if ( $(".no-items", ".tools_page_string-locator").is(':visible') ) {
             $(".no-items", ".tools_page_string-locator").hide();
         }
+        if ( Array !== total_entries.constructor ) {
+            return false;
+        }
 
         total_entries.forEach( function ( entries ) {
-            for (var i = 0, amount = entries.length; i < amount; i++) {
+            if ( entries ) {
+                for (var i = 0, amount = entries.length; i < amount; i++) {
 
-                var entry = entries[i];
+                    var entry = entries[i];
 
-                if (undefined !== entry.stringresult) {
-                    var builtHTML = '<tr>' +
-                        '<td>' + entry.stringresult + '<div class="row-actions"><span class="edit"><a href="' + entry.editurl + '" aria-label="Edit">Edit</a></span></div></td>' +
-                        '<td>' + entry.filename + '</td>' +
-                        '<td>' + entry.linenum + '</td>' +
-                        '</tr>';
+                    if (undefined !== entry.stringresult) {
+                        var builtHTML = '<tr>' +
+                            '<td>' + entry.stringresult + '<div class="row-actions"><span class="edit"><a href="' + entry.editurl + '" aria-label="Edit">Edit</a></span></div></td>' +
+                            '<td>' + entry.filename + '</td>' +
+                            '<td>' + entry.linenum + '</td>' +
+                            '</tr>';
 
-                    $("tbody", ".tools_page_string-locator").append(builtHTML);
+                        $("tbody", ".tools_page_string-locator").append(builtHTML);
+                    }
                 }
             }
         } );
@@ -103,7 +113,7 @@ jQuery(document).ready(function ($) {
 
     $("#string-locator-search-form").on( 'submit', function (e) {
         e.preventDefault();
-        $("#string-locator-feedback-text").text( string_locator.search_preparing );
+        $("#string-locator-feedback-text").text(string_locator.search_preparing );
         $(".string-locator-feedback").show();
         string_locator_search_active = true;
         clear_string_locator_result_area();
@@ -127,12 +137,12 @@ jQuery(document).ready(function ($) {
                     return;
                 }
                 $("#string-locator-search-progress").attr( 'max', response.data.total ).val( response.data.current );
-                $("#string-locator-feedback-text").text( string_locator.search_started );
+                $("#string-locator-feedback-text").text(string_locator.search_started );
                 perform_string_locator_single_search( response.data.total, 0 );
             },
             'json'
         ).fail(function(xhr, textStatus, errorThrown) {
-            throw_error( errorThrown, string_locator.search_error );
+            throw_error( xhr.status + ' ' + errorThrown, string_locator.search_error );
         });
     });
 });

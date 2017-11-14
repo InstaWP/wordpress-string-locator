@@ -9,28 +9,28 @@
   
 **Tags:** theme, plugin, text, search, find, editor, syntax, highlight
   
-**Requires at least:** 3.6
+**Requires at least:** 4.9
   
-**Tested up to:** 4.7
+**Tested up to:** 4.9
   
-**Stable tag:** 2.1.1
+**Stable tag:** 2.3.0
   
 **License:** GPLv2 or later
   
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
   
 
-Find and edit code in your themes and plugins
+Find and edit code or texts in your themes and plugins
 
 ## Description ##
 
-When working on themes and plugins you often notice a piece of text that appears hardcoded into the files, you need to modify it, but you don't know where it's located in the theme files.
+When working on themes and plugins you often notice a piece of text that appears hardcoded into the files, you need to modify it, but you don't know what theme or plugin it's in, and certainly not which individual file to look in.
 
-Easily search through your themes, plugins or the WordPress core and be presented with a list of files, the matched text and what line of the file matched your search.
+Easily search through your themes, plugins or even WordPress core and be presented with a list of files, the matched text and what line of the file matched your search.
 You can then quickly make edits directly in your browser by clicking the link from the search results.
 
-By default a Smart-Scan is enabled when making edits, this will look for inconsistencies with braces, brackets and parenthesis that are often accidentally left.
-This drastically reduces the risk of breaking your site when making edits, but is not an absolute guarantee.
+By default a consistency check is performed when making edits to files, this will look for inconsistencies with braces, brackets and parenthesis that are often accidentally left in.
+This drastically reduces the risk of breaking your site when making edits, but is in no way an absolute guarantee.
 
 ## Installation ##
 
@@ -50,21 +50,16 @@ This error is only related to regex searches, and is based off how PHP reads you
 When writing your search string, make sure to wrap your search in forward slashes (`/`), directly followed by any modifiers like case insensitive (`i`) that you may want to use.
 
 ## Changelog ##
-__2.1.2__
-* Fix for max execution times some times being interpreted as strings and failing when you it should be able to run indefinitely
-* Fix for regex being enabled when you return to the search results, but you hadn't performed a regex search
-* Resolved some code issues with functions being called improperly (future proofing)
+__2.3.0__
+* Upped version requirement to 4.9 as we now use the bundled CodeMirror in WordPress core.
+* Converted translation functions to the escaping versions to avoid accidental output from translations.
+* Removed bundled languages, these should be served by WordPress.org now.
+* Improved behavior when a search failure happens, we were accidentally looping error messages for every file (whoops).
+* Added more translatable strings.
+* Added various filters:
+  * `string_locator_bad_http_codes`
+  * `string_locator_bad_file_types`
 
-__2.1.1__
-* Improved error messages
-* Add regex pattern validation before performing a search
-* Fixed bug causing some searches to be identified as regex when they are not, leading to errors
-* Fixed a bug that could cause the first file in every search chunk from being ignored
 
-__2.1.0__
-* Add support for configurations with infinite execution times
-* Better code handling on RTL sites
-* Exclude archive files, that we can't modify any way, from searches
-* Display file path in the editor to identify which file is being modified
-* Add support for RegEx string searches
-
+__Older entries__
+* See changelog.txt for the version history
