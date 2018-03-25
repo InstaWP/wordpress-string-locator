@@ -103,6 +103,26 @@ class String_Locator {
 		add_action( 'wp_ajax_string-locator-clean', array( $this, 'ajax_clean_search' ) );
 
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+
+		add_action( 'admin_init', array( $this, 'check_plugin_dependencies' ) );
+	}
+
+	public function check_plugin_dependencies() {
+		// If the user isn't an admin, or they can edit files, ignore this function.
+		if ( ! current_user_can( 'install_plugins' ) || current_user_can( 'edit_themes' ) ) {
+			return;
+		}
+
+		$this->notice[] = array(
+			'type'    => 'error',
+			'message' => sprintf(
+				// translators: %s: The capability that the user does not have.
+				esc_html__( 'The String Locator plugin has been automatically deactivated, because your user does not have the required %s capability.', 'string-locator' ),
+				'<strong>edit_themes</strong>'
+			),
+		);
+
+		deactivate_plugins( __FILE__ );
 	}
 
 	/**
