@@ -1,0 +1,33 @@
+{
+  "name": "wordpress-string-locator",
+  "version": "2.3.1",
+  "description": "Find and edit code or texts in your themes and plugins.",
+  "author": "clorith",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "wordpress",
+    "plugin"
+  ],
+  "homepage": "https://www.clorith.net",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Clorith/wordpress-string-locator"
+  },
+  "bugs": "https://github.com/Clorith/wordpress-string-locator/issues",
+  "engines": {
+    "node": ">=10.16.0"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^4.1.0",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5"
+  },
+  "scripts": {
+    "build": "gulp && wp-scripts build",
+    "lint:css": "wp-scripts lint-style 'assets/styles/**/*.css'",
+    "lint:js": "wp-scripts lint-js ./assets/javascript/**/*.js",
+    "start": "wp-scripts start"
+  }
+}

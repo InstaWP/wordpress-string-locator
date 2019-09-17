@@ -1,0 +1,22 @@
+{
+  "name": "clorith/wordpress-string-locator",
+  "type": "wordpress-plugin",
+  "description": "Find and edit code or texts in your themes and plugins.",
+  "keywords": [
+    "plugin",
+    "WordPress"
+  ],
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "wp-coding-standards/wpcs": "~2.0.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "~0.5.0"
+  },
+  "scripts": {
+    "check-cs": "@php ./vendor/bin/phpcs --extensions=php --ignore=/vendor/",
+    "fix-cs": "@php ./vendor/bin/phpcbf --extensions=php --ignore=/vendor/"
+  },
+  "support": {
+    "issues": "https://github.com/WordPress/health-check/issues",
+    "source": "https://github.com/WordPress/health-check"
+  }
+}

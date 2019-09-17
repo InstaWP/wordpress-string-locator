@@ -1,0 +1,70 @@
+version: '3.1'
+networks:
+  string_locator:
+    driver: bridge
+services:
+  database:
+    image: mariadb:latest
+    volumes:
+      - "./.docker/config/db:/etc/mysql/conf.d"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_USER: string_locator
+      MYSQL_PASSWORD: string_locator
+      MYSQL_DATABASE: string_locator
+    restart: on-failure
+    networks:
+      - string_locator
+  adminer:
+    image: adminer:latest
+    depends_on:
+      - database
+    ports:
+      - 8080:8080
+    restart: on-failure
+    networks:
+      - string_locator
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - string_locator
+  wordpress:
+    image: wordpress:5.2.2-php7.3-fpm-alpine
+    depends_on:
+      - database
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_USER: string_locator
+      WORDPRESS_DB_PASSWORD: string_locator
+      WORDPRESS_DB_NAME: string_locator
+      WORDPRESS_VERSION: latest
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - "./build:/var/www/html/wp-content/plugins/string-locator"
+      - "./.docker/local/wordpress:/var/www/html"
+      - "./.docker/config/php-fpm/php.ini:/usr/local/etc/php/php.ini"
+    restart: on-failure
+    networks:
+      - string_locator
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - wordpress
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "./build:/var/www/html/wp-content/plugins/string-locator"
+      - "./.docker/local/wordpress:/var/www/html"
+      - "./.docker/config/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./.docker/config/certs:/etc/nginx/certs"
+    restart: on-failure
+    networks:
+      string_locator:
+        aliases:
+          - string-locator.localhost
