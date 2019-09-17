@@ -3,7 +3,7 @@
  * Plugin Name: String Locator
  * Plugin URI: http://www.clorith.net/wordpress-string-locator/
  * Description: Scan through theme and plugin files looking for text strings
- * Version: 2.3.0
+ * Version: 2.3.1
  * Author: Clorith
  * Author URI: http://www.clorith.net
  * Text Domain: string-locator
@@ -25,6 +25,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
+}
+
 /**
  * Class String_Locator
  */
@@ -44,7 +48,7 @@ class String_Locator {
 	 * @var int $max_memory_consumption The server-configured max amount of memory a script can use.
 	 */
 	public $string_locator_language = '';
-	public $version = '2.3.0';
+	public $version = '2.3.1';
 	public $notice = array();
 	public $failed_edit = false;
 	private $plugin_url = '';
@@ -103,26 +107,6 @@ class String_Locator {
 		add_action( 'wp_ajax_string-locator-clean', array( $this, 'ajax_clean_search' ) );
 
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
-
-		add_action( 'admin_init', array( $this, 'check_plugin_dependencies' ) );
-	}
-
-	public function check_plugin_dependencies() {
-		// If the user isn't an admin, or they can edit files, ignore this function.
-		if ( ! current_user_can( 'install_plugins' ) || current_user_can( 'edit_themes' ) ) {
-			return;
-		}
-
-		$this->notice[] = array(
-			'type'    => 'error',
-			'message' => sprintf(
-				// translators: %s: The capability that the user does not have.
-				esc_html__( 'The String Locator plugin has been automatically deactivated, because your user does not have the required %s capability.', 'string-locator' ),
-				'<strong>edit_themes</strong>'
-			),
-		);
-
-		deactivate_plugins( __FILE__ );
 	}
 
 	/**
@@ -197,6 +181,22 @@ class String_Locator {
 		}
 
 		return $options;
+	}
+
+	public static function get_edit_form_url() {
+		$url_query = array(
+			'page'                => ( isset( $_GET['page'] ) ? $_GET['page'] : '' ),
+			'edit-file'           => ( isset( $_GET['edit-file'] ) ? $_GET['edit-file'] : '' ),
+			'file-reference'      => ( isset( $_GET['file-reference'] ) ? $_GET['file-reference'] : '' ),
+			'file-type'           => ( isset( $_GET['file-type'] ) ? $_GET['file-type'] : '' ),
+			'string-locator-line' => ( isset( $_GET['string-locator-line'] ) ? $_GET['string-locator-line'] : '' ),
+			'string-locator-path' => ( isset( $_GET['string-locator-path'] ) ? $_GET['string-locator-path'] : '' ),
+		);
+
+		return admin_url( sprintf(
+			'tools.php?%s',
+			build_query( $url_query )
+		) );
 	}
 
 	/**
@@ -747,6 +747,11 @@ class String_Locator {
 		$path    = str_replace( array( '/' ), array( DIRECTORY_SEPARATOR ), stripslashes( $path ) );
 		$abspath = str_replace( array( '/' ), array( DIRECTORY_SEPARATOR ), ABSPATH );
 
+		// Check that it is a valid file we are trying to access as well.
+		if ( ! file_exists( $path ) ) {
+			$valid = false;
+		}
+
 		if ( empty( $path ) ) {
 			$valid = false;
 		}
@@ -999,10 +1004,6 @@ class String_Locator {
 
 				$original = file_get_contents( $path );
 
-				if ( isset( $_POST['string-locator-make-child-theme'] ) ) {
-					$child_theme = $this->create_child_theme( $_GET['file-reference'] );
-				}
-
 				$this->write_file( $path, $content );
 
 				/**
@@ -1035,23 +1036,6 @@ class String_Locator {
 	}
 
 	/**
-	 * GCreate a child theme for our edits, instead of overwriting the original files.
-	 *
-	 * @param string $theme Slug of the theme being edited.
-	 *
-	 * @return string
-	 */
-	private function create_child_theme( $theme ) {
-		$child_theme = sprintf( '%s/%s-child', get_theme_root(), $theme );
-		mkdir( $child_theme );
-
-		touch( $child_theme . '/functions.php' );
-		touch( $child_theme . '/style.css' );
-
-		return $child_theme;
-	}
-
-	/**
 	 * When editing a file, this is where we write all the new content.
 	 * We will break early if the user isn't allowed to edit files.
 	 *
@@ -1062,6 +1046,11 @@ class String_Locator {
 	 */
 	private function write_file( $path, $content ) {
 		if ( ! current_user_can( 'edit_themes' ) ) {
+			return;
+		}
+
+		// Verify the location is valid before we try using it.
+		if ( ! $this->is_valid_location( $path ) ) {
 			return;
 		}
 

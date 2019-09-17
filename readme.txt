@@ -5,8 +5,8 @@ Plugin URI: http://wordpress.org/plugins/string-locator/
 Donate link: https://www.paypal.me/clorith
 Tags: theme, plugin, text, search, find, editor, syntax, highlight
 Requires at least: 4.9
-Tested up to: 4.9
-Stable tag: 2.3.0
+Tested up to: 5.1
+Stable tag: 2.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,15 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
+= 2.3.1 =
+This is a maintenance and security release, with thanks to [RIPS Technologies](https://www.ripstech.com) for the responsible disclosure of several security concerns.
+
+* Fixed an escaped URL that should've allowed some HTML links.
+* Patched a potential security vulnerability with file path traversals.
+* Patched a potential security vulnerability that allowed writing to arbitrary files.
+* Patched a few Cross Site Scripting (XSS) vulnerabilities.
+* Removed unused code that might allow file creation.
+
 = 2.3.0 =
 * Upped version requirement to 4.9 as we now use the bundled CodeMirror in WordPress core.
 * Converted translation functions to the escaping versions to avoid accidental output from translations.
@@ -51,8 +60,9 @@ When writing your search string, make sure to wrap your search in forward slashe
 * Improved behavior when a search failure happens, we were accidentally looping error messages for every file (whoops).
 * Added more translatable strings.
 * Added various filters:
-  * `string_locator_bad_http_codes`
-  * `string_locator_bad_file_types`
+** `string_locator_bad_http_codes`
+** `string_locator_bad_file_types`
+**
 
 = Older entries =
 See changelog.txt for the version history

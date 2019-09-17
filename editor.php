@@ -1,7 +1,14 @@
 <?php
+	if ( ! defined( 'ABSPATH' ) ) {
+		die();
+	}
+
 	global $string_locator;
 	$editor_content = "";
+
+	// $file is validated in String_Locator::is_valid_location() before this page can be loaded through String_Locator::options_page().
 	$file = $_GET['string-locator-path'];
+
 	$details = array();
 	$this_url = admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) . '?page=string-locator' );
 
@@ -74,20 +81,20 @@
 		<a href="<?php echo esc_url( $this_url . '&restore=true' ); ?>" class="button button-primary"><?php esc_html_e( 'Return to search results', 'string-locator' ); ?></a>
 	</h1>
 
-	<form action="<?php echo ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>" id="string-locator-edit-form" method="post">
+	<form action="<?php echo esc_url( String_Locator::get_edit_form_url() ); ?>" id="string-locator-edit-form" method="post">
 		<div class="string-locator-edit-wrap">
-			<textarea name="string-locator-editor-content" class="string-locator-editor" id="code-editor" data-editor-goto-line="<?php echo $_GET['string-locator-line']; ?>" data-editor-language="<?php echo $string_locator->string_locator_language; ?>" autofocus="autofocus"><?php echo esc_html( $editor_content ); ?></textarea>
+			<textarea name="string-locator-editor-content" class="string-locator-editor" id="code-editor" data-editor-goto-line="<?php echo esc_attr( $_GET['string-locator-line'] ); ?>" data-editor-language="<?php echo esc_attr( $string_locator->string_locator_language ); ?>" autofocus="autofocus"><?php echo esc_html( $editor_content ); ?></textarea>
 		</div>
 
 		<div class="string-locator-sidebar-wrap">
 			<div class="string-locator-details">
 				<div class="string-locator-theme-details">
-					<h2><?php echo $details['name']; ?> <small>v. <?php echo $details['version']; ?></small></h2>
+					<h2><?php echo esc_html( $details['name'] ); ?> <small>v. <?php echo esc_html( $details['version'] ); ?></small></h2>
 					<p>
-						<?php esc_html_e( 'By', 'string-locator' ); ?> <a href="<?php echo $details['author']['uri']; ?>" target="_blank"><?php echo $details['author']['name']; ?></a>
+						<?php esc_html_e( 'By', 'string-locator' ); ?> <a href="<?php echo esc_url( $details['author']['uri'] ); ?>" target="_blank"><?php echo esc_html( $details['author']['name'] ); ?></a>
 					</p>
 					<p>
-						<?php echo $details['description'] ?>
+						<?php echo esc_html( $details['description'] ); ?>
 					</p>
 				</div>
 
@@ -107,7 +114,7 @@
 						</p>
 
 						<p>
-							<?php esc_html_e( 'When making changes to a theme, it is recommended you make a <a href="https://codex.wordpress.org/Child_Themes">Child Theme</a>.', 'string-locator' ); ?>
+							<?php _e( 'When making changes to a theme, it is recommended you make a <a href="https://codex.wordpress.org/Child_Themes">Child Theme</a>.', 'string-locator' ); ?>
 						</p>
 					</div>
 
@@ -122,7 +129,7 @@
 								<strong><?php esc_html_e( 'Warning:', 'string-locator' ); ?></strong> <?php esc_html_e( 'You appear to be editing a Core file.', 'string-locator' ); ?>
 							</p>
 							<p>
-								<?php esc_html_e( 'Keep in mind that edits to core files will be lost when WordPress is updated. Please consider <a href="https://make.wordpress.org/core/handbook/">contributing to WordPress core</a> instead.', 'string-locator' ); ?>
+								<?php _e( 'Keep in mind that edits to core files will be lost when WordPress is updated. Please consider <a href="https://make.wordpress.org/core/handbook/">contributing to WordPress core</a> instead.', 'string-locator' ); ?>
 							</p>
 						</div>
 					<?php } ?>

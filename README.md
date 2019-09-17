@@ -11,9 +11,9 @@
   
 **Requires at least:** 4.9
   
-**Tested up to:** 4.9
+**Tested up to:** 5.1
   
-**Stable tag:** 2.3.0
+**Stable tag:** 2.3.1
   
 **License:** GPLv2 or later
   
@@ -50,6 +50,15 @@ This error is only related to regex searches, and is based off how PHP reads you
 When writing your search string, make sure to wrap your search in forward slashes (`/`), directly followed by any modifiers like case insensitive (`i`) that you may want to use.
 
 ## Changelog ##
+__2.3.1__
+This is a maintenance and security release, with thanks to [RIPS Technologies](https://www.ripstech.com) for the responsible disclosure of several security concerns.
+
+* Fixed an escaped URL that should've allowed some HTML links.
+* Patched a potential security vulnerability with file path traversals.
+* Patched a potential security vulnerability that allowed writing to arbitrary files.
+* Patched a few Cross Site Scripting (XSS) vulnerabilities.
+* Removed unused code that might allow file creation.
+
 __2.3.0__
 * Upped version requirement to 4.9 as we now use the bundled CodeMirror in WordPress core.
 * Converted translation functions to the escaping versions to avoid accidental output from translations.
