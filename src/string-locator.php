@@ -9,7 +9,7 @@
  * Text Domain: string-locator
  * License: GPL2
  *
- * Copyright 2013 Marius Jensen (email : marius@jits.no)
+ * Copyright 2013 Marius Jensen (email : marius@clorith.net)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
@@ -317,11 +317,11 @@ class String_Locator {
 			'regex'     => $_POST['regex']
 		);
 
-		update_option( 'string-locator-search-overview', serialize( $store ), true );
-		update_option( 'string-locator-search-history', serialize( array() ) );
+		set_transient( 'string-locator-search-overview', $store );
+		set_transient( 'string-locator-search-history', array() );
 
 		foreach ( $file_chunks AS $count => $file_chunk ) {
-			update_option( 'string-locator-search-files-' . $count, serialize( $file_chunk ) );
+			set_transient( 'string-locator-search-files-' . $count, $file_chunk );
 		}
 
 		wp_send_json_success( $response );
@@ -418,8 +418,8 @@ class String_Locator {
 			$next_chunk = 0;
 		}
 
-		$scan_data = unserialize( get_option( 'string-locator-search-overview' ) );
-		$file_data = unserialize( get_option( 'string-locator-search-files-' . $chunk ) );
+		$scan_data = get_transient( 'string-locator-search-overview' );
+		$file_data = get_transient( 'string-locator-search-files-' . $chunk );
 
 		if ( ! isset( $file_data[ $filenum ] ) ) {
 			wp_send_json_error(
@@ -497,7 +497,7 @@ class String_Locator {
 
 			if ( ! isset( $file_data[ $filenum ] ) ) {
 				$chunk ++;
-				$file_data = unserialize( get_option( 'string-locator-search-files-' . $chunk ) );
+				$file_data = get_transient( 'string-locator-search-files-' . $chunk );
 				continue;
 			}
 
@@ -526,15 +526,18 @@ class String_Locator {
 			}
 
 			if ( $next_chunk != $chunk ) {
-				$file_data = unserialize( get_option( 'string-locator-search-files-' . $next_chunk ) );
+				$file_data = get_transient( 'string-locator-search-files-' . $next_chunk );
 			}
 
 			$response['next_file'] = ( isset( $file_data[ $next_file ] ) ? $file_data[ $next_file ] : '' );
 
 			if ( ! empty( $search_results ) ) {
-				$history = maybe_unserialize( get_option( 'string-locator-search-history', array() ) );
+				$history = get_transient( 'string-locator-search-history' );
+				if ( false === $history ) {
+					$history = array();
+				}
 				$history = array_merge( $history, $search_results );
-				update_option( 'string-locator-search-history', serialize( $history ), false );
+				set_transient( 'string-locator-search-history', serialize( $history ) );
 			}
 
 			$_POST['filenum'] ++;
@@ -553,9 +556,9 @@ class String_Locator {
 			wp_send_json_error( __( 'Authentication failed', 'string-locator' ) );
 		}
 
-		$scan_data = unserialize( get_option( 'string-locator-search-overview' ) );
+		$scan_data = get_transient( 'string-locator-search-overview' );
 		for ( $i = 0; $i < $scan_data->chunks; $i ++ ) {
-			delete_option( 'string-locator-search-files-' . $i );
+			delete_transient( 'string-locator-search-files-' . $i );
 		}
 
 		wp_send_json_success( true );

@@ -17,11 +17,17 @@ if ( isset( $_POST['string-locator-search'] ) ) {
 }
 
 if ( isset( $_GET['restore'] ) ) {
-	$restore = unserialize( get_option( 'string-locator-search-overview' ) );
+	$restore = get_transient( 'string-locator-search-overview' );
 
-	$search_string   = $restore->search;
-	$search_location = $restore->directory;
-	$search_regex    = String_Locator::absbool( $restore->regex );
+	if ( false !== $restore ) {
+		$search_string   = $restore->search;
+		$search_location = $restore->directory;
+		$search_regex    = String_Locator::absbool( $restore->regex );
+	} else {
+?>
+	<div class="notice notice-large notice-warning">No previous searches could be restored.</div>
+<?php
+	}
 }
 ?>
 <div class="wrap">
@@ -70,7 +76,10 @@ if ( isset( $_GET['restore'] ) ) {
 	<div class="table-wrapper">
 		<?php
 		if ( isset( $_GET['restore'] ) ) {
-			$items = maybe_unserialize( get_option( 'string-locator-search-history', array() ) );
+			$items = get_transient( 'string-locator-search-history' );
+			if ( false === $items ) {
+				$items = array();
+			}
 
 			echo String_Locator::prepare_full_table( $items, array( 'restore' ) );
 		}
