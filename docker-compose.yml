@@ -26,13 +26,6 @@ services:
     restart: on-failure
     networks:
       - string_locator
-  mail:
-    image: mailhog/mailhog
-    ports:
-      - 1025:1025
-      - 8025:8025
-    networks:
-      - string_locator
   wordpress:
     image: wordpress:5.2.2-php7.3-fpm-alpine
     depends_on:
