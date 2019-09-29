@@ -72,75 +72,113 @@
 		$editor_content = stripslashes( $_POST['string-locator-editor-content'] );
 	}
 ?>
-<div class="wrap">
-	<h1>
+<form id="string-locator-edit-form" class="string-locator-editor-wrapper">
+	<h1 class="screen-reader-text">
 		<?php
 			/* translators: Title on the editor page. */
 			esc_html_e( 'String Locator - Code Editor', 'string-locator' );
 		?>
-		<a href="<?php echo esc_url( $this_url . '&restore=true' ); ?>" class="button button-primary"><?php esc_html_e( 'Return to search results', 'string-locator' ); ?></a>
 	</h1>
 
-	<form action="<?php echo esc_url( String_Locator::get_edit_form_url() ); ?>" id="string-locator-edit-form" method="post">
-		<div class="string-locator-edit-wrap">
-			<textarea name="string-locator-editor-content" class="string-locator-editor" id="code-editor" data-editor-goto-line="<?php echo esc_attr( $_GET['string-locator-line'] ); ?>" data-editor-language="<?php echo esc_attr( $string_locator->string_locator_language ); ?>" autofocus="autofocus"><?php echo esc_html( $editor_content ); ?></textarea>
+	<?php String_Locator::edit_form_fields( true ); ?>
+
+	<div class="string-locator-header">
+		<div>
+			<span>
+				<?php
+					printf(
+						// translators: %s: The name of the file being edited.
+						__( 'You are currently editing <em>%s</em>', 'string-locator' ),
+						esc_html( $_GET['file-reference'] )
+					);
+				?>
+			</span>
 		</div>
 
-		<div class="string-locator-sidebar-wrap">
-			<div class="string-locator-details">
-				<div class="string-locator-theme-details">
-					<h2><?php echo esc_html( $details['name'] ); ?> <small>v. <?php echo esc_html( $details['version'] ); ?></small></h2>
+		<div>
+			<a href="<?php echo esc_url( $this_url . '&restore=true' ); ?>" class="button button-default"><?php esc_html_e( 'Return to search results', 'string-locator' ); ?></a>
+			<button type="submit" class="button button-primary"><?php esc_html_e( 'Save changes', 'string-locator' ); ?></button>
+		</div>
+	</div>
+
+	<div class="string-locator-editor">
+		<div id="string-locator-notices">
+			<?php if ( isset( $details['parent'] ) && ! $details['parent'] ) { ?>
+				<div class="row notice notice-warning inline below-h2 is-dismissible">
 					<p>
-						<?php esc_html_e( 'By', 'string-locator' ); ?> <a href="<?php echo esc_url( $details['author']['uri'] ); ?>" target="_blank"><?php echo esc_html( $details['author']['name'] ); ?></a>
+						<?php esc_html_e( 'It seems you are making direct edits to a theme.', 'string-locator' ); ?>
 					</p>
+
 					<p>
-						<?php echo esc_html( $details['description'] ); ?>
+						<?php _e( 'When making changes to a theme, it is recommended you make a <a href="https://codex.wordpress.org/Child_Themes">Child Theme</a>.', 'string-locator' ); ?>
 					</p>
 				</div>
+			<?php } ?>
 
-				<div class="string-locator-actions">
-					<?php wp_nonce_field( 'string-locator-edit_' . $_GET['edit-file'] ); ?>
+			<?php if ( ! stristr( $file, 'wp-content' ) ) { ?>
+				<div class="row notice notice-warning inline below-h2 is-dismissible">
 					<p>
-						<label>
-							<input type="checkbox" name="string-locator-smart-edit" checked="checked">
-							<?php esc_html_e( 'Enable a smart-scan of your code to help detect bracket mismatches before saving.', 'string-locator' ); ?>
-						</label>
+						<strong><?php esc_html_e( 'Warning:', 'string-locator' ); ?></strong> <?php esc_html_e( 'You appear to be editing a Core file.', 'string-locator' ); ?>
 					</p>
-
-					<?php if ( isset( $details['parent'] ) && ! $details['parent'] ) { ?>
-					<div class="notice notice-warning inline below-h2">
-						<p>
-							<?php esc_html_e( 'It seems you are making direct edits to a theme.', 'string-locator' ); ?>
-						</p>
-
-						<p>
-							<?php _e( 'When making changes to a theme, it is recommended you make a <a href="https://codex.wordpress.org/Child_Themes">Child Theme</a>.', 'string-locator' ); ?>
-						</p>
-					</div>
-
 					<p>
-
+						<?php _e( 'Keep in mind that edits to core files will be lost when WordPress is updated. Please consider <a href="https://make.wordpress.org/core/handbook/">contributing to WordPress core</a> instead.', 'string-locator' ); ?>
 					</p>
-					<?php } ?>
+				</div>
+			<?php } ?>
+		</div>
 
-					<?php if ( ! stristr( $file, 'wp-content' ) ) { ?>
-						<div class="notice notice-warning inline below-h2">
-							<p>
-								<strong><?php esc_html_e( 'Warning:', 'string-locator' ); ?></strong> <?php esc_html_e( 'You appear to be editing a Core file.', 'string-locator' ); ?>
-							</p>
-							<p>
-								<?php _e( 'Keep in mind that edits to core files will be lost when WordPress is updated. Please consider <a href="https://make.wordpress.org/core/handbook/">contributing to WordPress core</a> instead.', 'string-locator' ); ?>
-							</p>
-						</div>
-					<?php } ?>
+		<textarea
+			name="string-locator-editor-content"
+			class="string-locator-editor"
+			id="code-editor"
+			data-editor-goto-line="<?php echo esc_attr( $_GET['string-locator-line'] ); ?>"
+			data-editor-language="<?php echo esc_attr( $string_locator->string_locator_language ); ?>"
+			autofocus="autofocus"
+		><?php echo esc_html( $editor_content ); ?></textarea>
+	</div>
 
-					<p class="submit">
-						<input type="submit" name="submit" class="button button-primary" value="<?php esc_html_e( 'Save changes', 'string-locator' ); ?>">
-					</p>
+	<div class="string-locator-sidebar">
+		<div class="string-locator-panel">
+			<h2 class="title"><?php esc_html_e( 'Details', 'string-locator' ); ?></h2>
+			<div class="string-locator-panel-body">
+				<div class="row">
+					<?php echo esc_html( $details['name'] ); ?> <small>v. <?php echo esc_html( $details['version'] ); ?></small>
+				</div>
+				<div class="row">
+					<?php esc_html_e( 'By', 'string-locator' ); ?> <a href="<?php echo esc_url( $details['author']['uri'] ); ?>" target="_blank"><?php echo esc_html( $details['author']['name'] ); ?></a>
+				</div>
+				<div class="row">
+					<?php echo esc_html( $details['description'] ); ?>
 				</div>
 			</div>
+		</div>
 
-			<?php
+		<div class="string-locator-panel">
+			<h2 class="title"><?php esc_html_e( 'Save settings', 'string-locator' ); ?></h2>
+			<div class="string-locator-panel-body">
+				<div class="row">
+					<label>
+						<input type="checkbox" name="string-locator-smart-edit" checked="checked">
+						<?php esc_html_e( 'Enable a smart-scan of your code to help detect bracket mismatches before saving.', 'string-locator' ); ?>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="string-locator-panel">
+			<h2 class="title"><?php esc_html_e( 'File information', 'string-locator' ); ?></h2>
+			<div class="string-locator-panel-body">
+				<div class="row">
+					<?php esc_html_e( 'File location:', 'string-locator' ); ?>
+					<br />
+					<span class="string-locator-italics">
+						<?php echo esc_html( str_replace( ABSPATH, '', $file ) ); ?>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<?php
 			$function_info = get_defined_functions();
 			$function_help = '';
 
@@ -176,38 +214,31 @@
 					}
 
 					$function_help .= sprintf(
-						'<p><a href="%s" target="_blank">%s</a></p>',
+						'<div class="row"><a href="%s" target="_blank">%s</a></div>',
 						esc_url( sprintf( 'https://developer.wordpress.org/reference/functions/%s/', $user_func ) ),
 						$user_func . '( ' . implode( ', ', $attr_strings ) . ' )'
 					);
 				}
 			}
-			?>
+		?>
 
-			<div class="string-locator-details">
-				<div class="string-locator-theme-details">
-					<h2><?php esc_html_e( 'File information', 'string-locator' ); ?></h2>
+		<?php if ( ! empty( $function_help ) ) : ?>
 
-					<p>
-						<?php esc_html_e( 'File location:', 'string-locator' ); ?>
-						<br />
-						<span class="string-locator-italics">
-							<?php echo esc_html( str_replace( ABSPATH, '', $file ) ); ?>
-						</span>
-					</p>
-				</div>
-			</div>
-
-			<?php if ( ! empty( $function_help ) ) { ?>
-			<div class="string-locator-details">
-
-				<div class="string-locator-theme-details">
-					<h2><?php esc_html_e( 'WordPress Functions', 'string-locator' ); ?></h2>
-
-					<?php echo $function_help; ?>
-				</div>
-			</div>
-			<?php }?>
+		<div class="string-locator-panel">
+			<h2 class="title"><?php esc_html_e( 'WordPress functions', 'string-locator' ); ?></h2>
+			<div class="string-locator-panel-body">
+				<?php echo $function_help; ?>
 		</div>
-	</form>
+		<?php endif; ?>
+
+	</div>
+
 </div>
+
+<script id="tmpl-string-locator-alert" type="text/template">
+	<div class="row notice notice-{{ data.type }} inline below-h2 is-dismissible">
+		{{{ data.message }}}
+
+		<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+	</div>
+</script>

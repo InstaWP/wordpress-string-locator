@@ -1,0 +1,12 @@
+table {
+
+	&.tools_page_string-locator {
+
+		display: none;
+
+		&.restore {
+
+			display: block;
+		}
+	}
+}

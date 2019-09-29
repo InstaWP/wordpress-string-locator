@@ -1,0 +1,54 @@
+.wrap  {
+
+	& > h2 {
+
+		margin-bottom: 15px;
+	}
+}
+
+.string-locator-feedback {
+
+	background: #fff;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+
+	&.hide {
+
+		display: none;
+	}
+
+	progress {
+
+		width: 100%;
+		height: 1.5em;
+	}
+
+	#string-locator-feedback-text {
+
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+	}
+}
+
+body {
+
+	&.tools_page_string-locator {
+
+		#wpcontent {
+
+			padding-left: 0;
+		}
+
+		#wpfooter {
+
+			display: none;
+		}
+
+		#wpbody-content {
+
+			padding-bottom: 0;
+		}
+	}
+}

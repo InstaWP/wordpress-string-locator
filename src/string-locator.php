@@ -60,6 +60,8 @@ class String_Locator {
 	private $start_execution_timer = 0;
 	private $max_memory_consumption = 0;
 
+	private $rest_namespace = 'string-locator';
+
 	/**
 	 * Construct the plugin
 	 */
@@ -99,14 +101,30 @@ class String_Locator {
 
 		add_action( 'plugins_loaded', array( $this, 'load_i18n' ) );
 
-		add_action( 'admin_init', array( $this, 'editor_save' ) );
-		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
-
 		add_action( 'wp_ajax_string-locator-get-directory-structure', array( $this, 'ajax_get_directory_structure' ) );
 		add_action( 'wp_ajax_string-locator-search', array( $this, 'ajax_file_search' ) );
 		add_action( 'wp_ajax_string-locator-clean', array( $this, 'ajax_clean_search' ) );
 
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+
+		add_action( 'rest_api_init', array( $this, 'add_rest_route' ) );
+	}
+
+	public function add_rest_route() {
+		register_rest_route(
+			sprintf(
+				'%s/v1',
+				$this->rest_namespace
+			),
+			'/save',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'editor_save' ),
+				'permission_callback' => function() {
+					return current_user_can( 'edit_themes' );
+				},
+			)
+		);
 	}
 
 	/**
@@ -184,7 +202,16 @@ class String_Locator {
 	}
 
 	public static function get_edit_form_url() {
-		$url_query = array(
+		$url_query = String_Locator::edit_form_fields();
+
+		return admin_url( sprintf(
+			'tools.php?%s',
+			build_query( $url_query )
+		) );
+	}
+
+	public static function edit_form_fields( $echo = false ) {
+		$fields = array(
 			'page'                => ( isset( $_GET['page'] ) ? $_GET['page'] : '' ),
 			'edit-file'           => ( isset( $_GET['edit-file'] ) ? $_GET['edit-file'] : '' ),
 			'file-reference'      => ( isset( $_GET['file-reference'] ) ? $_GET['file-reference'] : '' ),
@@ -193,10 +220,21 @@ class String_Locator {
 			'string-locator-path' => ( isset( $_GET['string-locator-path'] ) ? $_GET['string-locator-path'] : '' ),
 		);
 
-		return admin_url( sprintf(
-			'tools.php?%s',
-			build_query( $url_query )
-		) );
+		$field_output = array();
+
+		foreach ( $fields as $label => $value ) {
+			$field_output[] = sprintf(
+				'<input type="hidden" name="%s" value="%s">',
+				esc_attr( $label ),
+				esc_attr( $value )
+			);
+		}
+
+		if ( $echo ) {
+			echo implode( "\n", $field_output );
+		}
+
+		return $field_output;
 	}
 
 	/**
@@ -821,11 +859,12 @@ class String_Locator {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-editor', $this->plugin_url . '/resources/js/string-locator.js', array( 'jquery', 'code-editor' ), $this->version, true );
+			wp_enqueue_script( 'string-locator-editor', $this->plugin_url . '/resources/js/string-locator.js', array( 'jquery', 'code-editor', 'wp-util' ), $this->version, true );
 
 			wp_localize_script( 'string-locator-editor', 'string_locator', array(
 				'CodeMirror' => $code_mirror,
-				'goto_line'  => absint( $_GET['string-locator-line'] )
+				'goto_line'  => absint( $_GET['string-locator-line'] ),
+				'save_url'   => get_rest_url( null, 'string-locator/v1/save' ),
 			) );
 		}
 	}
@@ -922,119 +961,143 @@ class String_Locator {
 	 *
 	 * @return void
 	 */
-	function editor_save() {
-		if ( isset( $_POST['string-locator-editor-content'] ) && check_admin_referer( 'string-locator-edit_' . $_GET['edit-file'] ) && current_user_can( 'edit_themes' ) ) {
+	function editor_save( $request ) {
+		$_POST = $request->get_params();
 
-			if ( $this->is_valid_location( $_GET['string-locator-path'] ) ) {
-				$path    = urldecode( $_GET['string-locator-path'] );
-				$content = stripslashes( $_POST['string-locator-editor-content'] );
+		if ( $this->is_valid_location( $_POST['string-locator-path'] ) ) {
+			$path    = urldecode( $_POST['string-locator-path'] );
+			$content = stripslashes( $_POST['string-locator-editor-content'] );
 
-				/**
-				 * Send an error notice if the file isn't writable
-				 */
-				if ( ! is_writeable( $path ) ) {
-					$this->notice[]    = array(
-						'type'    => 'error',
-						'message' => __( 'The file could not be written to, please check file permissions or edit it manually.', 'string-locator' )
-					);
+			/**
+			 * Send an error notice if the file isn't writable
+			 */
+			if ( ! is_writeable( $path ) ) {
+				$this->notice[]    = array(
+					'type'    => 'error',
+					'message' => __( 'The file could not be written to, please check file permissions or edit it manually.', 'string-locator' )
+				);
+				$this->failed_edit = true;
+
+				return array(
+					'notices' => $this->notice,
+				);
+			}
+
+			/**
+			 * If enabled, run the Smart-Scan on the content before saving it
+			 */
+			if ( isset( $_POST['string-locator-smart-edit'] ) ) {
+				$open_brace  = substr_count( $content, '{' );
+				$close_brace = substr_count( $content, '}' );
+				if ( $open_brace != $close_brace ) {
 					$this->failed_edit = true;
 
-					return;
-				}
+					$opened = $this->SmartScan( '{', '}', $content );
 
-				/**
-				 * If enabled, run the Smart-Scan on the content before saving it
-				 */
-				if ( isset( $_POST['string-locator-smart-edit'] ) ) {
-					$open_brace  = substr_count( $content, '{' );
-					$close_brace = substr_count( $content, '}' );
-					if ( $open_brace != $close_brace ) {
-						$this->failed_edit = true;
-
-						$opened = $this->SmartScan( '{', '}', $content );
-
-						foreach ( $opened AS $line ) {
-							$this->notice[] = array(
-								'type'    => 'error',
-								'message' => sprintf(
-									esc_html__( 'There is an inconsistency in the opening and closing braces, { and }, of your file on line %s', 'string-locator' ),
-									'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
-								)
-							);
-						}
-					}
-
-					$open_bracket  = substr_count( $content, '[' );
-					$close_bracket = substr_count( $content, ']' );
-					if ( $open_bracket != $close_bracket ) {
-						$this->failed_edit = true;
-
-						$opened = $this->SmartScan( '[', ']', $content );
-
-						foreach ( $opened AS $line ) {
-							$this->notice[] = array(
-								'type'    => 'error',
-								'message' => sprintf(
-									esc_html__( 'There is an inconsistency in the opening and closing braces, [ and ], of your file on line %s', 'string-locator' ),
-									'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
-								)
-							);
-						}
-					}
-
-					$open_parenthesis  = substr_count( $content, '(' );
-					$close_parenthesis = substr_count( $content, ')' );
-					if ( $open_parenthesis != $close_parenthesis ) {
-						$this->failed_edit = true;
-
-						$opened = $this->SmartScan( '(', ')', $content );
-
-						foreach ( $opened AS $line ) {
-							$this->notice[] = array(
-								'type'    => 'error',
-								'message' => sprintf(
-									esc_html__( 'There is an inconsistency in the opening and closing braces, ( and ), of your file on line %s', 'string-locator' ),
-									'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
-								)
-							);
-						}
-					}
-
-					if ( $this->failed_edit ) {
-						return;
+					foreach ( $opened AS $line ) {
+						$this->notice[] = array(
+							'type'    => 'error',
+							'message' => sprintf(
+								__( 'There is an inconsistency in the opening and closing braces, { and }, of your file on line %s', 'string-locator' ),
+								'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
+							)
+						);
 					}
 				}
 
-				$original = file_get_contents( $path );
-
-				$this->write_file( $path, $content );
-
-				/**
-				 * Check the status of the site after making our edits.
-				 * If the site fails, revert the changes to return the sites to its original state
-				 */
-				$header = wp_remote_head( site_url() );
-				if ( 301 == $header['response']['code'] ) {
-					$header = wp_remote_head( $header['headers']['location'] );
-				}
-
-				$bad_http_check = apply_filters( 'string_locator_bad_http_codes', $this->bad_http_codes );
-
-				if ( in_array( $header['response']['code'], $bad_http_check ) ) {
+				$open_bracket  = substr_count( $content, '[' );
+				$close_bracket = substr_count( $content, ']' );
+				if ( $open_bracket != $close_bracket ) {
 					$this->failed_edit = true;
-					$this->write_file( $path, $original );
 
-					$this->notice[] = array(
-						'type'    => 'error',
-						'message' => esc_html__( 'A 500 server error was detected on your site after updating your file. We have restored the previous version of the file for you.', 'string-locator' )
-					);
-				} else {
-					$this->notice[] = array(
-						'type'    => 'updated',
-						'message' => esc_html__( 'The file has been saved', 'string-locator' )
+					$opened = $this->SmartScan( '[', ']', $content );
+
+					foreach ( $opened AS $line ) {
+						$this->notice[] = array(
+							'type'    => 'error',
+							'message' => sprintf(
+								__( 'There is an inconsistency in the opening and closing braces, [ and ], of your file on line %s', 'string-locator' ),
+								'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
+							)
+						);
+					}
+				}
+
+				$open_parenthesis  = substr_count( $content, '(' );
+				$close_parenthesis = substr_count( $content, ')' );
+				if ( $open_parenthesis != $close_parenthesis ) {
+					$this->failed_edit = true;
+
+					$opened = $this->SmartScan( '(', ')', $content );
+
+					foreach ( $opened AS $line ) {
+						$this->notice[] = array(
+							'type'    => 'error',
+							'message' => sprintf(
+								__( 'There is an inconsistency in the opening and closing braces, ( and ), of your file on line %s', 'string-locator' ),
+								'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
+							)
+						);
+					}
+				}
+
+				if ( $this->failed_edit ) {
+					return array(
+						'notices' => $this->notice,
 					);
 				}
 			}
+
+			$original = file_get_contents( $path );
+
+			$this->write_file( $path, $content );
+
+			/**
+			 * Check the status of the site after making our edits.
+			 * If the site fails, revert the changes to return the sites to its original state
+			 */
+			$header = wp_remote_head( site_url() );
+			if ( 301 == $header['response']['code'] ) {
+				$header = wp_remote_head( $header['headers']['location'] );
+			}
+
+			$bad_http_check = apply_filters( 'string_locator_bad_http_codes', $this->bad_http_codes );
+
+			if ( in_array( $header['response']['code'], $bad_http_check ) ) {
+				$this->failed_edit = true;
+				$this->write_file( $path, $original );
+
+				return array(
+					'notices' => array(
+						array(
+							'type'    => 'error',
+							'message' => __( 'A 500 server error was detected on your site after updating your file. We have restored the previous version of the file for you.', 'string-locator' ),
+						),
+					),
+				);
+			} else {
+				return array(
+					'notices' => array(
+						array(
+							'type'    => 'success',
+							'message' => __( 'The file has been saved', 'string-locator' ),
+						),
+					),
+				);
+			}
+		} else {
+			return array(
+				'notices' => array(
+					array(
+						'type'    => 'error',
+						'message' => sprintf(
+							// translators: %s: The file location that was sent.
+							__( 'The file location provided, <strong>%s</strong>, is not valid.', 'string-locator' ),
+							$_POST['string-locator-path']
+						),
+					),
+				),
+			);
 		}
 	}
 
