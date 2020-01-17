@@ -3,7 +3,7 @@ name: Pre-merge tests
 on:
   pull_request:
     types: [opened, edited, reopened, ready_for_review]
-    beanches:
+    branches:
       - master
 
 jobs:
