@@ -14,14 +14,14 @@ jobs:
     steps:
       - name: PHP Syntax check
         run: |
-          - cd src
-          - find . \( -name '*.php' \) -exec php -lf {} \;
-          - cd ..
+          cd src
+          find . \( -name '*.php' \) -exec php -lf {} \;
+          cd ..
       - name: CSS Lint
         run: |
-          - yarn install
-          - yarn run lint:css
+          yarn install
+          yarn run lint:css
       - name: JavaScript Lint
         run: |
-          - yarn install
-          - yarn run lint:js
+          yarn install
+          yarn run lint:js
