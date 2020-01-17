@@ -23,10 +23,10 @@ jQuery( document ).ready( function( $ ) {
 				string_locator.save_url,
 				$( this ).serialize()
 			).always( function( response ) {
-				if ( 'undefined' === typeof( response.notices ) ) {
+				if ( 'undefined' === typeof ( response.notices ) ) {
 					$notices.append( template( {
 						type: 'error',
-						message: response.responseText
+						message: response.responseText,
 					} ) );
 				} else {
 					$.each( response.notices, function() {
