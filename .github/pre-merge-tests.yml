@@ -1,0 +1,27 @@
+name: Pre-merge tests
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, ready_for_review]
+    beanches:
+      - master
+
+jobs:
+  build:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: PHP Syntax check
+        run: |
+          - cd src
+          - find . \( -name '*.php' \) -exec php -lf {} \;
+          - cd ..
+      - name: CSS Lint
+        run: |
+          - yarn install
+          - yarn run lint:css
+      - name: JavaScript Lint
+        run: |
+          - yarn install
+          - yarn run lint:js
