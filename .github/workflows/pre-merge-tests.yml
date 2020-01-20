@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Fetch repository files
+        uses: actions/checkout@v2
+
       - name: PHP Syntax check
         working-directory: ./src
         run: |
