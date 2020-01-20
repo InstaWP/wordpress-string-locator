@@ -21,7 +21,12 @@ jobs:
           find . \( -name '*.php' \) -exec php -lf {} \;
 
       - name: Install dependencies
-        run: yarn install
+        run: |
+          yarn install
+          composer install
+
+      - name: PHP Coding Standards
+        run: composer run check-cs
 
       - name: CSS Lint
         run: yarn run lint:css
