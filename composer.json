@@ -9,7 +9,7 @@
   "license": "GPL-2.0-or-later",
   "require": {
     "wp-coding-standards/wpcs": "~2.0.0",
-    "dealerdirect/phpcodesniffer-composer-installer": "~0.5.0"
+    "dealerdirect/phpcodesniffer-composer-installer": "~0.6.1"
   },
   "scripts": {
     "check-cs": "@php ./vendor/bin/phpcs --extensions=php --ignore=/vendor/",
