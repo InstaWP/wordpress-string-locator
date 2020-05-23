@@ -1,7 +1,7 @@
-/* global wp, string_locator */
+/* global string_locator */
 jQuery( document ).ready( function( $ ) {
 	let stringLocatorSearchActive = false;
-	let resultTemplate = wp.template( 'string-locator-search-result' );
+	const resultTemplate = wp.template( 'string-locator-search-result' );
 
 	function addNotice( title, message, format ) {
 		$( '.notices' ).append( '<div class="notice notice-' + format + ' is-dismissible"><p><strong>' + title + '</strong><br />' + message + '</p></div>' );
@@ -98,9 +98,7 @@ jQuery( document ).ready( function( $ ) {
 					const entry = entries[ i ];
 
 					if ( undefined !== entry.stringresult ) {
-
 						$( 'tbody', '.tools_page_string-locator' ).append( resultTemplate( entry ) );
-
 					}
 				}
 			}
