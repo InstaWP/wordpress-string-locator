@@ -31,9 +31,9 @@ if ( isset( $_GET['restore'] ) ) {
 }
 ?>
 <div class="wrap">
-	<h2>
+	<h1>
 		<?php esc_html_e( 'String Locator', 'string-locator' ); ?>
-	</h2>
+	</h1>
 
 	<?php if ( ! current_user_can( 'edit_themes' ) ) : ?>
 		<div class="notice notice-warning inline">
@@ -71,7 +71,7 @@ if ( isset( $_GET['restore'] ) ) {
 		<label for="string-locator-string"><?php esc_html_e( 'Search string', 'string-locator' ); ?></label>
 		<input type="text" name="string-locator-string" id="string-locator-string" value="<?php echo esc_attr( $search_string ); ?>" />
 
-		<label><input type="checkbox" name="string-locator-regex" id="string-locator-regex"<?php echo ( $search_regex ? ' checked="checked"' : '' ); ?>'> <?php esc_html_e( 'RegEx search', 'string-locator' ); ?></label>
+		<label><input type="checkbox" name="string-locator-regex" id="string-locator-regex"<?php echo ( $search_regex ? ' checked="checked"' : '' ); ?>> <?php esc_html_e( 'RegEx search', 'string-locator' ); ?></label>
 
 		<p>
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_html_e( 'Search', 'string-locator' ); ?>">
