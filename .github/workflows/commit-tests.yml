@@ -1,8 +1,7 @@
-name: Pre-merge tests
+name: master
 
 on:
-  pull_request:
-    types: [opened, edited, reopened, ready_for_review]
+  push:
     branches:
       - master
 
