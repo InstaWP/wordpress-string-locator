@@ -8,8 +8,13 @@ const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 module.exports = {
 	...defaultConfig,
 	entry: {
-		"string-locator": [ path.resolve( process.cwd(), 'src/javascript/', 'string-locator.js' ), path.resolve( process.cwd(), 'src/sass', 'string-locator.scss' ) ],
-		"string-locator-search": [ path.resolve( process.cwd(), 'src/javascript/', 'string-locator-search.js' ) ],
+		"string-locator": [
+			path.resolve( process.cwd(), 'src/javascript/', 'string-locator.js' ),
+			path.resolve( process.cwd(), 'src/sass', 'string-locator.scss' )
+		],
+		"string-locator-search": [
+			path.resolve( process.cwd(), 'src/javascript', 'string-locator-search.js' )
+		],
 	},
 	output: {
 		filename: '[name].js',
