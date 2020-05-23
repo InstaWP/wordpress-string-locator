@@ -1,4 +1,11 @@
-node_modules
-vendor
-build
-.docker/local
+.idea/
+
+node_modules/
+wordpress-coding-standards
+php-codesniffer
+build/
+/string-locator/
+vendor/
+
+.wp-env.override.json
+string-locator.zip

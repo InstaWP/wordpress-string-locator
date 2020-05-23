@@ -1,0 +1,10 @@
+{
+  "core": null,
+  "plugins": [
+	"./string-locator"
+  ],
+  "config": {
+	"WP_DEBUG": true,
+	"SCRIPT_DEBUG": true
+  }
+}
