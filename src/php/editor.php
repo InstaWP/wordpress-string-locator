@@ -184,7 +184,7 @@ if ( ! $string_locator->failed_edit ) {
 					<?php esc_html_e( 'Last modified:', 'string-locator' ); ?>
 					<br />
 					<span class="string-locator-italics">
-						<?php echo date( "Y-m-d H:i:s", filemtime( $file ) ); ?>
+						<?php echo gmdate( 'Y-m-d H:i:s', filemtime( $file ) ); ?>
 					</span>
 				</div>
 			</div>

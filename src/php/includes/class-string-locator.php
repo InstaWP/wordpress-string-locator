@@ -826,7 +826,7 @@ class String_Locator {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-search', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator-search.js', array( 'jquery', 'react', 'react-dom', 'wp-util' ), $this->version. true );
+			wp_enqueue_script( 'string-locator-search', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator-search.js', array( 'jquery', 'wp-util' ), $this->version, true );
 
 			wp_localize_script(
 				'string-locator-search',
