@@ -43,7 +43,7 @@ if ( isset( $_GET['restore'] ) ) {
 				</strong>
 			</p>
 			<p>
-				<?php esc_html_e( 'Because this site is configured to not allow direct file editing, the String Locator plugin has limited functionality and will only allow you to search for files with your string in them.' , 'string-locator' ); ?>
+				<?php esc_html_e( 'Because this site is configured to not allow direct file editing, the String Locator plugin has limited functionality and will only allow you to search for files with your string in them.', 'string-locator' ); ?>
 			</p>
 		</div>
 	<?php endif; ?>
