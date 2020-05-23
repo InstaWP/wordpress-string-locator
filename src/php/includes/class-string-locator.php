@@ -62,6 +62,8 @@ class String_Locator {
 
 		$this->set_memory_limit();
 
+		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
+
 		add_action( 'admin_menu', array( $this, 'populate_menu' ) );
 		add_action( 'network_admin_menu', array( $this, 'populate_network_menu' ) );
 
@@ -807,16 +809,24 @@ class String_Locator {
 			return;
 		}
 
+		if ( ! wp_script_is( 'react', 'registered' ) ) {
+			wp_register_script( 'react', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/react.js', array() );
+		}
+
+		if ( ! wp_script_is( 'react-dom', 'registered' ) ) {
+			wp_register_script( 'react-dom', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/react-dom.js', array() );
+		}
+
 		/**
 		 * String Locator Styles
 		 */
-		wp_enqueue_style( 'string-locator', STRING_LOCATOR_PLUGIN_URL . '/resources/css/string-locator.css', array(), $this->version );
+		wp_enqueue_style( 'string-locator', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/css/string-locator.css', array(), $this->version );
 
-		if ( ! isset( $_GET['edit-file'] ) ) {
+		if ( ! isset( $_GET['edit-file'] ) || ! current_user_can( 'edit_themes' ) ) {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-search', STRING_LOCATOR_PLUGIN_URL . '/resources/js/string-locator-search.js', array( 'jquery' ), $this->version );
+			wp_enqueue_script( 'string-locator-search', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator-search.js', array( 'jquery', 'react', 'react-dom' ), $this->version. true );
 
 			wp_localize_script(
 				'string-locator-search',
@@ -844,7 +854,7 @@ class String_Locator {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-editor', STRING_LOCATOR_PLUGIN_URL . '/resources/js/string-locator.js', array( 'jquery', 'code-editor', 'wp-util' ), $this->version, true );
+			wp_enqueue_script( 'string-locator-editor', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator.js', array( 'jquery', 'code-editor', 'wp-util' ), $this->version, true );
 
 			wp_localize_script(
 				'string-locator-editor',
@@ -869,7 +879,7 @@ class String_Locator {
 		}
 		$page_title  = __( 'String Locator', 'string-locator' );
 		$menu_title  = __( 'String Locator', 'string-locator' );
-		$capability  = 'edit_themes';
+		$capability  = 'update_core';
 		$parent_slug = 'tools.php';
 		$menu_slug   = 'string-locator';
 		$function    = array( $this, 'options_page' );
@@ -885,7 +895,7 @@ class String_Locator {
 	function populate_network_menu() {
 		$page_title = __( 'String Locator', 'string-locator' );
 		$menu_title = __( 'String Locator', 'string-locator' );
-		$capability = 'edit_themes';
+		$capability = 'update_core';
 		$menu_slug  = 'string-locator';
 		$function   = array( $this, 'options_page' );
 
@@ -901,7 +911,7 @@ class String_Locator {
 		/**
 		 * Don't load anything if the user can't edit themes any way
 		 */
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		if ( ! current_user_can( 'update_core' ) ) {
 			return false;
 		}
 
@@ -910,12 +920,21 @@ class String_Locator {
 		 * - The edit file path query var is set
 		 * - The edit file path query var isn't empty
 		 * - The edit file path query var does not contains double dots (used to traverse directories)
+		 * - The user is capable of editing files.
 		 */
-		if ( isset( $_GET['string-locator-path'] ) && $this->is_valid_location( $_GET['string-locator-path'] ) ) {
+		if ( isset( $_GET['string-locator-path'] ) && $this->is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
 			include_once( dirname( __FILE__ ) . '/../editor.php' );
 		} else {
 			include_once( dirname( __FILE__ ) . '/../options.php' );
 		}
+	}
+
+	function admin_body_class( $class ) {
+		if ( isset( $_GET['string-locator-path'] ) && $this->is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
+			$class .= ' file-edit-screen';
+		}
+
+		return $class;
 	}
 
 	/**
