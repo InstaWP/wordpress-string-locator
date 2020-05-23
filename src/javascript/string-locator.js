@@ -1,4 +1,4 @@
-/* global jQuery, string_locator */
+/* global string_locator */
 jQuery( document ).ready( function( $ ) {
 	let StringLocator;
 	if ( false !== string_locator.CodeMirror && '' !== string_locator.CodeMirror ) {
