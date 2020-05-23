@@ -23,8 +23,7 @@ if ( 'core' === $_GET['file-type'] ) {
 		/* translators: The WordPress description, used when a core file is opened in the editor. */
 		'description' => esc_html__( 'WordPress is web software you can use to create a beautiful website or blog. We like to say that WordPress is both free and priceless at the same time.', 'string-locator' ),
 	);
-}
-elseif ( 'theme' === $_GET['file-type'] ) {
+} elseif ( 'theme' === $_GET['file-type'] ) {
 	$themedata = wp_get_theme( $_GET['file-reference'] );
 
 	$details = array(
@@ -40,7 +39,7 @@ elseif ( 'theme' === $_GET['file-type'] ) {
 } else {
 	$plugins = get_plugins();
 
-	foreach( $plugins as $pluginname => $plugindata ) {
+	foreach ( $plugins as $pluginname => $plugindata ) {
 		$pluginref = explode( '/', $pluginname );
 
 		if ( $pluginref[0] === $_GET['file-reference'] ) {
@@ -48,8 +47,8 @@ elseif ( 'theme' === $_GET['file-type'] ) {
 				'name'        => $plugindata['Name'],
 				'version'     => $plugindata['Version'],
 				'author'      => array(
-					'uri'     => $plugindata['AuthorURI'],
-					'name'    => $plugindata['Author'],
+					'uri'  => $plugindata['AuthorURI'],
+					'name' => $plugindata['Author'],
 				),
 				'description' => $plugindata['Description'],
 			);
@@ -58,14 +57,13 @@ elseif ( 'theme' === $_GET['file-type'] ) {
 }
 
 if ( ! $string_locator->failed_edit ) {
-	$readfile = fopen( $file, "r" );
+	$readfile = fopen( $file, 'r' );
 	if ( $readfile ) {
 		while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 			$editor_content .= $readline;
 		}
 	}
-}
-else {
+} else {
 	$editor_content = stripslashes( $_POST['string-locator-editor-content'] );
 }
 ?>
@@ -83,11 +81,11 @@ else {
 		<div>
 			<span>
 				<?php
-					printf(
-						// translators: %s: The name of the file being edited.
-						__( 'You are currently editing <em>%s</em>', 'string-locator' ),
-						esc_html( $_GET['file-reference'] )
-					);
+				printf(
+					// translators: %s: The name of the file being edited.
+					__( 'You are currently editing <em>%s</em>', 'string-locator' ),
+					esc_html( $_GET['file-reference'] )
+				);
 				?>
 			</span>
 		</div>
@@ -186,7 +184,7 @@ else {
 
 				$attr_strings = array();
 
-				foreach( $attrs as $attr ) {
+				foreach ( $attrs as $attr ) {
 					$arg = '';
 
 					if ( $attr->isPassedByReference() ) {
