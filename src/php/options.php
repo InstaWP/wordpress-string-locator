@@ -35,6 +35,19 @@ if ( isset( $_GET['restore'] ) ) {
 		<?php esc_html_e( 'String Locator', 'string-locator' ); ?>
 	</h2>
 
+	<?php if ( ! current_user_can( 'edit_themes' ) ) : ?>
+		<div class="notice notice-warning inline">
+			<p>
+				<strong>
+					<?php esc_html_e( 'String Locator is limited to search mode only.', 'string-locator' ); ?>
+				</strong>
+			</p>
+			<p>
+				<?php esc_html_e( 'Because this site is configured to not allow direct file editing, the String Locator plugin has limited functionality and will only allow you to search for files with your string in them.' ,'string-locator' ); ?>
+			</p>
+		</div>
+	<?php endif; ?>
+
 	<form action="<?php echo esc_url( $this_url ); ?>" method="post" id="string-locator-search-form">
 		<label for="string-locator-search"><?php esc_html_e( 'Search through', 'string-locator' ); ?></label>
 		<select name="string-locator-search" id="string-locator-search">
