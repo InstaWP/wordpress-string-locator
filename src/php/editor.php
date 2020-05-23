@@ -168,6 +168,23 @@ if ( ! $string_locator->failed_edit ) {
 					<br />
 					<span class="string-locator-italics">
 						<?php echo esc_html( str_replace( ABSPATH, '', $file ) ); ?>
+						<span title="<?php echo esc_attr( sprintf( 'Full file path: %s', $file ) ); ?>" class="dashicons dashicons-editor-help"></span>
+					</span>
+				</div>
+
+				<div class="row">
+					<?php esc_html_e( 'File size:', 'string-locator' ); ?>
+					<br />
+					<span class="string-locator-italics">
+						<?php echo esc_html( size_format( filesize( $file ), 1 ) ); ?>
+					</span>
+				</div>
+
+				<div class="row">
+					<?php esc_html_e( 'Last modified:', 'string-locator' ); ?>
+					<br />
+					<span class="string-locator-italics">
+						<?php echo date( "Y-m-d H:i:s", filemtime( $file ) ); ?>
 					</span>
 				</div>
 			</div>
