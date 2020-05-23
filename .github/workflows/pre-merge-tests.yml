@@ -12,24 +12,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Fetch repository files
+      - name: Checkout source
         uses: actions/checkout@v2
 
       - name: PHP Syntax check
-        working-directory: ./src
-        run: |
-          find . \( -name '*.php' \) -exec php -lf {} \;
+        working-directory: ./src/php
+        run: find . \( -name '*.php' \) -exec php -lf {} \;
 
-      - name: Install dependencies
-        run: |
-          yarn install
-          composer install
+      - name: Set up composer
+        working-directory: ./
+        run: composer install
 
-      - name: PHP Coding Standards
+      - name: PHPCS
+        working-directory: ./
         run: composer run check-cs
 
+      - name: Set up Yarn
+        working-directory: ./
+        run: yarn install
+
       - name: CSS Lint
+        working-directory: ./
         run: yarn run lint:css
 
       - name: JavaScript Lint
+        working-directory: ./
         run: yarn run lint:js
+
+      - name: Test build
+        working-directory: ./
+        run: yarn run build
