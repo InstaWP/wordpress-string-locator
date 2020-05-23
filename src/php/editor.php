@@ -1,76 +1,73 @@
 <?php
-	if ( ! defined( 'ABSPATH' ) ) {
-		die();
-	}
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
+}
 
-	global $string_locator;
-	$editor_content = "";
+global $string_locator;
+$editor_content = '';
 
-	// $file is validated in String_Locator::is_valid_location() before this page can be loaded through String_Locator::options_page().
-	$file = $_GET['string-locator-path'];
+// $file is validated in String_Locator::is_valid_location() before this page can be loaded through String_Locator::options_page().
+$file = $_GET['string-locator-path'];
 
-	$details = array();
-	$this_url = admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) . '?page=string-locator' );
+$details  = array();
+$this_url = admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) . '?page=string-locator' );
 
-	if ( 'core' == $_GET['file-type'] ) {
-		$details = array(
-			'name'        => 'WordPress',
-			'version'     => get_bloginfo( 'version' ),
-			'author'      => array(
-				'uri'     => 'https://wordpress.org/',
-				'name'    => 'WordPress'
-			),
-			/* translators: The WordPress description, used when a core file is opened in the editor. */
-			'description' => esc_html__( 'WordPress is web software you can use to create a beautiful website or blog. We like to say that WordPress is both free and priceless at the same time.', 'string-locator' )
-		);
-	}
-	elseif ( 'theme' == $_GET['file-type'] ) {
-		$themedata = wp_get_theme( $_GET['file-reference'] );
+if ( 'core' === $_GET['file-type'] ) {
+	$details = array(
+		'name'        => 'WordPress',
+		'version'     => get_bloginfo( 'version' ),
+		'author'      => array(
+			'uri'  => 'https://wordpress.org/',
+			'name' => 'WordPress',
+		),
+		/* translators: The WordPress description, used when a core file is opened in the editor. */
+		'description' => esc_html__( 'WordPress is web software you can use to create a beautiful website or blog. We like to say that WordPress is both free and priceless at the same time.', 'string-locator' ),
+	);
+}
+elseif ( 'theme' === $_GET['file-type'] ) {
+	$themedata = wp_get_theme( $_GET['file-reference'] );
 
-		$details = array(
-			'name'        => $themedata->get( 'Name' ),
-			'version'     => $themedata->get( 'Version' ),
-			'author'      => array(
-				'uri'     => $themedata->get( 'AuthorURI' ),
-				'name'    => $themedata->get( 'Author' )
-			),
-			'description' => $themedata->get( 'Description' ),
-			'parent'      => $themedata->get( 'parent' )
-		);
-	}
-	else {
-		$plugins = get_plugins();
+	$details = array(
+		'name'        => $themedata->get( 'Name' ),
+		'version'     => $themedata->get( 'Version' ),
+		'author'      => array(
+			'uri'  => $themedata->get( 'AuthorURI' ),
+			'name' => $themedata->get( 'Author' ),
+		),
+		'description' => $themedata->get( 'Description' ),
+		'parent'      => $themedata->get( 'parent' ),
+	);
+} else {
+	$plugins = get_plugins();
 
-		foreach( $plugins AS $pluginname => $plugindata ) {
-			$pluginref = explode( '/', $pluginname );
+	foreach( $plugins as $pluginname => $plugindata ) {
+		$pluginref = explode( '/', $pluginname );
 
-			if ( $pluginref[0] == $_GET['file-reference'] ) {
-				$details = array(
-					'name'        => $plugindata['Name'],
-					'version'     => $plugindata['Version'],
-					'author'      => array(
-						'uri'     => $plugindata['AuthorURI'],
-						'name'    => $plugindata['Author']
-					),
-					'description' => $plugindata['Description']
-				);
-			}
+		if ( $pluginref[0] === $_GET['file-reference'] ) {
+			$details = array(
+				'name'        => $plugindata['Name'],
+				'version'     => $plugindata['Version'],
+				'author'      => array(
+					'uri'     => $plugindata['AuthorURI'],
+					'name'    => $plugindata['Author'],
+				),
+				'description' => $plugindata['Description'],
+			);
 		}
 	}
+}
 
-	if ( ! $string_locator->failed_edit ) {
-		$readfile = fopen( $file, "r" );
-		if ( $readfile )
-		{
-			while ( ( $readline = fgets( $readfile ) ) !== false )
-			{
-				$editor_content .= $readline;
-			}
+if ( ! $string_locator->failed_edit ) {
+	$readfile = fopen( $file, "r" );
+	if ( $readfile ) {
+		while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+			$editor_content .= $readline;
 		}
 	}
-	else {
-		$editor_content = stripslashes( $_POST['string-locator-editor-content'] );
-	}
+}
+else {
+	$editor_content = stripslashes( $_POST['string-locator-editor-content'] );
+}
 ?>
 <form id="string-locator-edit-form" class="string-locator-editor-wrapper">
 	<h1 class="screen-reader-text">
@@ -179,47 +176,47 @@
 		</div>
 
 		<?php
-			$function_info = get_defined_functions();
-			$function_help = '';
+		$function_info = get_defined_functions();
+		$function_help = '';
 
-			foreach( $function_info['user'] AS $user_func ) {
-				if ( strstr( $editor_content, $user_func . '(' ) ) {
-					$function_object = new ReflectionFunction( $user_func );
-					$attrs = $function_object->getParameters();
+		foreach ( $function_info['user'] as $user_func ) {
+			if ( strstr( $editor_content, $user_func . '(' ) ) {
+				$function_object = new ReflectionFunction( $user_func );
+				$attrs           = $function_object->getParameters();
 
-					$attr_strings = array();
+				$attr_strings = array();
 
-					foreach( $attrs AS $attr ) {
-						$arg = '';
+				foreach( $attrs as $attr ) {
+					$arg = '';
 
-						if ( $attr->isPassedByReference() ) {
-							$arg .= '&';
-						}
-
-						if ( $attr->isOptional() ) {
-							$arg = sprintf(
-								'[ %s$%s ]',
-								$arg,
-								$attr->getName()
-							);
-						} else {
-							$arg = sprintf(
-								'%s$%s',
-								$arg,
-								$attr->getName()
-							);
-						}
-
-						$attr_strings[] = $arg;
+					if ( $attr->isPassedByReference() ) {
+						$arg .= '&';
 					}
 
-					$function_help .= sprintf(
-						'<div class="row"><a href="%s" target="_blank">%s</a></div>',
-						esc_url( sprintf( 'https://developer.wordpress.org/reference/functions/%s/', $user_func ) ),
-						$user_func . '( ' . implode( ', ', $attr_strings ) . ' )'
-					);
+					if ( $attr->isOptional() ) {
+						$arg = sprintf(
+							'[ %s$%s ]',
+							$arg,
+							$attr->getName()
+						);
+					} else {
+						$arg = sprintf(
+							'%s$%s',
+							$arg,
+							$attr->getName()
+						);
+					}
+
+					$attr_strings[] = $arg;
 				}
+
+				$function_help .= sprintf(
+					'<div class="row"><a href="%s" target="_blank">%s</a></div>',
+					esc_url( sprintf( 'https://developer.wordpress.org/reference/functions/%s/', $user_func ) ),
+					$user_func . '( ' . implode( ', ', $attr_strings ) . ' )'
+				);
 			}
+		}
 		?>
 
 		<?php if ( ! empty( $function_help ) ) : ?>

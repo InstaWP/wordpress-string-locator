@@ -24,9 +24,9 @@ if ( isset( $_GET['restore'] ) ) {
 		$search_location = $restore->directory;
 		$search_regex    = String_Locator::absbool( $restore->regex );
 	} else {
-?>
+		?>
 	<div class="notice notice-large notice-warning">No previous searches could be restored.</div>
-<?php
+		<?php
 	}
 }
 ?>
@@ -82,8 +82,7 @@ if ( isset( $_GET['restore'] ) ) {
 			}
 
 			echo String_Locator::prepare_full_table( $items, array( 'restore' ) );
-		}
-		else {
+		} else {
 			echo String_Locator::prepare_full_table( array() );
 		}
 		?>

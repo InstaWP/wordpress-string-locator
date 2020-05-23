@@ -48,16 +48,16 @@ class String_Locator {
 	 * @var int $max_memory_consumption The server-configured max amount of memory a script can use.
 	 */
 	public $string_locator_language = '';
-	public $version = '2.3.1';
-	public $notice = array();
-	public $failed_edit = false;
-	private $plugin_url = '';
-	private $path_to_use = '';
-	private $bad_http_codes = array( '500' );
-	private $bad_file_types = array( 'rar', '7z', 'zip', 'tar', 'gz', 'jpg', 'jpeg', 'png', 'gif', 'mp3', 'mp4', 'avi', 'wmv' );
-	private $excerpt_length = 25;
-	private $max_execution_time = null;
-	private $start_execution_timer = 0;
+	public $version                 = '2.3.1';
+	public $notice                  = array();
+	public $failed_edit             = false;
+	private $plugin_url             = '';
+	private $path_to_use            = '';
+	private $bad_http_codes         = array( '500' );
+	private $bad_file_types         = array( 'rar', '7z', 'zip', 'tar', 'gz', 'jpg', 'jpeg', 'png', 'gif', 'mp3', 'mp4', 'avi', 'wmv' );
+	private $excerpt_length         = 25;
+	private $max_execution_time     = null;
+	private $start_execution_timer  = 0;
 	private $max_memory_consumption = 0;
 
 	private $rest_namespace = 'string-locator';
@@ -159,7 +159,7 @@ class String_Locator {
 	 * @return array
 	 */
 	function plugin_row_meta( $meta, $plugin_file ) {
-		if ( 'string-locator/string-locator.php' == $plugin_file ) {
+		if ( 'string-locator/string-locator.php' === $plugin_file ) {
 			$meta[] = sprintf(
 				'<a href="https://www.paypal.me/clorith">%s</a>',
 				esc_html__( 'Donate to this plugin', 'string-locator' )
@@ -180,21 +180,21 @@ class String_Locator {
 		$options = sprintf(
 			'<option value="%s" %s>&mdash; %s &mdash;</option>',
 			't--',
-			( $current == 't--' ? 'selected="selected"' : '' ),
+			( 't--' === $current ? 'selected="selected"' : '' ),
 			esc_html( __( 'All themes', 'string-locator' ) )
 		);
 
 		$string_locate_themes = wp_get_themes();
 
-		foreach ( $string_locate_themes AS $string_locate_theme_slug => $string_locate_theme ) {
+		foreach ( $string_locate_themes as $string_locate_theme_slug => $string_locate_theme ) {
 			$string_locate_theme_data = wp_get_theme( $string_locate_theme_slug );
 			$string_locate_value      = 't-' . $string_locate_theme_slug;
 
 			$options .= sprintf(
 				'<option value="%s" %s>%s</option>',
 				$string_locate_value,
-				( $current == $string_locate_value ? 'selected="selected"' : '' ),
-				$string_locate_theme_data->Name
+				( $current === $string_locate_value ? 'selected="selected"' : '' ),
+				$string_locate_theme_data->Name // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			);
 		}
 
@@ -204,10 +204,12 @@ class String_Locator {
 	public static function get_edit_form_url() {
 		$url_query = String_Locator::edit_form_fields();
 
-		return admin_url( sprintf(
-			'tools.php?%s',
-			build_query( $url_query )
-		) );
+		return admin_url(
+			sprintf(
+				'tools.php?%s',
+				build_query( $url_query )
+			)
+		);
 	}
 
 	public static function edit_form_fields( $echo = false ) {
@@ -248,19 +250,19 @@ class String_Locator {
 		$options = sprintf(
 			'<option value="%s" %s>&mdash; %s &mdash;</option>',
 			'p--',
-			( $current == 'p--' ? 'selected="selected"' : '' ),
+			( 'p--' === $current ? 'selected="selected"' : '' ),
 			esc_html( __( 'All plugins', 'string-locator' ) )
 		);
 
 		$string_locate_plugins = get_plugins();
 
-		foreach ( $string_locate_plugins AS $string_locate_plugin_path => $string_locate_plugin ) {
+		foreach ( $string_locate_plugins as $string_locate_plugin_path => $string_locate_plugin ) {
 			$string_locate_value = 'p-' . $string_locate_plugin_path;
 
 			$options .= sprintf(
 				'<option value="%s" %s>%s</option>',
 				$string_locate_value,
-				( $current == $string_locate_value ? 'selected="selected"' : '' ),
+				( $current === $string_locate_value ? 'selected="selected"' : '' ),
 				$string_locate_plugin['Name']
 			);
 		}
@@ -279,19 +281,19 @@ class String_Locator {
 		$options = sprintf(
 			'<option value="%s" %s>&mdash; %s &mdash;</option>',
 			'mup--',
-			( 'mup--' == $current ? 'selected="selected"' : '' ),
+			( 'mup--' === $current ? 'selected="selected"' : '' ),
 			esc_html__( 'All must-use plugins', 'string-locator' )
 		);
 
 		$string_locate_plugins = get_mu_plugins();
 
-		foreach ( $string_locate_plugins AS $string_locate_plugin_path => $string_locate_plugin ) {
+		foreach ( $string_locate_plugins as $string_locate_plugin_path => $string_locate_plugin ) {
 			$string_locate_value = 'mup-' . $string_locate_plugin_path;
 
 			$options .= sprintf(
 				'<option value="%s" %s>%s</option>',
 				$string_locate_value,
-				( $current == $string_locate_value ? 'selected="selected"' : '' ),
+				( $current === $string_locate_value ? 'selected="selected"' : '' ),
 				$string_locate_plugin['Name']
 			);
 		}
@@ -337,14 +339,16 @@ class String_Locator {
 		 * Make sure each chunk of file arrays never exceeds 500 files
 		 * This is to prevent the SQL string from being too large and crashing everything
 		 */
-		$file_chunks = array_chunk( $files, apply_filters( 'string-locator-files-per-array', 500 ), true );
+		$back_compat_filter = apply_filters( 'string-locator-files-per-array', 500 ); //phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		$file_chunks = array_chunk( $files, apply_filters( 'string_locator_files_per_array', $back_compat_filter ), true );
 
 		$store = (object) array(
 			'scan_path' => $scan_path,
 			'search'    => wp_unslash( $_POST['search'] ),
 			'directory' => $_POST['directory'],
 			'chunks'    => count( $file_chunks ),
-			'regex'     => $_POST['regex']
+			'regex'     => $_POST['regex'],
 		);
 
 		$response = array(
@@ -352,13 +356,13 @@ class String_Locator {
 			'current'   => 0,
 			'directory' => $scan_path,
 			'chunks'    => count( $file_chunks ),
-			'regex'     => $_POST['regex']
+			'regex'     => $_POST['regex'],
 		);
 
 		set_transient( 'string-locator-search-overview', $store );
 		set_transient( 'string-locator-search-history', array() );
 
-		foreach ( $file_chunks AS $count => $file_chunk ) {
+		foreach ( $file_chunks as $count => $file_chunk ) {
 			set_transient( 'string-locator-search-files-' . $count, $file_chunk );
 		}
 
@@ -378,7 +382,9 @@ class String_Locator {
 			return false;
 		}
 
-		$built_in_delay = apply_filters( 'string-locator-extra-search-delay', 2 );
+		$back_compat_filter = apply_filters( 'string-locator-extra-search-delay', 2 ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		$built_in_delay = apply_filters( 'string_locator_extra_search_delay', $back_compat_filter );
 		$execution_time = ( microtime( true ) - $this->start_execution_timer + $built_in_delay );
 
 		if ( $execution_time >= $this->max_execution_time ) {
@@ -402,7 +408,8 @@ class String_Locator {
 		}
 
 		// We give our selves a 256k memory buffer, as we need to close off the script properly as well
-		$built_in_buffer = apply_filters( 'string-locator-extra-memory-buffer', 256000 );
+		$back_compat_filter = apply_filters( 'string-locator-extra-memory-buffer', 256000 ); //phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+		$built_in_buffer = apply_filters( 'string_locator_extra_memory_buffer', $back_compat_filter );
 		$memory_use      = ( memory_get_usage( true ) + $built_in_buffer );
 
 		if ( $memory_use >= $this->max_memory_consumption ) {
@@ -416,7 +423,7 @@ class String_Locator {
 		if ( is_bool( $value ) ) {
 			$bool = $value;
 		} else {
-			if ( 'false' == $value ) {
+			if ( 'false' === $value ) {
 				$bool = false;
 			} else {
 				$bool = true;
@@ -438,10 +445,12 @@ class String_Locator {
 			wp_send_json_error( __( 'Authentication failed', 'string-locator' ) );
 		}
 
-		$files_per_chunk = apply_filters( 'string-locator-files-per-array', 500 );
+		$back_compat_filter = apply_filters( 'string-locator-files-per-array', 500 ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		$files_per_chunk = apply_filters( 'string_locator_files_per_array', $back_compat_filter );
 		$response        = array(
 			'search'  => array(),
-			'filenum' => absint( $_POST['filenum'] )
+			'filenum' => absint( $_POST['filenum'] ),
 		);
 
 		$filenum   = absint( $_POST['filenum'] );
@@ -467,7 +476,7 @@ class String_Locator {
 						/* translators: %d: The numbered reference to a file being searched. */
 						esc_html__( 'The file-number, %d, that was sent could not be found.', 'string-locator' ),
 						$filenum
-					)
+					),
 				)
 			);
 		}
@@ -481,8 +490,8 @@ class String_Locator {
 						esc_html__( 'The maximum time your server allows a script to run (%1$d) is too low for the plugin to run as intended, at startup %2$d seconds have passed', 'string-locator' ),
 						$this->max_execution_time,
 						$this->nearing_execution_limit()
-					)
-				 )
+					),
+				)
 			);
 		}
 		if ( $this->nearing_memory_limit() ) {
@@ -494,7 +503,7 @@ class String_Locator {
 						esc_html__( 'The memory limit is about to be exceeded before the search has started, this could be an early indicator that your site may soon struggle as well, unfortunately this means the plugin is unable to perform any searches. Current memory consumption: %1$d of %2$d bytes', 'string-locator' ),
 						$this->nearing_memory_limit(),
 						$this->max_memory_consumption
-					)
+					),
 				)
 			);
 		}
@@ -505,7 +514,7 @@ class String_Locator {
 		}
 
 		if ( $is_regex ) {
-			if ( false === @preg_match( $scan_data->search, '' ) ) {
+			if ( false === @preg_match( $scan_data->search, '' ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				wp_send_json_error(
 					array(
 						'continue' => false,
@@ -513,7 +522,7 @@ class String_Locator {
 							/* translators: %s: The search string used. */
 							__( 'Your search string, <strong>%s</strong>, is not a valid pattern, and the search has been aborted.', 'string-locator' ),
 							esc_html( $scan_data->search )
-						)
+						),
 					)
 				);
 			}
@@ -539,7 +548,7 @@ class String_Locator {
 				continue;
 			}
 
-			$file_name = explode( "/", $file_data[ $filenum ] );
+			$file_name = explode( '/', $file_data[ $filenum ] );
 			$file_name = end( $file_name );
 
 			/*
@@ -552,7 +561,7 @@ class String_Locator {
 			 * Scan the file and look for our string, but only if it's an approved file extension
 			 */
 			$bad_file_types = apply_filters( 'string_locator_bad_file_types', $this->bad_file_types );
-			if ( ! in_array( $file_type, $bad_file_types ) ) {
+			if ( ! in_array( $file_type, $bad_file_types, true ) ) {
 				$search_results = $this->scan_file( $file_data[ $filenum ], $scan_data->search, $file_data[ $filenum ], $scan_data->scan_path->type, '', $is_regex );
 			}
 
@@ -563,7 +572,7 @@ class String_Locator {
 				$response['search'][] = $search_results;
 			}
 
-			if ( $next_chunk != $chunk ) {
+			if ( $next_chunk !== $chunk ) {
 				$file_data = get_transient( 'string-locator-search-files-' . $next_chunk );
 			}
 
@@ -636,13 +645,16 @@ class String_Locator {
 	 * @return string
 	 */
 	public static function prepare_full_table( $items, $table_class = array() ) {
-		$table_class = array_merge( $table_class, array(
-			'wp-list-table',
-			'widefat',
-			'fixed',
-			'striped',
-			'tools_page_string-locator'
-		) );
+		$table_class = array_merge(
+			$table_class,
+			array(
+				'wp-list-table',
+				'widefat',
+				'fixed',
+				'striped',
+				'tools_page_string-locator',
+			)
+		);
 
 		$table_columns = sprintf(
 			'<tr>
@@ -656,7 +668,7 @@ class String_Locator {
 		);
 
 		$table_rows = array();
-		foreach ( $items AS $item ) {
+		foreach ( $items as $item ) {
 			$table_rows[] = self::prepare_table_row( $item );
 		}
 
@@ -689,16 +701,16 @@ class String_Locator {
 
 		$url_args = array(
 			'page=string-locator',
-			'edit-file=' . end( $paths )
+			'edit-file=' . end( $paths ),
 		);
 
 		switch ( true ) {
-			case ( in_array( 'wp-content', $paths ) && in_array( 'plugins', $paths ) ) :
-				$file_type    = 'plugin';
+			case ( in_array( 'wp-content', $paths, true ) && in_array( 'plugins', $paths, true ) ):
+				$file_type     = 'plugin';
 				$content_path .= '/plugins/';
 				break;
-			case ( in_array( 'wp-content', $paths ) && in_array( 'themes', $paths ) ) :
-				$file_type    = 'theme';
+			case ( in_array( 'wp-content', $paths, true ) && in_array( 'themes', $paths, true ) ):
+				$file_type     = 'theme';
 				$content_path .= '/themes/';
 				break;
 		}
@@ -706,7 +718,7 @@ class String_Locator {
 		$rel_path  = str_replace( $content_path, '', $path );
 		$rel_paths = explode( '/', $rel_path );
 
-		if ( 'core' != $file_type ) {
+		if ( 'core' !== $file_type ) {
 			$file_slug = $rel_paths[0];
 		}
 
@@ -731,39 +743,39 @@ class String_Locator {
 		$data = array(
 			'path' => '',
 			'type' => '',
-			'slug' => ''
+			'slug' => '',
 		);
 
 		switch ( true ) {
-			case ( 't--' == $option ):
+			case ( 't--' === $option ):
 				$data['path'] = WP_CONTENT_DIR . '/themes/';
 				$data['type'] = 'theme';
 				break;
-			case ( strlen( $option ) > 3 && 't-' == substr( $option, 0, 2 ) ):
+			case ( strlen( $option ) > 3 && 't-' === substr( $option, 0, 2 ) ):
 				$data['path'] = WP_CONTENT_DIR . '/themes/' . substr( $option, 2 );
 				$data['type'] = 'theme';
 				$data['slug'] = substr( $option, 2 );
 				break;
-			case ( 'p--' == $option ):
+			case ( 'p--' === $option ):
 				$data['path'] = WP_CONTENT_DIR . '/plugins/';
 				$data['type'] = 'plugin';
 				break;
-			case ( 'mup--' == $option ):
+			case ( 'mup--' === $option ):
 				$data['path'] = WP_CONTENT_DIR . '/mu-plugins/';
 				$data['type'] = 'mu-plugin';
 				break;
-			case ( strlen( $option ) > 3 && 'p-' == substr( $option, 0, 2 ) ):
+			case ( strlen( $option ) > 3 && 'p-' === substr( $option, 0, 2 ) ):
 				$slug = explode( '/', substr( $option, 2 ) );
 
 				$data['path'] = WP_CONTENT_DIR . '/plugins/' . $slug[0];
 				$data['type'] = 'plugin';
 				$data['slug'] = $slug[0];
 				break;
-			case ( 'core' == $option ):
+			case ( 'core' === $option ):
 				$data['path'] = ABSPATH;
 				$data['type'] = 'core';
 				break;
-			case ( 'wp-content' == $option ):
+			case ( 'wp-content' === $option ):
 				$data['path'] = WP_CONTENT_DIR;
 				$data['type'] = 'core';
 				break;
@@ -823,7 +835,7 @@ class String_Locator {
 	 */
 	function admin_enqueue_scripts( $hook ) {
 		// Break out early if we are not on a String Locator page
-		if ( 'tools_page_string-locator' != $hook && 'toplevel_page_string-locator' != $hook ) {
+		if ( 'tools_page_string-locator' !== $hook && 'toplevel_page_string-locator' !== $hook ) {
 			return;
 		}
 
@@ -838,34 +850,44 @@ class String_Locator {
 			 */
 			wp_enqueue_script( 'string-locator-search', plugin_dir_url( __FILE__ ) . '/resources/js/string-locator-search.js', array( 'jquery' ), $this->version );
 
-			wp_localize_script( 'string-locator-search', 'string_locator', array(
-				'ajax_url'              => admin_url( 'admin-ajax.php' ),
-				'search_nonce'          => wp_create_nonce( 'string-locator-search' ),
-				'search_current_prefix' => __( 'Next file: ', 'string-locator' ),
-				'saving_results_string' => __( 'Saving search results&hellip;', 'string-locator' ),
-				'search_preparing'      => __( 'Preparing search&hellip;', 'string-locator' ),
-				'search_started'        => __( 'Preparations completed, search started&hellip;', 'string-locator' ),
-				'search_error'          => __( 'The above error was returned by your server, for more details please consult your servers error logs.', 'string-locator' ),
-				'search_no_results'     => __( 'Your search was completed, but no results were found..', 'string-locator' ),
-				'warning_title'         => __( 'Warning', 'string-locator' )
-			) );
+			wp_localize_script(
+				'string-locator-search',
+				'string_locator',
+				array(
+					'ajax_url'              => admin_url( 'admin-ajax.php' ),
+					'search_nonce'          => wp_create_nonce( 'string-locator-search' ),
+					'search_current_prefix' => __( 'Next file: ', 'string-locator' ),
+					'saving_results_string' => __( 'Saving search results&hellip;', 'string-locator' ),
+					'search_preparing'      => __( 'Preparing search&hellip;', 'string-locator' ),
+					'search_started'        => __( 'Preparations completed, search started&hellip;', 'string-locator' ),
+					'search_error'          => __( 'The above error was returned by your server, for more details please consult your servers error logs.', 'string-locator' ),
+					'search_no_results'     => __( 'Your search was completed, but no results were found..', 'string-locator' ),
+					'warning_title'         => __( 'Warning', 'string-locator' ),
+				)
+			);
 
 		}
 		else {
-			$code_mirror = wp_enqueue_code_editor( array(
-				'file' => $_GET['edit-file']
-			) );
+			$code_mirror = wp_enqueue_code_editor(
+				array(
+					'file' => $_GET['edit-file'],
+				)
+			);
 
 			/**
 			 * String Locator Scripts
 			 */
 			wp_enqueue_script( 'string-locator-editor', $this->plugin_url . '/resources/js/string-locator.js', array( 'jquery', 'code-editor', 'wp-util' ), $this->version, true );
 
-			wp_localize_script( 'string-locator-editor', 'string_locator', array(
-				'CodeMirror' => $code_mirror,
-				'goto_line'  => absint( $_GET['string-locator-line'] ),
-				'save_url'   => get_rest_url( null, 'string-locator/v1/save' ),
-			) );
+			wp_localize_script(
+				'string-locator-editor',
+				'string_locator',
+				array(
+					'CodeMirror' => $code_mirror,
+					'goto_line'  => absint( $_GET['string-locator-line'] ),
+					'save_url'   => get_rest_url( null, 'string-locator/v1/save' ),
+				)
+			);
 		}
 	}
 
@@ -938,7 +960,7 @@ class String_Locator {
 	 *
 	 * @return array
 	 */
-	function SmartScan( $start, $end, $string ) {
+	function smart_scan( $start, $end, $string ) {
 		$opened = array();
 
 		$lines = explode( "\n", $string );
@@ -992,51 +1014,54 @@ class String_Locator {
 				if ( $open_brace != $close_brace ) {
 					$this->failed_edit = true;
 
-					$opened = $this->SmartScan( '{', '}', $content );
+					$opened = $this->smart_scan( '{', '}', $content );
 
-					foreach ( $opened AS $line ) {
+					foreach ( $opened as $line ) {
 						$this->notice[] = array(
 							'type'    => 'error',
 							'message' => sprintf(
+								// translators: 1: Line number with an error.
 								__( 'There is an inconsistency in the opening and closing braces, { and }, of your file on line %s', 'string-locator' ),
 								'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
-							)
+							),
 						);
 					}
 				}
 
 				$open_bracket  = substr_count( $content, '[' );
 				$close_bracket = substr_count( $content, ']' );
-				if ( $open_bracket != $close_bracket ) {
+				if ( $open_bracket !== $close_bracket ) {
 					$this->failed_edit = true;
 
-					$opened = $this->SmartScan( '[', ']', $content );
+					$opened = $this->smart_scan( '[', ']', $content );
 
-					foreach ( $opened AS $line ) {
+					foreach ( $opened as $line ) {
 						$this->notice[] = array(
 							'type'    => 'error',
 							'message' => sprintf(
+								// translators: 1: Line number with an error.
 								__( 'There is an inconsistency in the opening and closing braces, [ and ], of your file on line %s', 'string-locator' ),
 								'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
-							)
+							),
 						);
 					}
 				}
 
 				$open_parenthesis  = substr_count( $content, '(' );
 				$close_parenthesis = substr_count( $content, ')' );
-				if ( $open_parenthesis != $close_parenthesis ) {
+				if ( $open_parenthesis !== $close_parenthesis ) {
 					$this->failed_edit = true;
 
-					$opened = $this->SmartScan( '(', ')', $content );
+					$opened = $this->smart_scan( '(', ')', $content );
 
-					foreach ( $opened AS $line ) {
+					foreach ( $opened as $line ) {
 						$this->notice[] = array(
 							'type'    => 'error',
 							'message' => sprintf(
+								// translators: 1: Line number with an error.
 								__( 'There is an inconsistency in the opening and closing braces, ( and ), of your file on line %s', 'string-locator' ),
 								'<a href="#" class="string-locator-edit-goto" data-goto-line="' . ( $line + 1 ) . '">' . ( $line + 1 ) . '</a>'
-							)
+							),
 						);
 					}
 				}
@@ -1057,13 +1082,13 @@ class String_Locator {
 			 * If the site fails, revert the changes to return the sites to its original state
 			 */
 			$header = wp_remote_head( site_url() );
-			if ( 301 == $header['response']['code'] ) {
+			if ( 301 === (int) $header['response']['code'] ) {
 				$header = wp_remote_head( $header['headers']['location'] );
 			}
 
 			$bad_http_check = apply_filters( 'string_locator_bad_http_codes', $this->bad_http_codes );
 
-			if ( in_array( $header['response']['code'], $bad_http_check ) ) {
+			if ( in_array( $header['response']['code'], $bad_http_check, true ) ) {
 				$this->failed_edit = true;
 				$this->write_file( $path, $original );
 
@@ -1120,18 +1145,20 @@ class String_Locator {
 			return;
 		}
 
-		if ( apply_filters( 'string-locator-filter-closing-php-tags', true ) ) {
-			$content = preg_replace( "/\?>$/si", '', trim( $content ), - 1, $replaced_strings );
+		$back_compat_filter = apply_filters( 'string-locator-filter-closing-php-tags', true ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		if ( apply_filters( 'string_locator_filter_closing_php_tags', $back_compat_filter ) ) {
+			$content = preg_replace( '/\?>$/si', '', trim( $content ), - 1, $replaced_strings );
 
 			if ( $replaced_strings >= 1 ) {
 				$this->notice[] = array(
 					'type'    => 'error',
-					'message' => __( 'We detected a PHP code tag ending, this has been automatically stripped out to help prevent errors in your code.', 'string-locator' )
+					'message' => __( 'We detected a PHP code tag ending, this has been automatically stripped out to help prevent errors in your code.', 'string-locator' ),
 				);
 			}
 		}
 
-		$file        = fopen( $path, "w" );
+		$file        = fopen( $path, 'w' );
 		$lines       = explode( "\n", str_replace( array( "\r\n", "\r" ), "\n", $content ) );
 		$total_lines = count( $lines );
 
@@ -1155,7 +1182,7 @@ class String_Locator {
 	 */
 	function admin_notice() {
 		if ( ! empty( $this->notice ) ) {
-			foreach ( $this->notice AS $note ) {
+			foreach ( $this->notice as $note ) {
 				printf(
 					'<div class="%s"><p>%s</p></div>',
 					esc_attr( $note['type'] ),
@@ -1198,11 +1225,19 @@ class String_Locator {
 		 * Check if the filename matches our search pattern
 		 */
 		if ( stristr( $file, $string ) || ( $regex && preg_match( $string, $file ) ) ) {
-			$relativepath = str_replace( array( ABSPATH, '\\', '/' ), array(
-				'',
-				DIRECTORY_SEPARATOR,
-				DIRECTORY_SEPARATOR
-			), $path );
+			$relativepath = str_replace(
+				array(
+					ABSPATH,
+					'\\',
+					'/',
+				),
+				array(
+					'',
+					DIRECTORY_SEPARATOR,
+					DIRECTORY_SEPARATOR,
+				),
+				$path
+			);
 			$match_count ++;
 
 			$editurl = $this->create_edit_link( $path, $linenum );
@@ -1223,13 +1258,13 @@ class String_Locator {
 				'filename'     => $path_string,
 				'filename_raw' => $relativepath,
 				'editurl'      => $editurl,
-				'stringresult' => $file
+				'stringresult' => $file,
 			);
 		}
 
-		$readfile = @fopen( $filename, "r" );
+		$readfile = @fopen( $filename, 'r' );
 		if ( $readfile ) {
-			while ( ( $readline = fgets( $readfile ) ) !== false ) {
+			while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 				$string_preview_is_cut = false;
 				$linenum ++;
 				/**
@@ -1240,11 +1275,19 @@ class String_Locator {
 					 * Prepare the visual path for the end user
 					 * Removes path leading up to WordPress root and ensures consistent directory separators
 					 */
-					$relativepath = str_replace( array( ABSPATH, '\\', '/' ), array(
-						'',
-						DIRECTORY_SEPARATOR,
-						DIRECTORY_SEPARATOR
-					), $path );
+					$relativepath = str_replace(
+						array(
+							ABSPATH,
+							'\\',
+							'/',
+						),
+						array(
+							'',
+							DIRECTORY_SEPARATOR,
+							DIRECTORY_SEPARATOR,
+						),
+						$path
+					);
 					$match_count ++;
 
 					/**
@@ -1295,7 +1338,7 @@ class String_Locator {
 						'filename'     => $path_string,
 						'filename_raw' => $relativepath,
 						'editurl'      => $editurl,
-						'stringresult' => $string_preview
+						'stringresult' => $string_preview,
 					);
 				}
 			}
@@ -1307,8 +1350,9 @@ class String_Locator {
 			 */
 			$output[] = array(
 				'linenum'      => '#',
+				// translators: 1: Filename.
 				'filename'     => esc_html( sprintf( __( 'Could not read file: %s', 'string-locator' ), $filename ) ),
-				'stringresult' => ''
+				'stringresult' => '',
 			);
 		}
 
@@ -1323,7 +1367,7 @@ class String_Locator {
 			RecursiveIteratorIterator::SELF_FIRST
 		);
 
-		foreach ( $paths AS $name => $location ) {
+		foreach ( $paths as $name => $location ) {
 			if ( is_dir( $location->getPathname() ) ) {
 				continue;
 			}
