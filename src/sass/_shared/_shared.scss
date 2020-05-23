@@ -1,9 +1,14 @@
 .wrap {
 
-	& > h2 {
+	& > h1 {
 
 		margin-bottom: 15px;
 	}
+}
+
+.string-locator-italics {
+
+	font-style: italic;
 }
 
 .string-locator-feedback {
@@ -36,19 +41,22 @@ body {
 
 	&.tools_page_string-locator {
 
-		#wpcontent {
+		&.file-edit-screen {
 
-			padding-left: 0;
-		}
+			#wpcontent {
 
-		#wpfooter {
+				padding-left: 0;
+			}
 
-			display: none;
-		}
+			#wpfooter {
 
-		#wpbody-content {
+				display: none;
+			}
 
-			padding-bottom: 0;
+			#wpbody-content {
+
+				padding-bottom: 0;
+			}
 		}
 	}
 }
