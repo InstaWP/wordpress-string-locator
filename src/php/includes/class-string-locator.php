@@ -826,7 +826,7 @@ class String_Locator {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-search', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator-search.js', array( 'jquery', 'react', 'react-dom' ), $this->version. true );
+			wp_enqueue_script( 'string-locator-search', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator-search.js', array( 'jquery', 'react', 'react-dom', 'wp-util' ), $this->version. true );
 
 			wp_localize_script(
 				'string-locator-search',
@@ -1243,7 +1243,7 @@ class String_Locator {
 				'path'         => $path,
 				'filename'     => $path_string,
 				'filename_raw' => $relativepath,
-				'editurl'      => $editurl,
+				'editurl'      => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
 				'stringresult' => $file,
 			);
 		}
@@ -1323,7 +1323,7 @@ class String_Locator {
 						'path'         => $path,
 						'filename'     => $path_string,
 						'filename_raw' => $relativepath,
-						'editurl'      => $editurl,
+						'editurl'      => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
 						'stringresult' => $string_preview,
 					);
 				}

@@ -101,3 +101,34 @@ if ( isset( $_GET['restore'] ) ) {
 		?>
 	</div>
 </div>
+
+<script id="tmpl-string-locator-search-result" type="text/template">
+	<tr>
+		<td>
+			{{{ data.stringresult }}}
+
+			<div class="row-actions">
+				<# if ( data.editurl ) { #>
+					<span class="edit">
+						<a href="{{ data.editurl }}" aria-label="Edit">
+							Edit
+						</a>
+					</span>
+				<# } #>
+			</div>
+		</td>
+		<td>
+			<# if ( data.editurl ) { #>
+				<a href="{{ data.editurl }}">
+					{{ data.filename_raw }}
+				</a>
+			<# } #>
+			<# if ( ! data.editurl ) { #>
+				{{ data.filename_raw }}
+			<# } #>
+		</td>
+		<td>
+			{{ data.linenum }}
+		</td>
+	</tr>
+</script>

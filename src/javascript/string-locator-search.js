@@ -1,6 +1,7 @@
-/* global string_locator */
+/* global wp, string_locator */
 jQuery( document ).ready( function( $ ) {
 	let stringLocatorSearchActive = false;
+	let resultTemplate = wp.template( 'string-locator-search-result' );
 
 	function addNotice( title, message, format ) {
 		$( '.notices' ).append( '<div class="notice notice-' + format + ' is-dismissible"><p><strong>' + title + '</strong><br />' + message + '</p></div>' );
@@ -97,13 +98,9 @@ jQuery( document ).ready( function( $ ) {
 					const entry = entries[ i ];
 
 					if ( undefined !== entry.stringresult ) {
-						const builtHTML = '<tr>' +
-							'<td>' + entry.stringresult + '<div class="row-actions"><span class="edit"><a href="' + entry.editurl + '" aria-label="Edit">Edit</a></span></div></td>' +
-							'<td>' + entry.filename + '</td>' +
-							'<td>' + entry.linenum + '</td>' +
-							'</tr>';
 
-						$( 'tbody', '.tools_page_string-locator' ).append( builtHTML );
+						$( 'tbody', '.tools_page_string-locator' ).append( resultTemplate( entry ) );
+
 					}
 				}
 			}
