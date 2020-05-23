@@ -9,7 +9,6 @@ class String_Locator {
 	 * @var string $version String Locator version number.
 	 * @var array $notice An array containing all notices to display.
 	 * @var bool $failed_edit Has there been a failed edit.
-	 * @var string $plugin_url The URL to the plugins directory.
 	 * @var string $path_to_use The path to the currently editable file.
 	 * @var array $bad_http_codes An array of HTTP status codes that will trigger the rollback feature.
 	 * @var array $bad_file_types An array of file extensions that will be ignored by the scanner.
@@ -22,7 +21,6 @@ class String_Locator {
 	public $version                 = '2.3.1';
 	public $notice                  = array();
 	public $failed_edit             = false;
-	private $plugin_url             = '';
 	private $path_to_use            = '';
 	private $bad_http_codes         = array( '500' );
 	private $bad_file_types         = array( 'rar', '7z', 'zip', 'tar', 'gz', 'jpg', 'jpeg', 'png', 'gif', 'mp3', 'mp4', 'avi', 'wmv' );
@@ -52,7 +50,6 @@ class String_Locator {
 		/**
 		 * Define class variables requiring expressions
 		 */
-		$this->plugin_url     = plugin_dir_url( __FILE__ );
 		$this->path_to_use    = ( is_multisite() ? 'network/admin.php' : 'tools.php' );
 		$this->excerpt_length = apply_filters( 'string_locator_excerpt_length', 25 );
 
@@ -813,13 +810,13 @@ class String_Locator {
 		/**
 		 * String Locator Styles
 		 */
-		wp_enqueue_style( 'string-locator', plugin_dir_url( __FILE__ ) . '/resources/css/string-locator.css', array(), $this->version );
+		wp_enqueue_style( 'string-locator', STRING_LOCATOR_PLUGIN_URL . '/resources/css/string-locator.css', array(), $this->version );
 
 		if ( ! isset( $_GET['edit-file'] ) ) {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-search', plugin_dir_url( __FILE__ ) . '/resources/js/string-locator-search.js', array( 'jquery' ), $this->version );
+			wp_enqueue_script( 'string-locator-search', STRING_LOCATOR_PLUGIN_URL . '/resources/js/string-locator-search.js', array( 'jquery' ), $this->version );
 
 			wp_localize_script(
 				'string-locator-search',
@@ -847,7 +844,7 @@ class String_Locator {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-editor', $this->plugin_url . '/resources/js/string-locator.js', array( 'jquery', 'code-editor', 'wp-util' ), $this->version, true );
+			wp_enqueue_script( 'string-locator-editor', STRING_LOCATOR_PLUGIN_URL . '/resources/js/string-locator.js', array( 'jquery', 'code-editor', 'wp-util' ), $this->version, true );
 
 			wp_localize_script(
 				'string-locator-editor',
@@ -915,9 +912,9 @@ class String_Locator {
 		 * - The edit file path query var does not contains double dots (used to traverse directories)
 		 */
 		if ( isset( $_GET['string-locator-path'] ) && $this->is_valid_location( $_GET['string-locator-path'] ) ) {
-			include_once( dirname( __FILE__ ) . '/editor.php' );
+			include_once( dirname( __FILE__ ) . '/../editor.php' );
 		} else {
-			include_once( dirname( __FILE__ ) . '/options.php' );
+			include_once( dirname( __FILE__ ) . '/../options.php' );
 		}
 	}
 
