@@ -983,7 +983,7 @@ class String_Locator {
 			 * Send an error notice if the file isn't writable
 			 */
 			if ( ! is_writeable( $path ) ) {
-				$this->notice[]    = array(
+				$this->notice[] = array(
 					'type'    => 'error',
 					'message' => __( 'The file could not be written to, please check file permissions or edit it manually.', 'string-locator' ),
 				);
