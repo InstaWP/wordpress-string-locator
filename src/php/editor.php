@@ -68,6 +68,8 @@ if ( ! $string_locator->failed_edit ) {
 }
 ?>
 <form id="string-locator-edit-form" class="string-locator-editor-wrapper">
+	<?php wp_nonce_field( 'wp_rest' ); ?>
+
 	<h1 class="screen-reader-text">
 		<?php
 			/* translators: Title on the editor page. */
