@@ -595,14 +595,34 @@ class String_Locator {
 
 		return sprintf(
 			'<tr>
-                <td>%1$s<div class="row-actions"><span class="edit"><a href="%2$s" aria-label="Edit">Edit</a></span></div></td>
-                <td><a href="%2$s">%3$s</a></td>
-                <td>%4$d</td>
-                <td>%5$d</td>
+                <td>
+                	%s
+                	<div class="row-actions">
+                		%s
+                    </div>
+                </td>
+                <td>
+                	%s
+                </td>
+                <td>
+                	%d
+                </td>
+                <td>
+                	%d
+                </td>
             </tr>',
 			$item->stringresult,
-			esc_url( $item->editurl ),
-			esc_html( $item->filename_raw ),
+			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
+				'<span class="edit"><a href="%s" aria-label="Edit">%s</a></span>',
+				esc_url( $item->editurl ),
+				// translators: The row-action edit link label.
+				esc_html__( 'Edit', 'string-locator' )
+			) ),
+			( ! current_user_can( 'edit_themes' ) ? $item->filename_raw : sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $item->editurl ),
+				esc_html( $item->filename_raw )
+			) ),
 			esc_html( $item->linenum ),
 			esc_html( $item->linepos )
 		);
