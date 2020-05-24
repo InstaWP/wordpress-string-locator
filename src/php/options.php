@@ -93,6 +93,7 @@ if ( isset( $_GET['restore'] ) ) {
 			if ( false === $items ) {
 				$items = array();
 			}
+			$items = maybe_unserialize( $items );
 
 			echo String_Locator::prepare_full_table( $items, array( 'restore' ) );
 		} else {
