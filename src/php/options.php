@@ -130,5 +130,8 @@ if ( isset( $_GET['restore'] ) ) {
 		<td>
 			{{ data.linenum }}
 		</td>
+		<td>
+			{{ data.linepos }}
+		</td>
 	</tr>
 </script>

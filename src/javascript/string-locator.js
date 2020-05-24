@@ -13,7 +13,7 @@ jQuery( document ).ready( function( $ ) {
 		$( '.string-locator-editor' ).on( 'click', '.string-locator-edit-goto', function( e ) {
 			e.preventDefault();
 			StringLocator.codemirror.scrollIntoView( parseInt( $( this ).data( 'goto-line' ) ) );
-			StringLocator.codemirror.setCursor( parseInt( $( this ).data( 'goto-line' ) - 1 ), 0 );
+			StringLocator.codemirror.setCursor( parseInt( $( this ).data( 'goto-line' ) - 1 ), $( this ).data( 'goto-linepos' ) );
 		} );
 
 		$( 'body' ).on( 'submit', '#string-locator-edit-form', function( e ) {
@@ -41,7 +41,7 @@ jQuery( document ).ready( function( $ ) {
 
 		resizeEditor( StringLocator.codemirror );
 		StringLocator.codemirror.scrollIntoView( parseInt( string_locator.goto_line ) );
-		StringLocator.codemirror.setCursor( parseInt( string_locator.goto_line - 1 ), 0 );
+		StringLocator.codemirror.setCursor( parseInt( string_locator.goto_line - 1 ), parseInt( string_locator.goto_linepos ) );
 
 		window.addEventListener( 'resize', resizeEditor( StringLocator.codemirror ) );
 	} else {

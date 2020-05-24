@@ -128,7 +128,7 @@ if ( ! $string_locator->failed_edit ) {
 			name="string-locator-editor-content"
 			class="string-locator-editor"
 			id="code-editor"
-			data-editor-goto-line="<?php echo esc_attr( $_GET['string-locator-line'] ); ?>"
+			data-editor-goto-line="<?php echo esc_attr( $_GET['string-locator-line'] ); ?>:<?php echo esc_attr( $_GET['string-locator-linepos'] ); ?>"
 			data-editor-language="<?php echo esc_attr( $string_locator->string_locator_language ); ?>"
 			autofocus="autofocus"
 		><?php echo esc_html( $editor_content ); ?></textarea>

@@ -598,11 +598,13 @@ class String_Locator {
                 <td>%1$s<div class="row-actions"><span class="edit"><a href="%2$s" aria-label="Edit">Edit</a></span></div></td>
                 <td><a href="%2$s">%3$s</a></td>
                 <td>%4$d</td>
+                <td>%5$d</td>
             </tr>',
 			$item->stringresult,
 			esc_url( $item->editurl ),
 			esc_html( $item->filename_raw ),
-			esc_html( $item->linenum )
+			esc_html( $item->linenum ),
+			esc_html( $item->linepos )
 		);
 	}
 
@@ -631,10 +633,12 @@ class String_Locator {
 				<th scope="col" class="manage-column column-stringresult column-primary">%s</th>
 				<th scope="col" class="manage-column column-filename">%s</th>
 				<th scope="col" class="manage-column column-linenum">%s</th>
+				<th scope="col" class="manage-column column-linepos">%s</th>
 			</tr>',
 			esc_html( __( 'String', 'string-locator' ) ),
 			esc_html( __( 'File', 'string-locator' ) ),
-			esc_html( __( 'Line number', 'string-locator' ) )
+			esc_html( __( 'Line number', 'string-locator' ) ),
+			esc_html( __( 'Line position', 'string-locator' ) )
 		);
 
 		$table_rows = array();
@@ -658,10 +662,11 @@ class String_Locator {
 	 *
 	 * @param string $path Path to the file we'er adding a link for.
 	 * @param int $line The line in the file where our search result was found.
+	 * @param int $linepos The positin in the line where the search result was found.
 	 *
 	 * @return string
 	 */
-	function create_edit_link( $path, $line = 0 ) {
+	function create_edit_link( $path, $line = 0, $linepos = 0 ) {
 		$file_type    = 'core';
 		$file_slug    = '';
 		$content_path = str_replace( '\\', '/', WP_CONTENT_DIR );
@@ -695,6 +700,7 @@ class String_Locator {
 		$url_args[] = 'file-reference=' . $file_slug;
 		$url_args[] = 'file-type=' . $file_type;
 		$url_args[] = 'string-locator-line=' . absint( $line );
+		$url_args[] = 'string-locator-linepos=' . absint( $linepos );
 		$url_args[] = 'string-locator-path=' . urlencode( str_replace( '/', DIRECTORY_SEPARATOR, $path ) );
 
 		$url = admin_url( $this->path_to_use . '?' . implode( '&', $url_args ) );
@@ -860,9 +866,10 @@ class String_Locator {
 				'string-locator-editor',
 				'string_locator',
 				array(
-					'CodeMirror' => $code_mirror,
-					'goto_line'  => absint( $_GET['string-locator-line'] ),
-					'save_url'   => get_rest_url( null, 'string-locator/v1/save' ),
+					'CodeMirror'   => $code_mirror,
+					'goto_line'    => absint( $_GET['string-locator-line'] ),
+					'goto_linepos' => absint( $_GET['string-locator-linepos'] ),
+					'save_url'     => get_rest_url( null, 'string-locator/v1/save' ),
 				)
 			);
 		}
@@ -1272,6 +1279,7 @@ class String_Locator {
 					'[%s]',
 					esc_html__( 'Filename matches search', 'string-locator' )
 				),
+				'linepos'      => '',
 				'path'         => $path,
 				'filename'     => $path_string,
 				'filename_raw' => $relativepath,
@@ -1288,7 +1296,7 @@ class String_Locator {
 				/**
 				 * If our string is found in this line, output the line number and other data
 				 */
-				if ( ( ! $regex && stristr( $readline, $string ) ) || ( $regex && preg_match( $string, $readline ) ) ) {
+				if ( ( ! $regex && stristr( $readline, $string ) ) || ( $regex && preg_match( $string, $readline, $match, PREG_OFFSET_CAPTURE ) ) ) {
 					/**
 					 * Prepare the visual path for the end user
 					 * Removes path leading up to WordPress root and ensures consistent directory separators
@@ -1308,10 +1316,16 @@ class String_Locator {
 					);
 					$match_count ++;
 
+					if ( $regex ) {
+						$str_pos = $match[0][1];
+					} else {
+						$str_pos = stripos( $readline, $string );
+					}
+
 					/**
 					 * Create the URL to take the user to the editor
 					 */
-					$editurl = $this->create_edit_link( $path, $linenum );
+					$editurl = $this->create_edit_link( $path, $linenum, $str_pos );
 
 					$string_preview = $readline;
 					if ( strlen( $string_preview ) > ( strlen( $string ) + $this->excerpt_length ) ) {
@@ -1352,6 +1366,7 @@ class String_Locator {
 					$output[] = array(
 						'ID'           => $match_count,
 						'linenum'      => $linenum,
+						'linepos'      => $str_pos,
 						'path'         => $path,
 						'filename'     => $path_string,
 						'filename_raw' => $relativepath,
