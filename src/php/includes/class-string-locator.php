@@ -1116,9 +1116,7 @@ class String_Locator {
 						'notices' => array(
 							array(
 								'type'    => 'error',
-								'message' => sprintf(
-									__( 'Your changes were not saved, as a check of your site could not be completed afterwards. This may be due to a <a href="https://wordpress.org/support/article/loopbacks/">loopback</a> error.', 'string-locator' ),
-								),
+								'message' => __( 'Your changes were not saved, as a check of your site could not be completed afterwards. This may be due to a <a href="https://wordpress.org/support/article/loopbacks/">loopback</a> error.', 'string-locator' ),
 							),
 						),
 					);
