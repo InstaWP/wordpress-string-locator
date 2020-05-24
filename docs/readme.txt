@@ -38,9 +38,10 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Screenshots ==
 
-1. Searching through the Twenty Fourteen theme for the string 'not found'
-2. Having clicked the link for one of the results and being taken to the editor in the browser
-3. Smart-Scan has detected an inconsistency in the use of braces
+1. Searching WordPress for the string `hello dolly`.
+2. Search screen when editing is disabled.
+3. Having clicked the link for one of the results and being taken to the editor in the browser.
+4. Smart-Scan has detected an inconsistency in the use of braces.
 
 == Changelog ==
 
