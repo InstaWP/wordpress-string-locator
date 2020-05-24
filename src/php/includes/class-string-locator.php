@@ -967,7 +967,7 @@ class String_Locator {
 	 *
 	 * Also runs over the Smart-Scan if enabled.
 	 *
-	 * @return void
+	 * @return void|array
 	 */
 	function editor_save( $request ) {
 		$_POST = $request->get_params();
@@ -984,7 +984,6 @@ class String_Locator {
 					'type'    => 'error',
 					'message' => __( 'The file could not be written to, please check file permissions or edit it manually.', 'string-locator' ),
 				);
-				$this->failed_edit = true;
 
 				return array(
 					'notices' => $this->notice,
@@ -1068,13 +1067,41 @@ class String_Locator {
 			 * If the site fails, revert the changes to return the sites to its original state
 			 */
 			$header = wp_remote_head( site_url() );
-			if ( 301 === (int) $header['response']['code'] ) {
+
+			if ( ! is_wp_error( $header ) && 301 === (int) $header['response']['code'] ) {
 				$header = wp_remote_head( $header['headers']['location'] );
 			}
 
 			$bad_http_check = apply_filters( 'string_locator_bad_http_codes', $this->bad_http_codes );
 
-			if ( in_array( $header['response']['code'], $bad_http_check, true ) ) {
+			if ( is_wp_error( $header ) ) {
+				$this->failed_edit = true;
+				$this->write_file( $path, $original );
+
+				// Likely loopback error, so be useful in our errors.
+				if ( 'http_request_failed' === $header->get_error_code() ) {
+					return array(
+						'notices' => array(
+							array(
+								'type'    => 'error',
+								'message' => sprintf(
+									__( 'Your changes were not saved, as a check of your site could not be completed afterwards. This may be due to a <a href="https://wordpress.org/support/article/loopbacks/">loopback</a> error.', 'string-locator' ),
+								),
+							),
+						),
+					);
+				}
+
+				// Fallback error message here.
+				return array(
+					'notices' => array(
+						array(
+							'type'    => 'error',
+							'message' => $header->get_error_message(),
+						),
+					),
+				);
+			} elseif ( in_array( $header['response']['code'], $bad_http_check, true ) ) {
 				$this->failed_edit = true;
 				$this->write_file( $path, $original );
 
