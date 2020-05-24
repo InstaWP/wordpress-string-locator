@@ -18,7 +18,7 @@ class String_Locator {
 	 * @var int $max_memory_consumption The server-configured max amount of memory a script can use.
 	 */
 	public $string_locator_language = '';
-	public $version                 = '2.3.1';
+	public $version                 = '2.4.0';
 	public $notice                  = array();
 	public $failed_edit             = false;
 	private $path_to_use            = '';

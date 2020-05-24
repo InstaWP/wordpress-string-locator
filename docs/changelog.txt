@@ -1,3 +1,22 @@
+= 2.3.1 =
+This is a maintenance and security release, with thanks to [RIPS Technologies](https://www.ripstech.com) for the responsible disclosure of several security concerns.
+
+* Fixed an escaped URL that should've allowed some HTML links.
+* Patched a potential security vulnerability with file path traversals.
+* Patched a potential security vulnerability that allowed writing to arbitrary files.
+* Patched a few Cross Site Scripting (XSS) vulnerabilities.
+* Removed unused code that might allow file creation.
+
+= 2.3.0 =
+* Upped version requirement to 4.9 as we now use the bundled CodeMirror in WordPress core.
+* Converted translation functions to the escaping versions to avoid accidental output from translations.
+* Removed bundled languages, these should be served by WordPress.org now.
+* Improved behavior when a search failure happens, we were accidentally looping error messages for every file (whoops).
+* Added more translatable strings.
+* Added various filters:
+** `string_locator_bad_http_codes`
+** `string_locator_bad_file_types`
+
 = 2.2.0 =
 * Fixed some lingering potential HTTPS issues.
 * Fixed result previews not cutting the excerpt making them excessively long.
