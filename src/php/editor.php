@@ -81,7 +81,7 @@ if ( ! $string_locator->failed_edit ) {
 
 	<div class="string-locator-header">
 		<div>
-			<span>
+			<span class="title">
 				<?php
 				printf(
 					// translators: %s: The name of the file being edited.
