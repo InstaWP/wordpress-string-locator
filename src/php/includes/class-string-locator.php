@@ -972,6 +972,9 @@ class String_Locator {
 	function editor_save( $request ) {
 		$_POST = $request->get_params();
 
+		$check_loopback = isset( $_POST['string-locator-loopback-check'] );
+		$do_smart_scan  = isset( $_POST['string-locator-smart-edit'] );
+
 		if ( $this->is_valid_location( $_POST['string-locator-path'] ) ) {
 			$path    = urldecode( $_POST['string-locator-path'] );
 			$content = stripslashes( $_POST['string-locator-editor-content'] );
@@ -993,7 +996,7 @@ class String_Locator {
 			/**
 			 * If enabled, run the Smart-Scan on the content before saving it
 			 */
-			if ( isset( $_POST['string-locator-smart-edit'] ) ) {
+			if ( $do_smart_scan ) {
 				$open_brace  = substr_count( $content, '{' );
 				$close_brace = substr_count( $content, '}' );
 				if ( $open_brace !== $close_brace ) {
@@ -1066,15 +1069,17 @@ class String_Locator {
 			 * Check the status of the site after making our edits.
 			 * If the site fails, revert the changes to return the sites to its original state
 			 */
-			$header = wp_remote_head( site_url() );
+			if ( $check_loopback ) {
+				$header = wp_remote_head( site_url() );
 
-			if ( ! is_wp_error( $header ) && 301 === (int) $header['response']['code'] ) {
-				$header = wp_remote_head( $header['headers']['location'] );
+				if ( ! is_wp_error( $header ) && 301 === (int) $header['response']['code'] ) {
+					$header = wp_remote_head( $header['headers']['location'] );
+				}
+
+				$bad_http_check = apply_filters( 'string_locator_bad_http_codes', $this->bad_http_codes );
 			}
 
-			$bad_http_check = apply_filters( 'string_locator_bad_http_codes', $this->bad_http_codes );
-
-			if ( is_wp_error( $header ) ) {
+			if ( $check_loopback && is_wp_error( $header ) ) {
 				$this->failed_edit = true;
 				$this->write_file( $path, $original );
 
@@ -1101,7 +1106,7 @@ class String_Locator {
 						),
 					),
 				);
-			} elseif ( in_array( $header['response']['code'], $bad_http_check, true ) ) {
+			} elseif ( $check_loopback && in_array( $header['response']['code'], $bad_http_check, true ) ) {
 				$this->failed_edit = true;
 				$this->write_file( $path, $original );
 
