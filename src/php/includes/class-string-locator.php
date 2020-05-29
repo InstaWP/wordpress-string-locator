@@ -613,7 +613,7 @@ class String_Locator {
             </tr>',
 			$item->stringresult,
 			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
-				'<span class="edit"><a href="%s" aria-label="Edit">%s</a></span>',
+				'<span class="edit"><a href="%1$s" aria-label="%2$s">%2$s</a></span>',
 				esc_url( $item->editurl ),
 				// translators: The row-action edit link label.
 				esc_html__( 'Edit', 'string-locator' )
