@@ -4,7 +4,7 @@ Find and edit code or texts in your themes plugins or anywhere within the WordPr
 
 ## Contributing
 
-Contributions are both encouraged, adn very welcome.
+Contributions are both encouraged, and very welcome.
 
 ### Setting up a local environment
 
