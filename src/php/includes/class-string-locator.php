@@ -613,7 +613,7 @@ class String_Locator {
             </tr>',
 			$item->stringresult,
 			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
-				'<span class="edit"><a href="%s" aria-label="Edit">%s</a></span>',
+				'<span class="edit"><a href="%1$s" aria-label="%2$s">%2$s</a></span>',
 				esc_url( $item->editurl ),
 				// translators: The row-action edit link label.
 				esc_html__( 'Edit', 'string-locator' )
@@ -865,7 +865,7 @@ class String_Locator {
 					'search_preparing'      => __( 'Preparing search&hellip;', 'string-locator' ),
 					'search_started'        => __( 'Preparations completed, search started&hellip;', 'string-locator' ),
 					'search_error'          => __( 'The above error was returned by your server, for more details please consult your servers error logs.', 'string-locator' ),
-					'search_no_results'     => __( 'Your search was completed, but no results were found..', 'string-locator' ),
+					'search_no_results'     => __( 'Your search was completed, but no results were found.', 'string-locator' ),
 					'warning_title'         => __( 'Warning', 'string-locator' ),
 				)
 			);

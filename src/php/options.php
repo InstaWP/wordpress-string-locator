@@ -25,7 +25,7 @@ if ( isset( $_GET['restore'] ) ) {
 		$search_regex    = String_Locator::absbool( $restore->regex );
 	} else {
 		?>
-	<div class="notice notice-large notice-warning">No previous searches could be restored.</div>
+	<div class="notice notice-large notice-warning"><?php esc_html_e( 'No previous searches could be restored.', 'string-locator' ); ?></div>
 		<?php
 	}
 }
@@ -111,8 +111,8 @@ if ( isset( $_GET['restore'] ) ) {
 			<div class="row-actions">
 				<# if ( data.editurl ) { #>
 					<span class="edit">
-						<a href="{{ data.editurl }}" aria-label="Edit">
-							Edit
+						<a href="{{ data.editurl }}" aria-label="<?php esc_attr_e( 'Edit', 'string-locator' ); ?>">
+							<?php esc_html_e( 'Edit', 'string-locator' ); ?>
 						</a>
 					</span>
 				<# } #>

@@ -181,7 +181,7 @@ if ( ! $string_locator->failed_edit ) {
 					<br />
 					<span class="string-locator-italics">
 						<?php echo esc_html( str_replace( ABSPATH, '', $file ) ); ?>
-						<span title="<?php echo esc_attr( sprintf( 'Full file path: %s', $file ) ); ?>" class="dashicons dashicons-editor-help"></span>
+						<span title="<?php echo esc_attr( sprintf( /* translators: File path. */ esc_html__( 'Full file path: %s', 'string-locator' ), $file ) ); ?>" class="dashicons dashicons-editor-help"></span>
 					</span>
 				</div>
 
@@ -264,6 +264,6 @@ if ( ! $string_locator->failed_edit ) {
 	<div class="row notice notice-{{ data.type }} inline below-h2 is-dismissible">
 		{{{ data.message }}}
 
-		<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+		<button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'string-locator' ); ?></span></button>
 	</div>
 </script>

@@ -16,7 +16,7 @@
     "fix-cs": "@php ./vendor/bin/phpcbf --extensions=php --ignore=/vendor/"
   },
   "support": {
-    "issues": "https://github.com/WordPress/health-check/issues",
-    "source": "https://github.com/WordPress/health-check"
+    "issues": "https://github.com/Clorith/wordpress-string-locator/issues",
+    "source": "https://github.com/Clorith/wordpress-string-locator"
   }
 }
