@@ -45,6 +45,9 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
+= 2.4.1 =
+* Fixed case-sensitive class call, apparently not all PHP versions are equal in how this is treated.
+
 = 2.4.0 =
 * Updated the editor screen, to a design which more closely adheres to the WordPress editor styles.
 * Added support for searching files, even if you are not able to edit them.
