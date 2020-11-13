@@ -22,7 +22,6 @@ module.exports = {
 	},
 	module: {
 		rules: [
-			...defaultConfig.module.rules,
 			{
 				test: /\.s[ac]ss$/i,
 				use: [
