@@ -1,4 +1,4 @@
-# String locator ![](https://github.com/clorith/wordpress-string-locator/workflows/master/badge.svg)
+# String locator ![](https://github.com/clorith/wordpress-string-locator/workflows/trunk/badge.svg)
 
 Find and edit code or texts in your themes plugins or anywhere within the WordPress directory.
 
