@@ -18,25 +18,25 @@
     "node": ">=10.16.0"
   },
   "devDependencies": {
+    "@wordpress/env": "^1.6.0",
     "@wordpress/scripts": "^9.1.0",
-	"@wordpress/env": "^1.6.0",
-	"mini-css-extract-plugin": "^0.9.0",
-	"css-loader": "^3.6.0",
-	"sass-loader": "^8.0.2",
-	"node-sass": "^4.14.1",
-	"copy-webpack-plugin": "^6.0.2"
+    "copy-webpack-plugin": "^6.0.2",
+    "css-loader": "^3.6.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2"
   },
   "scripts": {
-	"build": "wp-scripts build",
-	"lint:css": "wp-scripts lint-style './src/sass/**/*.scss'",
-	"lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
-	"watch": "wp-scripts start",
-	"wp-env": "wp-env"
+    "build": "wp-scripts build",
+    "lint:css": "wp-scripts lint-style './src/sass/**/*.scss'",
+    "lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
+    "watch": "wp-scripts start",
+    "wp-env": "wp-env"
   },
   "stylelint": {
-	"extends": "stylelint-config-wordpress",
-	"rules": {
-	  "no-descending-specificity": null
-	}
+    "extends": "stylelint-config-wordpress",
+    "rules": {
+      "no-descending-specificity": null
+    }
   }
 }
