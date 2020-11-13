@@ -15,6 +15,13 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
+      - name: Versions
+          - run: |
+            php --version
+            composer --version
+            node --version
+            yarn --version
+
       - name: PHP Syntax check
         working-directory: ./src/php
         run: find . \( -name '*.php' \) -exec php -lf {} \;
