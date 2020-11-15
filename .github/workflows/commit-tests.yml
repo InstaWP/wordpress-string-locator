@@ -19,7 +19,7 @@ jobs:
           php --version
           composer --version
           node --version
-          npm --version
+          yarn --version
 
       - name: PHP Syntax check
         working-directory: ./src/php
@@ -35,16 +35,16 @@ jobs:
 
       - name: Set up Yarn
         working-directory: ./
-        run: npm install
+        run: yarn install
 
       - name: CSS Lint
         working-directory: ./
-        run: npm run lint:css
+        run: yarn run lint:css
 
       - name: JavaScript Lint
         working-directory: ./
-        run: npm run lint:js
+        run: yarn run lint:js
 
       - name: Test build
         working-directory: ./
-        run: npm run build
+        run: yarn run build
