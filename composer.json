@@ -13,8 +13,8 @@
     "dealerdirect/phpcodesniffer-composer-installer": "~0.7.0"
   },
   "scripts": {
-    "check-cs": "@php ./vendor/bin/phpcs --extensions=php --ignore=/vendor/",
-    "fix-cs": "@php ./vendor/bin/phpcbf --extensions=php --ignore=/vendor/"
+    "check-cs": "./vendor/bin/phpcs --extensions=php --ignore=/vendor/",
+    "fix-cs": "./vendor/bin/phpcbf --extensions=php --ignore=/vendor/"
   },
   "support": {
     "issues": "https://github.com/Clorith/wordpress-string-locator/issues",
