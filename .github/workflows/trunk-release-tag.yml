@@ -64,12 +64,12 @@ jobs:
           prerelease: false
 
       - name: Upload release build
-          id: upload_release_assets
-          uses: actions/upload-release-asset@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./string-locator.zip
-            asset_name: string-locator.zip
-            asset_content_type: application/zip
+        id: upload_release_assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./string-locator.zip
+          asset_name: string-locator.zip
+          asset_content_type: application/zip
