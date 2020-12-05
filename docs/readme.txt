@@ -45,8 +45,9 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
-= [TBD] =
+= 2.4.2 =
 * Fixed the option to restore previous search.
+* Fixed respecting text capitalization in previews when doing a non-regex search.
 * Changed capability checks, now works on hosts that maintain updates for their users.
 
 = 2.4.1 =

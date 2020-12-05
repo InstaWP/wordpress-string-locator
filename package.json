@@ -1,6 +1,6 @@
 {
   "name": "wordpress-string-locator",
-  "version": "2.3.1",
+  "version": "2.4.2",
   "description": "Find and edit code or texts in your themes and plugins.",
   "author": "clorith",
   "license": "GPL-2.0-or-later",
