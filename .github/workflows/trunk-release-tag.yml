@@ -55,7 +55,7 @@ jobs:
       - name: Get changelog entries
         id: changelog
         working-directory: ./docs
-        run:
+        run: |
           changelog=$(grep -A100 -m1 -e '== Changelog ==' readme.txt)
           changelog="${changelog//'%'/'%25'}"
           changelog="${changelog//$'\n'/'%0A'}"
