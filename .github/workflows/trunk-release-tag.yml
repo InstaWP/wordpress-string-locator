@@ -15,6 +15,11 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
+      - name: Setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+
       - name: PHP Syntax check
         working-directory: ./src/php
         run: find . \( -name '*.php' \) -exec php -lf {} \;
