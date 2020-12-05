@@ -1,0 +1,70 @@
+# Automatically create a release whenever a version-tag is created.
+name: Create release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Create release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: PHP Syntax check
+        working-directory: ./src/php
+        run: find . \( -name '*.php' \) -exec php -lf {} \;
+
+      - name: Set up composer
+        working-directory: ./
+        run: composer install
+
+      - name: PHPCS
+        working-directory: ./
+        run: composer run check-cs
+
+      - name: Set up Yarn
+        working-directory: ./
+        run: yarn install
+
+      - name: CSS Lint
+        working-directory: ./
+        run: yarn run lint:css
+
+      - name: JavaScript Lint
+        working-directory: ./
+        run: yarn run lint:js
+
+      - name: Create build
+        working-directory: ./
+        run: yarn run build
+
+      - name: Package build
+        working-directory: ./
+        run: zip string-locator string-locator
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+
+      - name: Upload release build
+          id: upload_release_assets
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./string-locator.zip
+            asset_name: string-locator.zip
+            asset_content_type: application/zip
