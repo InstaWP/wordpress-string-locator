@@ -1,6 +1,6 @@
 table {
 
-	&.tools_page_string-locator {
+	&.tools_page_string-locator { /* stylelint-disable-line selector-class-pattern -- WordPress' class for page paths */
 
 		display: none;
 

@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build": "wp-scripts build",
-    "lint:css": "wp-scripts lint-style './src/sass/**/*.scss'",
+    "lint:css": "wp-scripts lint-style ./src/sass/**/*.scss",
     "lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
     "watch": "wp-scripts start",
 	"env:start": "wp-env start",
