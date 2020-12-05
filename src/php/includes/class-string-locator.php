@@ -906,7 +906,7 @@ class String_Locator {
 		}
 		$page_title  = __( 'String Locator', 'string-locator' );
 		$menu_title  = __( 'String Locator', 'string-locator' );
-		$capability  = 'update_core';
+		$capability  = 'install_plugins';
 		$parent_slug = 'tools.php';
 		$menu_slug   = 'string-locator';
 		$function    = array( $this, 'options_page' );
@@ -922,7 +922,7 @@ class String_Locator {
 	function populate_network_menu() {
 		$page_title = __( 'String Locator', 'string-locator' );
 		$menu_title = __( 'String Locator', 'string-locator' );
-		$capability = 'update_core';
+		$capability = 'install_plugins';
 		$menu_slug  = 'string-locator';
 		$function   = array( $this, 'options_page' );
 
