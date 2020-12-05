@@ -27,21 +27,21 @@ jobs:
         working-directory: ./
         run: composer run check-cs
 
-      - name: Set up Yarn
+      - name: Set up node modules
         working-directory: ./
-        run: yarn install
+        run: npm install
 
       - name: CSS Lint
         working-directory: ./
-        run: yarn run lint:css
+        run: npm run lint:css
 
       - name: JavaScript Lint
         working-directory: ./
-        run: yarn run lint:js
+        run: npm run lint:js
 
       - name: Create build
         working-directory: ./
-        run: yarn run build
+        run: npm run build
 
       - name: Package build
         working-directory: ./
