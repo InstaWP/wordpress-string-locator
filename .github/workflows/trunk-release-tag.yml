@@ -4,7 +4,7 @@ name: Create release
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
 
 jobs:
   build:
@@ -52,6 +52,11 @@ jobs:
         working-directory: ./
         run: zip string-locator string-locator
 
+      - name: Get changelog entries
+        id: changelog
+        working-directory: ./docs
+        run: echo '::set-output name=changes::{grep -A100 -m1 -e '== Changelog ==' readme.txt}'
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -61,6 +66,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           draft: true
+          body: ${{ steps.changelog.outputs.changes }}
           prerelease: false
 
       - name: Upload release build

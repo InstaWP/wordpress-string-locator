@@ -50,18 +50,5 @@ When writing your search string, make sure to wrap your search in forward slashe
 * Fixed respecting text capitalization in previews when doing a non-regex search.
 * Changed capability checks, now works on hosts that maintain updates for their users.
 
-= 2.4.1 =
-* Fixed case-sensitive class call, apparently not all PHP versions are equal in how this is treated.
-
-= 2.4.0 =
-* Updated the editor screen, to a design which more closely adheres to the WordPress editor styles.
-* Added support for searching files, even if you are not able to edit them.
-* Added support for jumping to not just line number, but also location inside that line.
-* Added alternative to disable loopback checks when saving changes.
-* Improved performance by using transients instead of option entries (lower memory usage overall).
-* Improved handling of errors with links to some documentation when available.
-* Improved the amount of details about the current file that are shown in the editor.
-* Fixed the search results table to look like a normal table when restoring a search.
-
 = Older entries =
 See changelog.txt for the version history
