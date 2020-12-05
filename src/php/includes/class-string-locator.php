@@ -952,7 +952,7 @@ class String_Locator {
 		if ( isset( $_GET['string-locator-path'] ) && $this->is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
 			include_once( dirname( __FILE__ ) . '/../editor.php' );
 		} else {
-			include_once( dirname( __FILE__ ) . '/../options.php' );
+			include_once( dirname( __FILE__ ) . '/../search.php' );
 		}
 	}
 
