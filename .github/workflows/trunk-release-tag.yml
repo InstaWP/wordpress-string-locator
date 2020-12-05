@@ -55,7 +55,13 @@ jobs:
       - name: Get changelog entries
         id: changelog
         working-directory: ./docs
-        run: echo "::set-output name=changes::$(grep -A100 -m1 -e '== Changelog ==' readme.txt)"
+        run:
+          changelog=$(grep -A100 -m1 -e '== Changelog ==' readme.txt)
+          changelog="${changelog//'%'/'%25'}"
+          changelog="${changelog//$'\n'/'%0A'}"
+          changelog="${changelog//$'\r'/'%0D'}"
+          echo $changelog
+          echo "::set-output name=changes::$changelog"
 
       - name: Create release
         id: create_release
