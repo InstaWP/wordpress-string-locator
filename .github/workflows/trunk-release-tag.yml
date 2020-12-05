@@ -50,7 +50,7 @@ jobs:
 
       - name: Package build
         working-directory: ./
-        run: zip string-locator string-locator
+        run: zip -r string-locator string-locator
 
       - name: Get changelog entries
         id: changelog
