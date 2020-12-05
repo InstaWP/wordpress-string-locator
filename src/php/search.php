@@ -89,10 +89,7 @@ if ( isset( $_GET['restore'] ) ) {
 	<div class="table-wrapper">
 		<?php
 		if ( isset( $_GET['restore'] ) ) {
-			$items = get_transient( 'string-locator-search-history' );
-			if ( false === $items ) {
-				$items = array();
-			}
+			$items = get_option( 'string-locator-search-history', array() );
 			$items = maybe_unserialize( $items );
 
 			echo String_Locator::prepare_full_table( $items, array( 'restore' ) );

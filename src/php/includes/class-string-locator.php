@@ -330,7 +330,7 @@ class String_Locator {
 		);
 
 		set_transient( 'string-locator-search-overview', $store );
-		set_transient( 'string-locator-search-history', array() );
+		update_option( 'string-locator-search-history', array(), false );
 
 		foreach ( $file_chunks as $count => $file_chunk ) {
 			set_transient( 'string-locator-search-files-' . $count, $file_chunk );
@@ -549,12 +549,9 @@ class String_Locator {
 			$response['next_file'] = ( isset( $file_data[ $next_file ] ) ? $file_data[ $next_file ] : '' );
 
 			if ( ! empty( $search_results ) ) {
-				$history = get_transient( 'string-locator-search-history' );
-				if ( false === $history ) {
-					$history = array();
-				}
+				$history = get_option( 'string-locator-search-history', array() );
 				$history = array_merge( $history, $search_results );
-				set_transient( 'string-locator-search-history', serialize( $history ) );
+				update_option( 'string-locator-search-history', $history, false );
 			}
 
 			$_POST['filenum'] ++;
@@ -1245,11 +1242,11 @@ class String_Locator {
 	 * @param string $slug The plugin/theme slug of the file.
 	 * @param boolean $regex Should a regex search be performed.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	function scan_file( $filename, $string, $location, $type, $slug, $regex = false ) {
 		if ( empty( $string ) || ! is_file( $filename ) ) {
-			return false;
+			return array();
 		}
 		$output      = array();
 		$linenum     = 0;
