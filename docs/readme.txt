@@ -45,6 +45,10 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
+= [TBD] =
+* Fixed the option to restore previous search.
+* Changed capability checks, now works on hosts that maintain updates for their users.
+
 = 2.4.1 =
 * Fixed case-sensitive class call, apparently not all PHP versions are equal in how this is treated.
 
