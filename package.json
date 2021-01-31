@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@wordpress/env": "~3.0.1",
-    "@wordpress/scripts": "~12.5.0",
+    "@wordpress/scripts": "~13.0.1",
     "copy-webpack-plugin": "~6.3.2",
     "css-loader": "~5.0.1",
     "mini-css-extract-plugin": "~1.3.5",
@@ -38,7 +38,7 @@
     "wp-env": "wp-env"
   },
   "stylelint": {
-    "extends": "stylelint-config-wordpress",
+    "extends": "@wordpress/stylelint-config",
     "rules": {
       "no-descending-specificity": null
     }
