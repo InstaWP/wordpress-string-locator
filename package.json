@@ -18,7 +18,7 @@
     "node": ">=10.16.0"
   },
   "devDependencies": {
-    "@wordpress/env": "~2.1.0",
+    "@wordpress/env": "~3.0.1",
     "@wordpress/scripts": "~12.5.0",
     "copy-webpack-plugin": "~6.3.2",
     "css-loader": "~5.0.1",
