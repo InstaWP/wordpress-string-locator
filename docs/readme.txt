@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/plugins/string-locator/
 Donate link: https://www.paypal.me/clorith
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
-Tested up to: 5.6
+Tested up to: 5.7
 Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
