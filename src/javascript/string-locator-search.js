@@ -18,14 +18,11 @@ jQuery( document ).ready( function( $ ) {
 
 		$( '#string-locator-feedback-text' ).text( '' );
 
-		const searchFinalized = {
-			action: 'string-locator-clean',
-			nonce: string_locator.search_nonce,
-		};
-
 		$.post(
-			string_locator.ajax_url,
-			searchFinalized,
+			string_locator.url.clean,
+			{
+				_wpnonce: string_locator.rest_nonce
+			},
 			function() {
 				$( '.string-locator-feedback' ).hide();
 				if ( $( 'tbody', '.tools_page_string-locator' ).is( ':empty' ) ) {
@@ -51,13 +48,12 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		const searchRequest = {
-			action: 'string-locator-search',
 			filenum: thisCount,
-			nonce: string_locator.search_nonce,
+			_wpnonce: string_locator.rest_nonce
 		};
 
 		$.post(
-			string_locator.ajax_url,
+			string_locator.url.search,
 			searchRequest,
 			function( response ) {
 				if ( ! response.success ) {
@@ -113,17 +109,16 @@ jQuery( document ).ready( function( $ ) {
 		clearStringLocatorResultArea();
 
 		const directoryRequest = {
-			action: 'string-locator-get-directory-structure',
 			directory: $( '#string-locator-search' ).val(),
 			search: $( '#string-locator-string' ).val(),
 			regex: $( '#string-locator-regex' ).is( ':checked' ),
-			nonce: string_locator.search_nonce,
+			_wpnonce: string_locator.rest_nonce
 		};
 
 		$( 'table.tools_page_string-locator' ).show();
 
 		$.post(
-			string_locator.ajax_url,
+			string_locator.url.directory_structure,
 			directoryRequest,
 			function( response ) {
 				if ( ! response.success ) {

@@ -25,6 +25,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+namespace JITS\StringLocator;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -32,9 +34,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'STRING_LOCATOR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'STRING_LOCATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-require_once( __DIR__ . '/includes/class-string-locator.php' );
+/**
+ * Plugin test runners
+ */
+require_once __DIR__ . '/lib/Tests/class-loopback.php';
+require_once __DIR__ . '/lib/Tests/class-smart-scan.php';
+
+/**
+ * Plugin action classes.
+ */
+require_once __DIR__ . '/lib/class-save.php';
+require_once __DIR__ . '/lib/class-search.php';
+require_once __DIR__ . '/lib/class-directory-iterator.php';
+
+/**
+ * Prepare REST endpoints.
+ */
+require_once __DIR__ . '/lib/REST/class-base.php';
+require_once __DIR__ . '/lib/REST/class-save.php';
+require_once __DIR__ . '/lib/REST/class-clean.php';
+require_once __DIR__ . '/lib/REST/class-search.php';
+require_once __DIR__ . '/lib/REST/class-directory-structure.php';
 
 /**
  * Instantiate the plugin
  */
-$string_locator = new String_Locator();
+require_once __DIR__ . '/includes/class-string-locator.php';
+new String_Locator();

@@ -1,4 +1,7 @@
 <?php
+
+namespace JITS\StringLocator;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -56,15 +59,11 @@ if ( 'core' === $_GET['file-type'] ) {
 	}
 }
 
-if ( ! $string_locator->failed_edit ) {
-	$readfile = fopen( $file, 'r' );
-	if ( $readfile ) {
-		while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
-			$editor_content .= $readline;
-		}
+$readfile = fopen( $file, 'r' );
+if ( $readfile ) {
+	while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+		$editor_content .= $readline;
 	}
-} else {
-	$editor_content = stripslashes( $_POST['string-locator-editor-content'] );
 }
 ?>
 <form id="string-locator-edit-form" class="string-locator-editor-wrapper">
@@ -209,7 +208,7 @@ if ( ! $string_locator->failed_edit ) {
 
 		foreach ( $function_info['user'] as $user_func ) {
 			if ( strstr( $editor_content, $user_func . '(' ) ) {
-				$function_object = new ReflectionFunction( $user_func );
+				$function_object = new \ReflectionFunction( $user_func );
 				$attrs           = $function_object->getParameters();
 
 				$attr_strings = array();

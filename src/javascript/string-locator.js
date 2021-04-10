@@ -20,7 +20,7 @@ jQuery( document ).ready( function( $ ) {
 			const $notices = $( '#string-locator-notices' );
 
 			$.post(
-				string_locator.save_url,
+				string_locator.url.save,
 				$( this ).serialize()
 			).always( function( response ) {
 				if ( 'undefined' === typeof ( response.notices ) ) {

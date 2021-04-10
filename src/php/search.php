@@ -1,4 +1,7 @@
 <?php
+
+namespace JITS\StringLocator;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
