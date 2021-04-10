@@ -27,7 +27,7 @@ class Search extends Base {
 
 		return array(
 			'success' => true,
-			'data'    => $handler->run( $request->get_param( 'filenum' ) )
+			'data'    => $handler->run( $request->get_param( 'filenum' ) ),
 		);
 	}
 

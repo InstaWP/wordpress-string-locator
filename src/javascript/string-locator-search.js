@@ -21,7 +21,7 @@ jQuery( document ).ready( function( $ ) {
 		$.post(
 			string_locator.url.clean,
 			{
-				_wpnonce: string_locator.rest_nonce
+				_wpnonce: string_locator.rest_nonce,
 			},
 			function() {
 				$( '.string-locator-feedback' ).hide();
@@ -49,7 +49,7 @@ jQuery( document ).ready( function( $ ) {
 
 		const searchRequest = {
 			filenum: thisCount,
-			_wpnonce: string_locator.rest_nonce
+			_wpnonce: string_locator.rest_nonce,
 		};
 
 		$.post(
@@ -112,7 +112,7 @@ jQuery( document ).ready( function( $ ) {
 			directory: $( '#string-locator-search' ).val(),
 			search: $( '#string-locator-string' ).val(),
 			regex: $( '#string-locator-regex' ).is( ':checked' ),
-			_wpnonce: string_locator.rest_nonce
+			_wpnonce: string_locator.rest_nonce,
 		};
 
 		$( 'table.tools_page_string-locator' ).show();

@@ -18,14 +18,14 @@ class String_Locator {
 	 *
 	 * @var string
 	 */
-	public $version                 = '2.4.2';
+	public $version = '2.4.2';
 
 	/**
 	 * An array containing all notices to display.
 	 *
 	 * @var array
 	 */
-	public $notice                  = array();
+	public $notice = array();
 
 	/**
 	 * Construct the plugin
