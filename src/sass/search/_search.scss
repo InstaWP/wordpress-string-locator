@@ -9,4 +9,17 @@ table {
 			display: table;
 		}
 	}
+
+  .string {
+	width: 60%;
+  }
+  .filename {
+	width: 20%;
+  }
+  .line {
+	width: 10%;
+  }
+  .position {
+	width: 10%;
+  }
 }
