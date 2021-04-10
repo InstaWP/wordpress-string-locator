@@ -45,10 +45,11 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
-= 2.4.2 =
-* Fixed the option to restore previous search.
-* Fixed respecting text capitalization in previews when doing a non-regex search.
-* Changed capability checks, now works on hosts that maintain updates for their users.
+= 2.5.0 =
+* Improved table spacing on search results
+* Improved loopback checks to also check admin access
+* Moved all ajax requests to dedicated REST endpoints
+* Refactored file structure
 
 = Older entries =
 See changelog.txt for the version history
