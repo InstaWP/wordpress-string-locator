@@ -159,16 +159,11 @@ class Search {
 			'filenum' => absint( $_POST['filenum'] ),
 		);
 
-		$filenum   = absint( $_POST['filenum'] );
-		$next_file = $filenum + 1;
+		$filenum = absint( $_POST['filenum'] );
 
-		$next_chunk = ( ceil( ( $next_file ) / $files_per_chunk ) - 1 );
-		$chunk      = ( ceil( $filenum / $files_per_chunk ) - 1 );
+		$chunk = ( ceil( $filenum / $files_per_chunk ) - 1 );
 		if ( $chunk < 0 ) {
 			$chunk = 0;
-		}
-		if ( $next_chunk < 0 ) {
-			$next_chunk = 0;
 		}
 
 		$scan_data = get_transient( 'string-locator-search-overview' );
@@ -179,7 +174,7 @@ class Search {
 				array(
 					'continue' => false,
 					'message'  => sprintf(
-					/* translators: %d: The numbered reference to a file being searched. */
+						/* translators: %d: The numbered reference to a file being searched. */
 						esc_html__( 'The file-number, %d, that was sent could not be found.', 'string-locator' ),
 						$filenum
 					),
@@ -192,7 +187,7 @@ class Search {
 				array(
 					'continue' => false,
 					'message'  => sprintf(
-					/* translators: %1$d: The time a PHP file can run, as defined by the server configuration. %2$d: The amount of time used by the PHP file so far. */
+						/* translators: %1$d: The time a PHP file can run, as defined by the server configuration. %2$d: The amount of time used by the PHP file so far. */
 						esc_html__( 'The maximum time your server allows a script to run (%1$d) is too low for the plugin to run as intended, at startup %2$d seconds have passed', 'string-locator' ),
 						$this->max_execution_time,
 						$this->nearing_execution_limit()
@@ -205,7 +200,7 @@ class Search {
 				array(
 					'continue' => false,
 					'message'  => sprintf(
-					/* translators: %1$d: Current amount of used system memory resources. %2$d: The maximum available system memory. */
+						/* translators: %1$d: Current amount of used system memory resources. %2$d: The maximum available system memory. */
 						esc_html__( 'The memory limit is about to be exceeded before the search has started, this could be an early indicator that your site may soon struggle as well, unfortunately this means the plugin is unable to perform any searches. Current memory consumption: %1$d of %2$d bytes', 'string-locator' ),
 						$this->nearing_memory_limit(),
 						$this->max_memory_consumption
@@ -225,7 +220,7 @@ class Search {
 					array(
 						'continue' => false,
 						'message'  => sprintf(
-						/* translators: %s: The search string used. */
+							/* translators: %s: The search string used. */
 							__( 'Your search string, <strong>%s</strong>, is not a valid pattern, and the search has been aborted.', 'string-locator' ),
 							esc_html( $scan_data->search )
 						),
