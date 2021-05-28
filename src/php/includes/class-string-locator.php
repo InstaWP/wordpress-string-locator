@@ -483,9 +483,9 @@ class String_Locator {
 		 * - The user is capable of editing files.
 		 */
 		if ( isset( $_GET['string-locator-path'] ) && self::is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
-			include_once( dirname( __FILE__ ) . '/../editor.php' );
+			include_once( trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/editor.php' );
 		} else {
-			include_once( dirname( __FILE__ ) . '/../search.php' );
+			include_once( trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/search.php' );
 		}
 	}
 
