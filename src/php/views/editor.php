@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-global $string_locator;
 $editor_content = '';
 
 // $file is validated in String_Locator::is_valid_location() before this page can be loaded through String_Locator::options_page().
@@ -123,17 +122,23 @@ if ( $readfile ) {
 			<?php } ?>
 		</div>
 
-		<textarea
+		<?php
+		$editor = '<textarea
 			name="string-locator-editor-content"
 			class="string-locator-editor"
 			id="code-editor"
-			data-editor-goto-line="<?php echo esc_attr( $_GET['string-locator-line'] ); ?>:<?php echo esc_attr( $_GET['string-locator-linepos'] ); ?>"
-			data-editor-language="<?php echo esc_attr( $string_locator->string_locator_language ); ?>"
+			data-editor-goto-line="' . esc_attr( $_GET['string-locator-line'] ) . ':' . esc_attr( $_GET['string-locator-linepos'] ) . '"
+			data-editor-language=""
 			autofocus="autofocus"
-		><?php echo esc_html( $editor_content ); ?></textarea>
+		>' . esc_html( $editor_content ) . '</textarea>';
+
+		echo apply_filters( 'string-locator-editor-markup', $editor );
+
+		?>
 	</div>
 
 	<div class="string-locator-sidebar">
+		<?php do_action( 'string-locator-editor-sidebar-start' ); ?>
 		<div class="string-locator-panel">
 			<h2 class="title"><?php esc_html_e( 'Details', 'string-locator' ); ?></h2>
 			<div class="string-locator-panel-body">
@@ -238,6 +243,8 @@ if ( $readfile ) {
 				<?php echo $function_help; ?>
 		</div>
 		<?php endif; ?>
+
+		<?php do_action( 'string-locator-editor-sidebar-end' ); ?>
 
 	</div>
 
