@@ -152,23 +152,7 @@ if ( $readfile ) {
 		<div class="string-locator-panel">
 			<h2 class="title"><?php esc_html_e( 'Save checks', 'string-locator' ); ?></h2>
 			<div class="string-locator-panel-body">
-				<div class="row">
-					<label>
-						<input type="checkbox" name="string-locator-smart-edit" checked="checked">
-						<?php esc_html_e( 'Enable a smart-scan of your code to help detect bracket mismatches before saving.', 'string-locator' ); ?>
-					</label>
-				</div>
-
-				<div class="row">
-					<label>
-						<input type="checkbox" name="string-locator-loopback-check" checked="checked">
-						<?php esc_html_e( 'Enable loopback tests after making a save.', 'string-locator' ); ?>
-					</label>
-					<br>
-					<em>
-						<?php esc_html_e( 'This feature is highly recommended, and is what WordPress does when using the plugin- or theme-editor.', 'string-locator' ); ?>
-					</em>
-				</div>
+				<?php do_action( 'string-locator-editor-checks' ); ?>
 			</div>
 		</div>
 

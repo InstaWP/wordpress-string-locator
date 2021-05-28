@@ -21,7 +21,22 @@ class Smart_Scan {
 	/**
 	 * SmartScan constructor.
 	 */
-	public function __construct() {}
+	public function __construct() {
+		add_action( 'string-locator-editor-checks', array( $this, 'print_checks_option' ) );
+	}
+
+	public function print_checks_option() {
+		?>
+
+		<div class="row">
+			<label>
+				<input type="checkbox" name="string-locator-smart-edit" checked="checked">
+				<?php esc_html_e( 'Enable a smart-scan of your code to help detect bracket mismatches before saving.', 'string-locator' ); ?>
+			</label>
+		</div>
+
+		<?php
+	}
 
 	/**
 	 * A helper function to return any errors.
@@ -155,3 +170,5 @@ class Smart_Scan {
 	}
 
 }
+
+new Smart_Scan();

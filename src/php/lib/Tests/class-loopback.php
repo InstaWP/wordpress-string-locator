@@ -20,7 +20,26 @@ class Loopback {
 	/**
 	 * Loopback constructor.
 	 */
-	public function __construct() {}
+	public function __construct() {
+		add_action( 'string-locator-editor-checks', array( $this, 'print_checks_option' ) );
+	}
+
+	public function print_checks_option() {
+		?>
+
+		<div class="row">
+			<label>
+				<input type="checkbox" name="string-locator-loopback-check" checked="checked">
+				<?php esc_html_e( 'Enable loopback tests after making a save.', 'string-locator' ); ?>
+			</label>
+			<br>
+			<em>
+				<?php esc_html_e( 'This feature is highly recommended, and is what WordPress does when using the plugin- or theme-editor.', 'string-locator' ); ?>
+			</em>
+		</div>
+
+		<?php
+	}
 
 	/**
 	 * A helper function to return any errors.
@@ -131,3 +150,5 @@ class Loopback {
 		return true;
 	}
 }
+
+new Loopback();
