@@ -71,7 +71,7 @@ if ( $readfile ) {
 	<h1 class="screen-reader-text">
 		<?php
 			/* translators: Title on the editor page. */
-			esc_html_e( 'String Locator - Code Editor', 'string-locator' );
+			esc_html_e( 'String Locator - Editor', 'string-locator' );
 		?>
 	</h1>
 

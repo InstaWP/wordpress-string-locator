@@ -53,6 +53,33 @@ class String_Locator {
 		add_action( 'plugins_loaded', array( $this, 'load_i18n' ) );
 
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+
+		add_filter( 'string_locator_search_sources_markup', array( $this, 'add_search_options' ), 10, 2 );
+	}
+
+	public function add_search_options( $searchers, $search_location ) {
+		ob_start();
+		?>
+		<optgroup label="<?php esc_attr_e( 'Core', 'string-locator' ); ?>">
+				<option value="core"><?php esc_html_e( 'The whole WordPress directory', 'string-locator' ); ?></option>
+		<option value="wp-content"><?php esc_html_e( 'Everything under wp-content', 'string-locator' ); ?></option>
+		</optgroup>
+		<optgroup label="<?php esc_attr_e( 'Themes', 'string-locator' ); ?>">
+			<?php echo String_Locator::get_themes_options( $search_location ); ?>
+		</optgroup>
+		<?php if ( String_Locator::has_mu_plugins() ) : ?>
+			<optgroup label="<?php esc_attr_e( 'Must Use Plugins', 'string-locator' ); ?>">
+				<?php echo String_Locator::get_mu_plugins_options( $search_location ); ?>
+			</optgroup>
+		<?php endif; ?>
+		<optgroup label="<?php esc_attr_e( 'Plugins', 'string-locator' ); ?>">
+			<?php echo String_Locator::get_plugins_options( $search_location ); ?>
+		</optgroup>
+		<?php
+
+		$searchers .= ob_get_clean();
+
+		return $searchers;
 	}
 
 	/**
@@ -126,6 +153,8 @@ class String_Locator {
 			'string-locator-line' => ( isset( $_GET['string-locator-line'] ) ? $_GET['string-locator-line'] : '' ),
 			'string-locator-path' => ( isset( $_GET['string-locator-path'] ) ? $_GET['string-locator-path'] : '' ),
 		);
+
+		$fields = apply_filters( 'string_locator_editor_fields', $fields );
 
 		$field_output = array();
 

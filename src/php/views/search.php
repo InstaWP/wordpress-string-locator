@@ -56,21 +56,11 @@ if ( isset( $_GET['restore'] ) ) {
 	<form action="<?php echo esc_url( $this_url ); ?>" method="post" id="string-locator-search-form">
 		<label for="string-locator-search"><?php esc_html_e( 'Search through', 'string-locator' ); ?></label>
 		<select name="string-locator-search" id="string-locator-search">
-			<optgroup label="<?php esc_attr_e( 'Core', 'string-locator' ); ?>">
-				<option value="core"><?php esc_html_e( 'The whole WordPress directory', 'string-locator' ); ?></option>
-				<option value="wp-content"><?php esc_html_e( 'Everything under wp-content', 'string-locator' ); ?></option>
-			</optgroup>
-			<optgroup label="<?php esc_attr_e( 'Themes', 'string-locator' ); ?>">
-				<?php echo String_Locator::get_themes_options( $search_location ); ?>
-			</optgroup>
-			<?php if ( String_Locator::has_mu_plugins() ) : ?>
-			<optgroup label="<?php esc_attr_e( 'Must Use Plugins', 'string-locator' ); ?>">
-				<?php echo String_Locator::get_mu_plugins_options( $search_location ); ?>
-			</optgroup>
-			<?php endif; ?>
-			<optgroup label="<?php esc_attr_e( 'Plugins', 'string-locator' ); ?>">
-				<?php echo String_Locator::get_plugins_options( $search_location ); ?>
-			</optgroup>
+			<?php
+				$searchers = apply_filters( 'string_locator_search_sources_markup', '', $search_location );
+
+				echo $searchers;
+			?>
 		</select>
 
 		<label for="string-locator-string"><?php esc_html_e( 'Search string', 'string-locator' ); ?></label>
