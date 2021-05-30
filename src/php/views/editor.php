@@ -98,6 +98,12 @@ if ( $readfile ) {
 
 	<div class="string-locator-editor">
 		<div id="string-locator-notices">
+			<div class="row notice notice-error inline below-h2 hide-if-js">
+				<p>
+					Something about JS being required!
+				</p>
+			</div>
+
 			<?php if ( isset( $details['parent'] ) && ! $details['parent'] ) { ?>
 				<div class="row notice notice-warning inline below-h2 is-dismissible">
 					<p>
@@ -125,7 +131,7 @@ if ( $readfile ) {
 		<?php
 		$editor = '<textarea
 			name="string-locator-editor-content"
-			class="string-locator-editor"
+			class="string-locator-editor hide-if-no-js"
 			id="code-editor"
 			data-editor-goto-line="' . esc_attr( $_GET['string-locator-line'] ) . ':' . esc_attr( $_GET['string-locator-linepos'] ) . '"
 			data-editor-language=""
