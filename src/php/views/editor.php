@@ -105,7 +105,7 @@ if ( $readfile ) {
 					</p>
 
 					<p>
-						<?php _e( 'When making changes to a theme, it is recommended you make a <a href="https://codex.wordpress.org/Child_Themes">Child Theme</a>.', 'string-locator' ); ?>
+						<?php _e( 'When making changes to a theme, it is recommended you make a <a href="https://developer.wordpress.org/themes/advanced-topics/child-themes/">Child Theme</a>.', 'string-locator' ); ?>
 					</p>
 				</div>
 			<?php } ?>
