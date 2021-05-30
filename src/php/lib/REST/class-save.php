@@ -25,6 +25,13 @@ class Save extends Base {
 	public function save( \WP_REST_Request $request ) {
 		$handler = new \JITS\StringLocator\Save();
 
+		/**
+		 * Filter the save handler used to perform edits.
+		 *
+		 * @attr object $handler The handler performing the save.
+		 */
+		$handler = apply_filters( 'string_locator_save_handler', $handler );
+
 		return $handler->save( $request->get_params() );
 	}
 

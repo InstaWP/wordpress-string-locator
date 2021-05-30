@@ -25,6 +25,13 @@ class Search extends Base {
 	public function perform_search( \WP_REST_Request $request ) {
 		$handler = new \JITS\StringLocator\Search();
 
+		/**
+		 * Filter the search handler used to find strings.
+		 *
+		 * @attr object $handler The handler performing searches.
+		 */
+		$handler = apply_filters( 'string_locator_search_handler', $handler );
+
 		return array(
 			'success' => true,
 			'data'    => $handler->run( $request->get_param( 'filenum' ) ),
