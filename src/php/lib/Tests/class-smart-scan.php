@@ -23,6 +23,28 @@ class Smart_Scan {
 	 */
 	public function __construct() {
 		add_action( 'string_locator_editor_checks', array( $this, 'print_checks_option' ) );
+
+		add_filter( 'string_locator_pre_save', array( $this, 'maybe_perform_test' ), 10, 2 );
+		add_filter( 'string_locator_pre_save_fail_notice', array( $this, 'return_failure_notices' ) );
+	}
+
+	public function return_failure_notices( $notices ) {
+		if ( empty( $this->errors ) ) {
+			return $notices;
+		}
+
+		return array_merge(
+			$notices,
+			$this->errors
+		);
+	}
+
+	public function maybe_perform_test( $can_save, $content ) {
+		if ( ! isset( $_POST['string-locator-smart-edit'] ) ) {
+			return $can_save;
+		}
+
+		return $this->run( $content );
 	}
 
 	public function print_checks_option() {

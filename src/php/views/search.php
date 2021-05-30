@@ -38,6 +38,8 @@ if ( isset( $_GET['restore'] ) ) {
 		<?php esc_html_e( 'String Locator', 'string-locator' ); ?>
 	</h1>
 
+	<?php do_action( 'string_locator_view_search_pre_form' ); ?>
+
 	<?php if ( ! current_user_can( 'edit_themes' ) ) : ?>
 		<div class="notice notice-warning inline">
 			<p>

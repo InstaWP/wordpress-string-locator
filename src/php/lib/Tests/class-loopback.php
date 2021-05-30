@@ -22,6 +22,28 @@ class Loopback {
 	 */
 	public function __construct() {
 		add_action( 'string_locator_editor_checks', array( $this, 'print_checks_option' ) );
+
+		add_filter( 'string_locator_post_save', array( $this, 'maybe_perform_test' ) );
+		add_filter( 'string_locator_post_save_fail_notice', array( $this, 'return_failure_notices' ) );
+	}
+
+	public function return_failure_notices( $notices ) {
+		if ( empty( $this->errors ) ) {
+			return $notices;
+		}
+
+		return array_merge(
+			$notices,
+			$this->errors
+		);
+	}
+
+	public function maybe_perform_test( $save_successful ) {
+		if ( ! isset( $_POST['string-locator-loopback-check'] ) ) {
+			return $save_successful;
+		}
+
+		return $this->run();
 	}
 
 	public function print_checks_option() {

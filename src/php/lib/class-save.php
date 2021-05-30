@@ -8,16 +8,6 @@ use JITS\StringLocator\Tests\Smart_Scan;
 class Save {
 
 	/**
-	 * An object of available test runners.
-	 *
-	 * @var object
-	 */
-	private $test = array(
-		'loopback',
-		'smart_scan',
-	);
-
-	/**
 	 * An array of notices to send back to the user.
 	 *
 	 * @var array
@@ -27,10 +17,7 @@ class Save {
 	/**
 	 * Save constructor.
 	 */
-	public function __construct() {
-		$this->test['loopback']   = new Loopback();
-		$this->test['smart_scan'] = new Smart_Scan();
-	}
+	public function __construct() {}
 
 	/**
 	 * Handler for storing the content of the code editor.
@@ -41,9 +28,6 @@ class Save {
 	 */
 	public function save( $save_params ) {
 		$_POST = $save_params;
-
-		$check_loopback = isset( $_POST['string-locator-loopback-check'] );
-		$do_smart_scan  = isset( $_POST['string-locator-smart-edit'] );
 
 		if ( String_Locator::is_valid_location( $_POST['string-locator-path'] ) ) {
 			$path    = urldecode( $_POST['string-locator-path'] );
@@ -64,11 +48,17 @@ class Save {
 			}
 
 			/**
-			 * If enabled, run the Smart-Scan on the content before saving it
+			 * Filter if the save process should be performed or not.
+			 *
+			 * @attr bool   $can_save Can the save be carried out.
+			 * @attr string $content  The content to save.
+			 * @attr string $path     Path to the file being edited.
 			 */
-			if ( $do_smart_scan && ! $this->test['smart_scan']->run( $content ) ) {
+			$can_save = apply_filters( 'string_locator_pre_save', true, $content, $path );
+
+			if ( ! $can_save ) {
 				return array(
-					'notices' => $this->test['smart_scan']->get_errors(),
+					'notices' => apply_filters( 'string_locator_pre_save_fail_notice', array() ),
 				);
 			}
 
@@ -77,14 +67,24 @@ class Save {
 			$this->write_file( $path, $content );
 
 			/**
+			 * Filter if the save process completed as it should or if warnings should be returned.
+			 *
+			 * @attr bool   $save_successful Boolean indicating if the save was successful.
+			 * @attr string $content         The edited content.
+			 * @attr string $original        The original content.
+			 * @attr string $path            The path to the file being edited.
+			 */
+			$save_successful = apply_filters( 'string_locator_post_save', true, $content, $original, $path );
+
+			/**
 			 * Check the status of the site after making our edits.
 			 * If the site fails, revert the changes to return the sites to its original state
 			 */
-			if ( $check_loopback && ! $this->test['loopback']->run() ) {
+			if ( ! $save_successful ) {
 				$this->write_file( $path, $original );
 
 				return array(
-					'notices' => $this->test['loopback']->get_errors(),
+					'notices' => apply_filters( 'string_locator_post_save_fail_notice', array() ),
 				);
 			}
 
