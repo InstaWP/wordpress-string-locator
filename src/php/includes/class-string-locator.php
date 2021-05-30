@@ -504,6 +504,8 @@ class String_Locator {
 			return false;
 		}
 
+		$include_path = '';
+
 		/**
 		 * Show the edit page if;
 		 * - The edit file path query var is set
@@ -512,9 +514,15 @@ class String_Locator {
 		 * - The user is capable of editing files.
 		 */
 		if ( isset( $_GET['string-locator-path'] ) && self::is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
-			include_once( trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/editor.php' );
+			$include_path = trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/editor.php';
 		} else {
-			include_once( trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/search.php' );
+			$include_path = trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/search.php';
+		}
+
+		$include_path = apply_filters( 'string_locator_view', $include_path );
+
+		if ( ! empty( $include_path ) ) {
+			include_once $include_path;
 		}
 	}
 
