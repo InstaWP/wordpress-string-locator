@@ -132,13 +132,15 @@ if ( $readfile ) {
 			autofocus="autofocus"
 		>' . esc_html( $editor_content ) . '</textarea>';
 
-		echo apply_filters( 'string-locator-editor-markup', $editor );
+		echo apply_filters( 'string_locator_editor_markup', $editor );
 
 		?>
 	</div>
 
 	<div class="string-locator-sidebar">
-		<?php do_action( 'string-locator-editor-sidebar-start' ); ?>
+
+		<?php do_action( 'string_locator_editor_sidebar_start' ); ?>
+
 		<div class="string-locator-panel">
 			<h2 class="title"><?php esc_html_e( 'Details', 'string-locator' ); ?></h2>
 			<div class="string-locator-panel-body">
@@ -157,7 +159,7 @@ if ( $readfile ) {
 		<div class="string-locator-panel">
 			<h2 class="title"><?php esc_html_e( 'Save checks', 'string-locator' ); ?></h2>
 			<div class="string-locator-panel-body">
-				<?php do_action( 'string-locator-editor-checks' ); ?>
+				<?php do_action( 'string_locator_editor_checks' ); ?>
 			</div>
 		</div>
 
@@ -244,7 +246,7 @@ if ( $readfile ) {
 		</div>
 		<?php endif; ?>
 
-		<?php do_action( 'string-locator-editor-sidebar-end' ); ?>
+		<?php do_action( 'string_locator_editor_sidebar_end' ); ?>
 
 	</div>
 

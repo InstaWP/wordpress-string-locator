@@ -21,7 +21,7 @@ class Loopback {
 	 * Loopback constructor.
 	 */
 	public function __construct() {
-		add_action( 'string-locator-editor-checks', array( $this, 'print_checks_option' ) );
+		add_action( 'string_locator_editor_checks', array( $this, 'print_checks_option' ) );
 	}
 
 	public function print_checks_option() {
