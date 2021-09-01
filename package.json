@@ -22,7 +22,7 @@
     "@wordpress/scripts": "~16.1.0",
     "copy-webpack-plugin": "~9.0.0",
     "css-loader": "~5.2.6",
-    "mini-css-extract-plugin": "~1.6.0",
+    "mini-css-extract-plugin": "~2.2.1",
     "node-sass": "~6.0.0",
     "nodegit": "~0.27.0",
     "sass-loader": "~11.1.1",
