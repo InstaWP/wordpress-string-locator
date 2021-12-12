@@ -31,7 +31,7 @@ class Save {
 
 		if ( String_Locator::is_valid_location( $_POST['string-locator-path'] ) ) {
 			$path    = urldecode( $_POST['string-locator-path'] );
-			$content = stripslashes( $_POST['string-locator-editor-content'] );
+			$content = $_POST['string-locator-editor-content'];
 
 			/**
 			 * Send an error notice if the file isn't writable
