@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@wordpress/env": "~4.0.4",
-    "@wordpress/scripts": "~16.1.0",
+    "@wordpress/scripts": "~20.0.0",
     "copy-webpack-plugin": "~9.0.0",
     "css-loader": "~5.2.6",
     "mini-css-extract-plugin": "~1.6.0",
