@@ -21,7 +21,7 @@
     "@wordpress/env": "~4.0.4",
     "@wordpress/scripts": "~16.1.0",
     "copy-webpack-plugin": "~9.0.0",
-    "css-loader": "~5.2.6",
+    "css-loader": "~6.6.0",
     "mini-css-extract-plugin": "~1.6.0",
     "node-sass": "~6.0.0",
     "nodegit": "~0.27.0",
