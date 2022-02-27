@@ -4,17 +4,33 @@
 
     <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
 
+	<arg name="extensions" value="php" />
+	<arg name="cache" value=".cache/phpcs.json" />
+
+	<ini name="memory_limit" value="256M" />
+
+	<arg name="basepath" value="./" />
+
+	<arg name="parallel" value="20" />
+
+	<arg value="ps" />
+
+	<!-- Show sniff codes in all reports -->
+	<arg value="s"/>
+
+	<file>.</file>
+
     <rule ref="WordPress-Core"/>
-
-    <arg name="extensions" value="php"/>
-
-    <!-- Show sniff codes in all reports -->
-    <arg value="s"/>
-
-    <file>src</file>
 
     <rule ref="Internal.NoCodeFound">
         <severity>0</severity>
     </rule>
+
+    <!-- Exclude third party libraries and tools -->
+    <exclude-pattern>/node_modules/*</exclude-pattern>
+    <exclude-pattern>/vendor/*</exclude-pattern>
+
+    <!-- Exclude the build directory -->
+    <exclude-pattern>/build/*</exclude-pattern>
 
 </ruleset>

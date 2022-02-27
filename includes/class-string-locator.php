@@ -390,24 +390,28 @@ class String_Locator {
 			return;
 		}
 
-		if ( ! wp_script_is( 'react', 'registered' ) ) {
-			wp_register_script( 'react', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/react.js', array() );
-		}
+		$search = STRING_LOCATOR_PLUGIN_DIR . 'build/string-locator-search.asset.php';
+		$editor = STRING_LOCATOR_PLUGIN_DIR . 'build/string-locator.asset.php';
 
-		if ( ! wp_script_is( 'react-dom', 'registered' ) ) {
-			wp_register_script( 'react-dom', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/react-dom.js', array() );
-		}
+		$search = file_exists( $search ) ? require $search : array();
+		$editor = file_exists( $editor ) ? require $editor : array();
 
 		/**
 		 * String Locator Styles
 		 */
-		wp_enqueue_style( 'string-locator', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/css/string-locator.css', array(), $this->version );
+		wp_enqueue_style( 'string-locator', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator.css', array(), $search['version'] );
 
 		if ( ! isset( $_GET['edit-file'] ) || ! current_user_can( 'edit_themes' ) ) {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-search', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator-search.js', array( 'jquery', 'wp-util' ), $this->version, true );
+			wp_enqueue_script(
+				'string-locator-search',
+				trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-search.js',
+				array( 'jquery', 'wp-util' ),
+				$search['version'],
+				true
+			);
 
 			wp_localize_script(
 				'string-locator-search',
@@ -440,7 +444,13 @@ class String_Locator {
 			/**
 			 * String Locator Scripts
 			 */
-			wp_enqueue_script( 'string-locator-editor', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'resources/js/string-locator.js', array( 'jquery', 'code-editor', 'wp-util' ), $this->version, true );
+			wp_enqueue_script(
+				'string-locator-editor',
+				trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator.js',
+				array( 'jquery', 'code-editor', 'wp-util' ),
+				$editor['version'],
+				true
+			);
 
 			wp_localize_script(
 				'string-locator-editor',

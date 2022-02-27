@@ -18,25 +18,15 @@
     "node": ">=10.16.0"
   },
   "devDependencies": {
-    "@wordpress/env": "~4.0.4",
-    "@wordpress/scripts": "~16.1.0",
-    "copy-webpack-plugin": "~9.0.0",
-    "css-loader": "~5.2.6",
-    "mini-css-extract-plugin": "~1.6.0",
-    "node-sass": "~6.0.0",
-    "nodegit": "~0.27.0",
-    "sass-loader": "~11.1.1",
-    "webpack": "~5.38.1",
-    "webpack-cli": "~4.7.0"
+    "@wordpress/env": "~4.2.2",
+    "@wordpress/scripts": "~21.0.2",
+    "@wordpress/stylelint-config": "~20.0.1"
   },
   "scripts": {
-    "build": "wp-scripts build",
+    "start": "wp-scripts start src/javascript/string-locator.js src/javascript/string-locator-search.js",
+    "build": "wp-scripts build src/javascript/string-locator.js src/javascript/string-locator-search.js",
     "lint:css": "wp-scripts lint-style ./src/sass/**/*.scss",
     "lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
-    "watch": "wp-scripts start",
-    "env:start": "wp-env start",
-    "env:install": "wp-env install",
-    "env:stop": "wp-env stop",
     "wp-env": "wp-env"
   },
   "stylelint": {

@@ -60,3 +60,5 @@ jQuery( document ).ready( function( $ ) {
 		return false;
 	} );
 } );
+
+import '../sass/string-locator.scss';
