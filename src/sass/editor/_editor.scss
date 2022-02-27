@@ -1,3 +1,8 @@
+/* Hide any non-plugin related dashboard notices to ensure an uninterrupted editing experience. */
+body.wp-admin.tools_page_string-locator #wpbody-content > .notice {
+	display: none;
+}
+
 .string-locator-editor-wrapper {
 
 	width: 100%;
