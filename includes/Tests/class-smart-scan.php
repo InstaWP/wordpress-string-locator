@@ -40,6 +40,12 @@ class Smart_Scan {
 	}
 
 	public function maybe_perform_test( $can_save, $content ) {
+		// If another addon has determined the file can not be saved, bail early.
+		if ( ! $can_save ) {
+			return $can_save;
+		}
+
+		// Do not perform a smart scan if the option for it is disabled.
 		if ( ! isset( $_POST['string-locator-smart-edit'] ) ) {
 			return $can_save;
 		}

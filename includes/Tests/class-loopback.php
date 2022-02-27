@@ -39,6 +39,12 @@ class Loopback {
 	}
 
 	public function maybe_perform_test( $save_successful ) {
+		// If another addon has determined the save is a failure, don't perform the test.
+		if ( ! $save_successful ) {
+			return $save_successful;
+		}
+
+		// Do not run this check if it has been disabled.
 		if ( ! isset( $_POST['string-locator-loopback-check'] ) ) {
 			return $save_successful;
 		}
