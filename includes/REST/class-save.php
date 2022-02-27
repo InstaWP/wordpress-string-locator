@@ -44,7 +44,7 @@ class Save extends Base {
 		 *
 		 * @attr array $params The parameters used to perform the save.
 		 */
-		do_action( 'string_locator_pre_save', $params );
+		do_action( 'string_locator_pre_save_action', $params );
 
 		$save_result = $handler->save( $params );
 
@@ -54,7 +54,7 @@ class Save extends Base {
 		 * @attr array $save_result The result of the save.
 		 * @attr array $params The parameters used to perform the save.
 		 */
-		do_action( 'string_locator_post_save', $save_result, $params );
+		do_action( 'string_locator_post_save_action', $save_result, $params );
 
 		return $save_result;
 	}
