@@ -14,13 +14,6 @@ class String_Locator {
 	public $string_locator_language = '';
 
 	/**
-	 * String Locator version number.
-	 *
-	 * @var string
-	 */
-	public $version = '2.4.2';
-
-	/**
 	 * An array containing all notices to display.
 	 *
 	 * @var array
