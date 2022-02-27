@@ -37,24 +37,24 @@ define( 'STRING_LOCATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 /**
  * Plugin test runners
  */
-require_once __DIR__ . '/lib/Tests/class-loopback.php';
-require_once __DIR__ . '/lib/Tests/class-smart-scan.php';
+require_once __DIR__ . '/includes/Tests/class-loopback.php';
+require_once __DIR__ . '/includes/Tests/class-smart-scan.php';
 
 /**
  * Plugin action classes.
  */
-require_once __DIR__ . '/lib/class-save.php';
-require_once __DIR__ . '/lib/class-search.php';
-require_once __DIR__ . '/lib/class-directory-iterator.php';
+require_once __DIR__ . '/includes/class-save.php';
+require_once __DIR__ . '/includes/class-search.php';
+require_once __DIR__ . '/includes/class-directory-iterator.php';
 
 /**
  * Prepare REST endpoints.
  */
-require_once __DIR__ . '/lib/REST/class-base.php';
-require_once __DIR__ . '/lib/REST/class-save.php';
-require_once __DIR__ . '/lib/REST/class-clean.php';
-require_once __DIR__ . '/lib/REST/class-search.php';
-require_once __DIR__ . '/lib/REST/class-directory-structure.php';
+require_once __DIR__ . '/includes/REST/class-base.php';
+require_once __DIR__ . '/includes/REST/class-save.php';
+require_once __DIR__ . '/includes/REST/class-clean.php';
+require_once __DIR__ . '/includes/REST/class-search.php';
+require_once __DIR__ . '/includes/REST/class-directory-structure.php';
 
 /**
  * Instantiate the plugin
