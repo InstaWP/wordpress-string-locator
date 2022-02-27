@@ -21,7 +21,7 @@ jobs:
           node-version: '12'
 
       - name: PHP Syntax check
-        working-directory: ./src/php
+        working-directory: ./
         run: find . \( -name '*.php' \) -exec php -lf {} \;
 
       - name: Set up composer
@@ -48,10 +48,6 @@ jobs:
         working-directory: ./
         run: npm run build
 
-      - name: Package build
-        working-directory: ./
-        run: zip -r string-locator string-locator
-
       - name: Get changelog entries
         id: changelog
         working-directory: ./docs
@@ -62,6 +58,37 @@ jobs:
           changelog="${changelog//$'\r'/'%0D'}"
           echo $changelog
           echo "::set-output name=changes::$changelog"
+
+      - name: Remove unneccesary assets
+        working-directory: ./
+        run: |
+          mv docs/changelog.txt ./changelog.txt
+          mv docs/readme.txt ./readme.txt
+          rm -rf node_modules
+          rm -rf src
+          rm -rf .git
+          rm -rf .github
+          rm -rf docs
+          rm -rf vendor
+          rm -rf .editorconfig
+          rm -rf .eslintignore
+          rm -rf .eslintrc.js
+          rm -rf .gitignore
+          rm -rf .jscsrc
+          rm -rf .wp-env.json
+          rm -rf composer.json
+          rm -rf composer.lock
+          rm -rf package.json
+          rm -rf package-lock.json
+          rm -rf phpcs.xml.dist
+          rm -rf README.md
+
+      - name: Package build
+        working-directory: ./
+        run: |
+          mkdir string-locator
+          mv ./* string-locator/
+          zip -r string-locator string-locator
 
       - name: Create release
         id: create_release
