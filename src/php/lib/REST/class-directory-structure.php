@@ -25,6 +25,17 @@ class Directory_Structure extends Base {
 	}
 
 	public function get_structure( \WP_REST_Request $request ) {
+		// Validate the search path to avoid unintended directory traversal.
+		if ( 0 !== validate_file( $request->get_param( 'directory' ) ) ) {
+			return new \WP_REST_Response(
+				array(
+					'success' => false,
+					'data'    => __( 'Invalid search source provided.', 'string-locator' ),
+				),
+				400
+			);
+		}
+
 		$iterator = new Directory_Iterator(
 			$request->get_param( 'directory' ),
 			$request->get_param( 'search' ),
