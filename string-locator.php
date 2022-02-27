@@ -3,7 +3,7 @@
  * Plugin Name: String Locator
  * Plugin URI: http://www.clorith.net/wordpress-string-locator/
  * Description: Scan through theme and plugin files looking for text strings
- * Version: 2.4.2
+ * Version: 2.5.0
  * Author: Clorith
  * Author URI: http://www.clorith.net
  * Text Domain: string-locator
