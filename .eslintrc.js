@@ -8,5 +8,13 @@ module.exports = {
 		document: true,
 		window: true,
 		wp: true,
-	}
+	},
+	"overrides": [
+		{
+			"files": ["*.js" ],
+			"rules": {
+				"camelcase": "off",
+			}
+		}
+	]
 };
