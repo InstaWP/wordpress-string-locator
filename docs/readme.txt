@@ -46,10 +46,13 @@ When writing your search string, make sure to wrap your search in forward slashe
 == Changelog ==
 
 = 2.5.0 =
-* Improved table spacing on search results
-* Improved loopback checks to also check admin access
-* Moved all ajax requests to dedicated REST endpoints
-* Refactored file structure
+* Fixed a bug where content would have slashes stripped unexpectedly.
+* Improved table spacing on search results.
+* Improved loopback checks to also check admin access.
+* Hardened the search iterator so users can't accidentally perform unexpected directory traversal.
+* Introduced actions and filters in various places to enable extenders, and future enhancements.
+* Moved all ajax requests to dedicated REST endpoints.
+* Refactored file structure.
 
 = Older entries =
 See changelog.txt for the version history
