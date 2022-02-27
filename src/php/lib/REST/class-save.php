@@ -26,13 +26,37 @@ class Save extends Base {
 		$handler = new \JITS\StringLocator\Save();
 
 		/**
+		 * Filters the REST Request parameter values that will be used for the save call.
+		 *
+		 * @param array $params REST Request parameters.
+		 */
+		$params = apply_filters( 'string_locator_save_params', $request->get_params() );
+
+		/**
 		 * Filter the save handler used to perform edits.
 		 *
 		 * @attr object $handler The handler performing the save.
 		 */
 		$handler = apply_filters( 'string_locator_save_handler', $handler );
 
-		return $handler->save( $request->get_params() );
+		/**
+		 * Trigger an action before the save has been performed.
+		 *
+		 * @attr array $params The parameters used to perform the save.
+		 */
+		do_action( 'string_locator_pre_save', $params );
+
+		$save_result = $handler->save( $params );
+
+		/**
+		 * Trigger an action after the save has been performed.
+		 *
+		 * @attr array $save_result The result of the save.
+		 * @attr array $params The parameters used to perform the save.
+		 */
+		do_action( 'string_locator_post_save', $save_result, $params );
+
+		return $save_result;
 	}
 
 }
