@@ -1,5 +1,8 @@
-/* Hide any non-plugin related dashboard notices to ensure an uninterrupted editing experience. */
-body.wp-admin.tools_page_string-locator #wpbody-content > .notice {
+/*
+ * Hide any non-plugin related dashboard notices to
+ * ensure an uninterrupted editing experience.
+ */
+body.wp-admin.tools_page_string-locator #wpbody-content > .notice { /* stylelint-disable-line selector-class-pattern */
 	display: none;
 }
 
