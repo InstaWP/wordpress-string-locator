@@ -27,7 +27,8 @@
     "build": "wp-scripts build src/javascript/string-locator.js src/javascript/string-locator-search.js",
     "lint:css": "wp-scripts lint-style ./src/sass/**/*.scss",
     "lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
-    "wp-env": "wp-env"
+    "wp-env": "wp-env",
+	"cli": "wp-env run cli wp"
   },
   "stylelint": {
     "extends": "@wordpress/stylelint-config",
