@@ -6,6 +6,8 @@ php-codesniffer
 build/
 /string-locator/
 vendor/
+.cache/
+!.cache/.gitkeep
 
 .wp-env.override.json
 string-locator.zip
