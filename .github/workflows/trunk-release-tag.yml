@@ -87,8 +87,7 @@ jobs:
         working-directory: ./
         run: |
           mkdir string-locator
-          mv !(string-locator) string-locator/
-          zip -r string-locator string-locator
+          zip -r string-locator .
 
       - name: Create release
         id: create_release
