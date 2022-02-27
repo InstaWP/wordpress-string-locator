@@ -93,7 +93,7 @@ class String_Locator {
 	function plugin_row_meta( $meta, $plugin_file ) {
 		if ( 'string-locator/string-locator.php' === $plugin_file ) {
 			$meta[] = sprintf(
-				'<a href="https://www.paypal.me/clorith">%s</a>',
+				'<a href="https://github.com/sponsors/Clorith/">%s</a>',
 				esc_html__( 'Donate to this plugin', 'string-locator' )
 			);
 		}
