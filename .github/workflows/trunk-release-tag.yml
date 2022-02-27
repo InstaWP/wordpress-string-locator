@@ -87,7 +87,7 @@ jobs:
         working-directory: ./
         run: |
           mkdir string-locator
-          ls | grep -v string-locator | xargs mv -t string-locator
+          ls | grep -v string-locator/ | xargs mv -t string-locator
           zip -r string-locator string-locator
 
       - name: Create release
