@@ -262,6 +262,6 @@ if ( $readfile ) {
 	<div class="row notice notice-{{ data.type }} inline below-h2 is-dismissible">
 		{{{ data.message }}}
 
-		<button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'string-locator' ); ?></span></button>
+		<button type="button" class="notice-dismiss" onclick="this.closest( '.notice' ).remove()"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'string-locator' ); ?></span></button>
 	</div>
 </script>

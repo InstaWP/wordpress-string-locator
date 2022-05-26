@@ -1,6 +1,8 @@
 /* global string_locator */
-jQuery( document ).ready( function( $ ) {
-	let StringLocator;
+document.addEventListener( 'DOMContentLoaded', function() {
+	let StringLocator,
+		formData;
+
 	if ( false !== string_locator.CodeMirror && '' !== string_locator.CodeMirror ) {
 		StringLocator = wp.codeEditor.initialize( 'code-editor', string_locator.CodeMirror );
 		const template = wp.template( 'string-locator-alert' );
@@ -10,27 +12,40 @@ jQuery( document ).ready( function( $ ) {
 			StringLocator.codemirror.setSize( null, parseInt( setEditorSize ) );
 		}
 
-		$( '.string-locator-editor' ).on( 'click', '.string-locator-edit-goto', function( e ) {
+		document.addEventListener( 'click', function( e ) {
+			const element = e.target;
+
+			if ( ! element.classList.contains( 'string-locator-edit-goto' ) ) {
+				return;
+			}
+
 			e.preventDefault();
-			StringLocator.codemirror.scrollIntoView( parseInt( $( this ).data( 'goto-line' ) ) );
-			StringLocator.codemirror.setCursor( parseInt( $( this ).data( 'goto-line' ) - 1 ), $( this ).data( 'goto-linepos' ) );
+			StringLocator.codemirror.scrollIntoView( parseInt( element.dataset.gotoLine ) );
+			StringLocator.codemirror.setCursor( parseInt( element.dataset.gotoLine - 1 ), element.dataset.gotoLinepos );
 		} );
 
-		$( 'body' ).on( 'submit', '#string-locator-edit-form', function( e ) {
-			const $notices = $( '#string-locator-notices' );
+		document.getElementById( 'string-locator-edit-form' ).addEventListener( 'submit', function( e ) {
+			const noticeWrapper = document.getElementById( 'string-locator-notices' );
 
-			$.post(
+			formData = new FormData( this );
+
+			fetch(
 				string_locator.url.save,
-				$( this ).serialize()
-			).always( function( response ) {
+				{
+					method: 'POST',
+					body: formData,
+				}
+			).then(
+				response => response.json()
+			).then( function ( response ) {
 				if ( 'undefined' === typeof ( response.notices ) ) {
-					$notices.append( template( {
+					noticeWrapper.innerHTML += template( {
 						type: 'error',
 						message: response.responseText,
-					} ) );
+					} );
 				} else {
-					$.each( response.notices, function() {
-						$notices.append( template( this ) );
+					response.notices.forEach( function( entry ) {
+						noticeWrapper.innerHTML += template( entry );
 					} );
 				}
 			} );
@@ -45,20 +60,11 @@ jQuery( document ).ready( function( $ ) {
 
 		window.onresize = resizeEditor;
 	} else {
-		StringLocator = $( '#code-editor' );
+		StringLocator = document.getElementById( 'code-editor' );
 
-		StringLocator.css( 'width', $( '.string-locator-edit-wrap' ).width() );
-		StringLocator.css( 'height', parseInt( ( Math.max( document.documentElement.clientHeight, window.innerHeight || 0 ) - 89 ) ) );
+		StringLocator.style.width = document.getElementsByClassName( 'string-locator-edit-wrap' )[0].offsetWidth;
+		StringLocator.style.height = parseInt( ( Math.max( document.documentElement.clientHeight, window.innerHeight || 0 ) - 89 ) );
 	}
-
-	$( '#string-locator-notices' ).on( 'click', '.notice-dismiss', function( e ) {
-		$( this ).closest( '.notice' ).slideUp( 400, 'swing', function() {
-			$( this ).remove();
-		} );
-
-		e.preventDefault();
-		return false;
-	} );
 } );
 
 import '../sass/string-locator.scss';

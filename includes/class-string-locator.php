@@ -440,7 +440,7 @@ class String_Locator {
 			wp_enqueue_script(
 				'string-locator-editor',
 				trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator.js',
-				array( 'jquery', 'code-editor', 'wp-util' ),
+				array( 'code-editor', 'wp-util' ),
 				$editor['version'],
 				true
 			);
