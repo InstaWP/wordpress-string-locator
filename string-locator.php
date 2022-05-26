@@ -35,6 +35,11 @@ define( 'STRING_LOCATOR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'STRING_LOCATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 /**
+ * Base classes that other classes may extend.
+ */
+require_once __DIR__ . '/includes/Base/class-search.php';
+
+/**
  * Plugin test runners
  */
 require_once __DIR__ . '/includes/Tests/class-loopback.php';

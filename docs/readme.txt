@@ -45,6 +45,10 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
+= 2.6.0 (TBD) =
+* Removed one-time donation notice
+* Separated search class into a base class for extenders
+
 = 2.5.0 (2022-02-27) =
 * Fixed a bug where content would have slashes stripped unexpectedly.
 * Improved table spacing on search results.
