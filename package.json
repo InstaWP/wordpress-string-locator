@@ -18,9 +18,9 @@
     "node": ">=10.16.0"
   },
   "devDependencies": {
-    "@wordpress/env": "~4.2.2",
-    "@wordpress/scripts": "~21.0.2",
-    "@wordpress/stylelint-config": "~20.0.1"
+    "@wordpress/env": "~4.7.0",
+    "@wordpress/scripts": "~23.1.0",
+    "@wordpress/stylelint-config": "^20.0.2"
   },
   "scripts": {
     "start": "wp-scripts start src/javascript/string-locator.js src/javascript/string-locator-search.js",
@@ -28,7 +28,7 @@
     "lint:css": "wp-scripts lint-style ./src/sass/**/*.scss",
     "lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
     "wp-env": "wp-env",
-	"cli": "wp-env run cli wp"
+    "cli": "wp-env run cli wp"
   },
   "stylelint": {
     "extends": "@wordpress/stylelint-config",
