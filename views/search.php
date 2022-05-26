@@ -74,9 +74,9 @@ if ( isset( $_GET['restore'] ) ) {
 		</p>
 	</form>
 
-	<div class="notices"></div>
+	<div class="notices" id="string-locator-search-notices"></div>
 
-	<div class="string-locator-feedback hide">
+	<div class="string-locator-feedback hide" id="string-locator-progress-wrapper">
 		<progress id="string-locator-search-progress" max="100"></progress>
 		<span id="string-locator-feedback-text"><?php esc_html_e( 'Preparing search&hellip;', 'string-locator' ); ?></span>
 	</div>

@@ -401,7 +401,7 @@ class String_Locator {
 			wp_enqueue_script(
 				'string-locator-search',
 				trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-search.js',
-				array( 'jquery', 'wp-util' ),
+				array( 'wp-util' ),
 				$search['version'],
 				true
 			);
