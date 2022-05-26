@@ -1,6 +1,9 @@
-/* global string_locator */
+/* global string_locator, fetch, FormData */
 document.addEventListener( 'DOMContentLoaded', function() {
 	let stringLocatorSearchActive = false,
+		formData;
+
+	const resultTemplate = wp.template( 'string-locator-search-result' ),
 		noticeWrapper = document.getElementById( 'string-locator-search-notices' ),
 		progressWrapper = document.getElementById( 'string-locator-progress-wrapper' ),
 		progressIndicator = document.getElementById( 'string-locator-search-progress' ),
@@ -9,10 +12,8 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		searchTarget = document.getElementById( 'string-locator-search' ),
 		searchString = document.getElementById( 'string-locator-string' ),
 		searchRegex = document.getElementById( 'string-locator-regex' ),
-		tableWrapper = document.getElementsByTagName( 'table' )[0],
-		tableBody = document.getElementsByTagName( 'tbody' )[0],
-		formData;
-	const resultTemplate = wp.template( 'string-locator-search-result' );
+		tableWrapper = document.getElementsByTagName( 'table' )[ 0 ],
+		tableBody = document.getElementsByTagName( 'tbody' )[ 0 ];
 
 	function addNotice( title, message, format ) {
 		noticeWrapper.innerHTML += '<div class="notice notice-' + format + ' is-dismissible"><p><strong>' + title + '</strong><br />' + message + '</p></div>';
@@ -43,7 +44,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			if ( tableBody.getElementsByTagName( 'tr' ).length < 1 ) {
 				tableBody.innerHTML = '<tr><td colspan="3">' + string_locator.search_no_results + '</td></tr>';
 			}
-		} ).catch( function ( error ) {
+		} ).catch( function( error ) {
 			throwError( error, string_locator.search_error );
 		} );
 	}
@@ -73,8 +74,8 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				body: formData,
 			}
 		).then(
-			response => response.json()
-		).then( function ( response ) {
+			( response ) => response.json()
+		).then( function( response ) {
 			if ( ! response.success ) {
 				if ( false === response.data.continue ) {
 					throwError( string_locator.warning_title, response.data.message );
@@ -92,7 +93,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			}
 			const nextCount = response.data.filenum + 1;
 			performStringLocatorSingleSearch( maxCount, nextCount );
-		} ).catch( function ( error ) {
+		} ).catch( function( error ) {
 			throwError( error, string_locator.search_error );
 		} );
 	}
@@ -142,16 +143,16 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			string_locator.url.directory_structure,
 			{
 				method: 'POST',
-				body: formData
+				body: formData,
 			}
 		).then(
-			response => response.json()
+			( response ) => response.json()
 		).then( function( response ) {
 			if ( ! response.success ) {
 				addNotice( '', response.data, 'alert' );
 				return;
 			}
-			progressIndicator.setAttribute( 'max', response.data.total )
+			progressIndicator.setAttribute( 'max', response.data.total );
 			progressIndicator.value = response.data.current;
 			progressText.innerText = string_locator.search_started;
 			performStringLocatorSingleSearch( response.data.total, 0 );

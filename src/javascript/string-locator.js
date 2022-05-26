@@ -1,4 +1,4 @@
-/* global string_locator */
+/* global string_locator, fetch, FormData */
 document.addEventListener( 'DOMContentLoaded', function() {
 	let StringLocator,
 		formData;
@@ -36,8 +36,8 @@ document.addEventListener( 'DOMContentLoaded', function() {
 					body: formData,
 				}
 			).then(
-				response => response.json()
-			).then( function ( response ) {
+				( response ) => response.json()
+			).then( function( response ) {
 				if ( 'undefined' === typeof ( response.notices ) ) {
 					noticeWrapper.innerHTML += template( {
 						type: 'error',
@@ -62,7 +62,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 	} else {
 		StringLocator = document.getElementById( 'code-editor' );
 
-		StringLocator.style.width = document.getElementsByClassName( 'string-locator-edit-wrap' )[0].offsetWidth;
+		StringLocator.style.width = document.getElementsByClassName( 'string-locator-edit-wrap' )[ 0 ].offsetWidth;
 		StringLocator.style.height = parseInt( ( Math.max( document.documentElement.clientHeight, window.innerHeight || 0 ) - 89 ) );
 	}
 } );
