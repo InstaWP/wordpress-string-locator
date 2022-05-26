@@ -5,9 +5,9 @@ jQuery( document ).ready( function( $ ) {
 		StringLocator = wp.codeEditor.initialize( 'code-editor', string_locator.CodeMirror );
 		const template = wp.template( 'string-locator-alert' );
 
-		function resizeEditor( editor ) {
+		function resizeEditor() {
 			const setEditorSize = ( Math.max( document.documentElement.clientHeight, window.innerHeight || 0 ) - 89 );
-			editor.setSize( null, parseInt( setEditorSize ) );
+			StringLocator.codemirror.setSize( null, parseInt( setEditorSize ) );
 		}
 
 		$( '.string-locator-editor' ).on( 'click', '.string-locator-edit-goto', function( e ) {
@@ -39,11 +39,11 @@ jQuery( document ).ready( function( $ ) {
 			return false;
 		} );
 
-		resizeEditor( StringLocator.codemirror );
+		resizeEditor();
 		StringLocator.codemirror.scrollIntoView( parseInt( string_locator.goto_line ) );
 		StringLocator.codemirror.setCursor( parseInt( string_locator.goto_line - 1 ), parseInt( string_locator.goto_linepos ) );
 
-		window.addEventListener( 'resize', resizeEditor( StringLocator.codemirror ) );
+		window.onresize = resizeEditor;
 	} else {
 		StringLocator = $( '#code-editor' );
 

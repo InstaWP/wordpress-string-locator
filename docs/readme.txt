@@ -48,6 +48,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 = 2.6.0 (TBD) =
 * Removed one-time donation notice
 * Separated search class into a base class for extenders
+* Fixed bug with code viewer sizes when resizing your window
 
 = 2.5.0 (2022-02-27) =
 * Fixed a bug where content would have slashes stripped unexpectedly.
