@@ -2,7 +2,9 @@
 
 namespace JITS\StringLocator\REST;
 
-class Save extends Base {
+use JITS\StringLocator\Base\REST;
+
+class Save extends REST {
 
 	protected $rest_base = 'save';
 

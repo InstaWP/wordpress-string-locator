@@ -36,7 +36,7 @@ class Search extends Base\Search {
 		/**
 		 * Define class variables requiring expressions
 		 */
-		$this->path_to_use    = ( is_multisite() ? 'network/admin.php' : 'tools.php' );
+		$this->path_to_use = ( is_multisite() ? 'network/admin.php' : 'tools.php' );
 
 		parent::__construct();
 	}

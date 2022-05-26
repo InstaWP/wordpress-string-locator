@@ -2,9 +2,10 @@
 
 namespace JITS\StringLocator\REST;
 
+use JITS\StringLocator\Base\REST;
 use JITS\StringLocator\Directory_Iterator;
 
-class Directory_Structure extends Base {
+class Directory_Structure extends REST {
 
 	protected $rest_base = 'get-directory-structure';
 

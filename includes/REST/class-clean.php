@@ -2,7 +2,9 @@
 
 namespace JITS\StringLocator\REST;
 
-class Clean extends Base {
+use JITS\StringLocator\Base\REST;
+
+class Clean extends REST {
 
 	protected $rest_base = 'clean';
 

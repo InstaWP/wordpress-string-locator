@@ -1,8 +1,8 @@
 <?php
 
-namespace JITS\StringLocator\REST;
+namespace JITS\StringLocator\Base;
 
-class Base extends \WP_REST_Controller {
+class REST extends \WP_REST_Controller {
 
 	protected $namespace = 'string-locator/v1';
 
