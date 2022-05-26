@@ -47,6 +47,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 = 2.6.0 (TBD) =
 * Removed one-time donation notice
+* Removed jQuery dependency in favor of vanilla JavaScript code
 * Separated search class into a base class for extenders
 * Fixed bug with code viewer sizes when resizing your window
 * Fixed bug in the list view if special characters were in the search string
