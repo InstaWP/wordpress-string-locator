@@ -50,6 +50,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 * Separated search class into a base class for extenders
 * Fixed bug with code viewer sizes when resizing your window
 * Fixed bug in the list view if special characters were in the search string
+* Fixed a bug where RegEx search validation may have a false positive check for invalid patterns
 
 = 2.5.0 (2022-02-27) =
 * Fixed a bug where content would have slashes stripped unexpectedly.

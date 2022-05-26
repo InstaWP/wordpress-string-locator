@@ -26,8 +26,14 @@ class Directory_Structure extends REST {
 	}
 
 	public function get_structure( \WP_REST_Request $request ) {
+		$data = json_decode( $request->get_param( 'data' ) );
+
+		$directory = $data->directory;
+		$search    = $data->search;
+		$regex     = $data->regex;
+
 		// Validate the search path to avoid unintended directory traversal.
-		if ( 0 !== validate_file( $request->get_param( 'directory' ) ) ) {
+		if ( 0 !== validate_file( $directory ) ) {
 			return new \WP_REST_Response(
 				array(
 					'success' => false,
@@ -38,9 +44,9 @@ class Directory_Structure extends REST {
 		}
 
 		$iterator = new Directory_Iterator(
-			$request->get_param( 'directory' ),
-			$request->get_param( 'search' ),
-			$request->get_param( 'regex' )
+			$directory,
+			$search,
+			$regex
 		);
 
 		return array(

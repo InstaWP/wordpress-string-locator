@@ -108,18 +108,22 @@ jQuery( document ).ready( function( $ ) {
 		stringLocatorSearchActive = true;
 		clearStringLocatorResultArea();
 
-		const directoryRequest = {
-			directory: $( '#string-locator-search' ).val(),
-			search: $( '#string-locator-string' ).val(),
-			regex: $( '#string-locator-regex' ).is( ':checked' ),
-			_wpnonce: string_locator.rest_nonce,
-		};
+		const directoryRequest = JSON.stringify(
+			{
+				directory: $( '#string-locator-search' ).val(),
+				search: $( '#string-locator-string' ).val(),
+				regex: $( '#string-locator-regex' ).is( ':checked' )
+			}
+		);
 
 		$( 'table.tools_page_string-locator' ).show();
 
 		$.post(
 			string_locator.url.directory_structure,
-			directoryRequest,
+			{
+				data: directoryRequest,
+				_wpnonce: string_locator.rest_nonce,
+			},
 			function( response ) {
 				if ( ! response.success ) {
 					addNotice( response.data, 'alert' );

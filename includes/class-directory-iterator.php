@@ -64,7 +64,7 @@ class Directory_Iterator {
 
 		$store = (object) array(
 			'scan_path' => $scan_path,
-			'search'    => wp_unslash( $this->search ),
+			'search'    => $this->search,
 			'directory' => $this->directory,
 			'chunks'    => count( $file_chunks ),
 			'regex'     => $this->regex,
