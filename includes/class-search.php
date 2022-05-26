@@ -313,7 +313,7 @@ class Search extends Base\Search {
 					if ( $regex ) {
 						$string_preview = preg_replace( preg_replace( '/\/(.+)\//', '/($1)/', $string ), '<strong>$1</strong>', esc_html( $string_preview ) );
 					} else {
-						$string_preview = preg_replace( '/(' . $string . ')/i', '<strong>$1</strong>', esc_html( $string_preview ) );
+						$string_preview = preg_replace( '/(' . preg_quote( $string ) . ')/i', '<strong>$1</strong>', esc_html( $string_preview ) );
 					}
 					if ( $string_preview_is_cut ) {
 						$string_preview = sprintf(
