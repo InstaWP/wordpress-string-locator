@@ -48,68 +48,6 @@ class String_Locator {
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 		add_filter( 'string_locator_search_sources_markup', array( $this, 'add_search_options' ), 10, 2 );
-		add_action( 'wp_ajax_string_locator_notice_dismiss', array( $this, 'dismiss_notice' ) );
-
-		add_action( 'admin_notices', array( $this, 'show_sponsorship_notice' ) );
-	}
-
-	public function dismiss_notice() {
-		// Only users who can use the plugin should be able to dismiss the notice.
-		if ( ! current_user_can( 'update_core' ) || ! wp_verify_nonce( $_POST['_nonce'], 'string-locator-notice-dismiss' ) ) {
-			return;
-		}
-
-		update_option( 'string-locator-sponsorship-notice-dismissed', array( 'is_dismissed' => true ) );
-	}
-
-	public function show_sponsorship_notice() {
-		$screen = get_current_screen();
-
-		// Only show the notice on the plugins search page.
-		if ( 'tools_page_string-locator' !== $screen->id || isset( $_GET['edit-file'] ) ) {
-			return;
-		}
-
-		// Do not show the notice to users who have dismissed it.
-		$option = get_option( 'string-locator-sponsorship-notice-dismissed', array( 'is_dismissed' => false ) );
-		if ( true === $option['is_dismissed'] ) {
-			return;
-		}
-
-		?>
-
-		<div class="notice notice-info is-dismissible" id="string-locator-sponsorship-notice">
-			<p>
-				<?php esc_html_e( 'Thank you for trying out the String Locator plugin!', 'string-locator' ); ?>
-			</p>
-
-			<p>
-				<?php esc_html_e( 'If you like the plugin, please consider making a donation to support the plugin development.', 'string-locator' ); ?>
-			</p>
-
-			<p>
-				<a href="https://github.com/sponsors/Clorith/" target="_blank" class="button button-primary">
-					<?php esc_html_e( 'Donate via GitHub', 'string-locator' ); ?>
-				</a>
-
-				<a href="https://paypal.me/clorith" target="_blank" class="button">
-					<?php esc_html_e( 'Donate via PayPal', 'string-locator' ); ?>
-				</a>
-			</p>
-
-			<script>
-				jQuery( document ).ready( function( $ ) {
-					$( '#string-locator-sponsorship-notice' ).on( 'click', '.notice-dismiss', function() {
-						$.post( ajaxurl, {
-							action: 'string_locator_notice_dismiss',
-							_nonce: '<?php echo wp_create_nonce( 'string-locator-notice-dismiss' ); ?>'
-						} );
-					} );
-				} );
-			</script>
-		</div>
-
-		<?php
 	}
 
 	public function add_search_options( $searchers, $search_location ) {
