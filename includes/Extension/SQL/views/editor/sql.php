@@ -146,12 +146,16 @@ $editor_content = $row->{ $_GET['sql-column'] };
 			</div>
 		</div>
 
+		<?php do_action( 'string_locator_editor_sidebar_before_checks' ); ?>
+
 		<div class="string-locator-panel">
 			<h2 class="title"><?php esc_html_e( 'Save checks', 'string-locator' ); ?></h2>
 			<div class="string-locator-panel-body">
 				<?php do_action( 'string_locator_editor_checks' ); ?>
 			</div>
 		</div>
+
+		<?php do_action( 'string_locator_editor_sidebar_after_checks' ); ?>
 
 		<div class="string-locator-panel">
 			<h2 class="title"><?php esc_html_e( 'Database entry context', 'string-locator' ); ?></h2>
