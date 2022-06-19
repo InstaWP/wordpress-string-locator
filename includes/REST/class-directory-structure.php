@@ -26,6 +26,12 @@ class Directory_Structure extends REST {
 	}
 
 	public function get_structure( \WP_REST_Request $request ) {
+		$short_circuit = apply_filters( 'string_locator_directory_iterator_short_circuit', array(), $request );
+
+		if ( ! empty( $short_circuit ) ) {
+			return $short_circuit;
+		}
+
 		$data = json_decode( $request->get_param( 'data' ) );
 
 		$directory = $data->directory;

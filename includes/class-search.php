@@ -25,19 +25,7 @@ class Search extends Base\Search {
 		'wmv',
 	);
 
-	/**
-	 * The path to the currently editable file.
-	 *
-	 * @var string
-	 */
-	private $path_to_use = '';
-
 	public function __construct() {
-		/**
-		 * Define class variables requiring expressions
-		 */
-		$this->path_to_use = ( is_multisite() ? 'network/admin.php' : 'tools.php' );
-
 		parent::__construct();
 	}
 

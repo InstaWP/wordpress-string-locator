@@ -31,11 +31,23 @@ class Search {
 	 */
 	protected $max_memory_consumption = 0;
 
+	/**
+	 * The path to the currently editable file.
+	 *
+	 * @var string
+	 */
+	protected $path_to_use = '';
+
 	public function __construct() {
 		/**
 		 * Define class variables requiring expressions
 		 */
 		$this->excerpt_length = apply_filters( 'string_locator_excerpt_length', 25 );
+
+		/**
+		 * Define class variables requiring expressions
+		 */
+		$this->path_to_use = ( is_multisite() ? 'network/admin.php' : 'tools.php' );
 
 		$this->max_execution_time    = absint( ini_get( 'max_execution_time' ) );
 		$this->start_execution_timer = microtime( true );
@@ -45,6 +57,12 @@ class Search {
 		}
 
 		$this->set_memory_limit();
+
+		add_action( 'string_locator_search_templates', array( $this, 'add_search_response_template' ) );
+	}
+
+	public function add_search_response_template() {
+		require_once STRING_LOCATOR_PLUGIN_DIR . '/views/templates/search-default.php';
 	}
 
 	/**

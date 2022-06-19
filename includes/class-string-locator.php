@@ -57,6 +57,9 @@ class String_Locator {
 				<option value="core"><?php esc_html_e( 'The whole WordPress directory', 'string-locator' ); ?></option>
 		<option value="wp-content"><?php esc_html_e( 'Everything under wp-content', 'string-locator' ); ?></option>
 		</optgroup>
+		<optgroup label="<?php esc_attr_e( 'Database', 'string-locator' ); ?>">
+			<option value="sql"><?php esc_html_e( 'All database tables', 'string-locator' ); ?></option>
+		</optgroup>
 		<optgroup label="<?php esc_attr_e( 'Themes', 'string-locator' ); ?>">
 			<?php echo String_Locator::get_themes_options( $search_location ); ?>
 		</optgroup>
@@ -320,8 +323,8 @@ class String_Locator {
 				<th scope="col" class="manage-column column-linepos position">%s</th>
 			</tr>',
 			esc_html( __( 'String', 'string-locator' ) ),
-			esc_html( __( 'File', 'string-locator' ) ),
-			esc_html( __( 'Line number', 'string-locator' ) ),
+			esc_html( __( 'File / Table', 'string-locator' ) ),
+			esc_html( __( 'ID / Line number', 'string-locator' ) ),
 			esc_html( __( 'Line position', 'string-locator' ) )
 		);
 
@@ -450,8 +453,8 @@ class String_Locator {
 				'string_locator',
 				array(
 					'CodeMirror'   => $code_mirror,
-					'goto_line'    => absint( $_GET['string-locator-line'] ),
-					'goto_linepos' => absint( $_GET['string-locator-linepos'] ),
+					'goto_line'    => ( isset( $_GET['string-locator-line'] ) ? absint( $_GET['string-locator-line'] ) : 0 ),
+					'goto_linepos' => ( isset( $_GET['string-locator-linepos'] ) ? absint( $_GET['string-locator-linepos'] ) : 0 ),
 					'url'          => array(
 						'save' => get_rest_url( null, 'string-locator/v1/save' ),
 					),
@@ -517,7 +520,7 @@ class String_Locator {
 		 * - The user is capable of editing files.
 		 */
 		if ( isset( $_GET['string-locator-path'] ) && self::is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
-			$include_path = trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/editor.php';
+			$include_path = trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/editors/default.php';
 		} else {
 			$include_path = trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/search.php';
 		}

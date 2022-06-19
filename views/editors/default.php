@@ -38,6 +38,17 @@ if ( 'core' === $_GET['file-type'] ) {
 		'description' => $themedata->get( 'Description' ),
 		'parent'      => $themedata->get( 'parent' ),
 	);
+} elseif ( 'sql' === $_GET['file-type'] ) {
+	$details = array(
+		'name' => 'Name',
+		'version' => 'Version',
+		'author' => array(
+			'uri' => 'author URI',
+			'name' => 'author name',
+		),
+		'description' => 'description',
+		'parent' => 'parent',
+	);
 } else {
 	$plugins = get_plugins();
 
@@ -58,10 +69,12 @@ if ( 'core' === $_GET['file-type'] ) {
 	}
 }
 
-$readfile = fopen( $file, 'r' );
-if ( $readfile ) {
-	while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
-		$editor_content .= $readline;
+if ( 'sql' !== $_GET['file-type'] ) {
+	$readfile = fopen( $file, 'r' );
+	if ( $readfile ) {
+		while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+			$editor_content .= $readline;
+		}
 	}
 }
 ?>

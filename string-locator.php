@@ -41,6 +41,11 @@ require_once __DIR__ . '/includes/Base/class-search.php';
 require_once __DIR__ . '/includes/Base/class-rest.php';
 
 /**
+ * Search handlers
+ */
+require_once __DIR__ . '/includes/Extension/SQL/sql.php';
+
+/**
  * Plugin test runners
  */
 require_once __DIR__ . '/includes/Tests/class-loopback.php';

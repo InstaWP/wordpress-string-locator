@@ -1,10 +1,11 @@
 /* global string_locator, fetch, FormData */
 document.addEventListener( 'DOMContentLoaded', function() {
 	let stringLocatorSearchActive = false,
+		searchType = '',
+		resultTemplate,
 		formData;
 
-	const resultTemplate = wp.template( 'string-locator-search-result' ),
-		noticeWrapper = document.getElementById( 'string-locator-search-notices' ),
+	const noticeWrapper = document.getElementById( 'string-locator-search-notices' ),
 		progressWrapper = document.getElementById( 'string-locator-progress-wrapper' ),
 		progressIndicator = document.getElementById( 'string-locator-search-progress' ),
 		progressText = document.getElementById( 'string-locator-feedback-text' ),
@@ -89,6 +90,12 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				progressIndicator.value = response.data.filenum;
 				progressText.innerHTML = string_locator.search_current_prefix + response.data.next_file;
 
+				if ( undefined !== response.data.type ) {
+					searchType = response.data.type;
+				} else {
+					searchType = '';
+				}
+
 				stringLocatorAppendResult( response.data.search );
 			}
 			const nextCount = response.data.filenum + 1;
@@ -103,6 +110,8 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			return false;
 		}
 
+		resultTemplate = wp.template( 'string-locator-search-result' + ( searchType !== '' ? '-' + searchType : '' ) );
+
 		totalEntries.forEach( function( entries ) {
 			if ( entries ) {
 				for ( let i = 0, amount = entries.length; i < amount; i++ ) {
@@ -116,8 +125,58 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		} );
 	}
 
+	const performSqlSearch = function (e) {
+		e.preventDefault();
+
+		formData = new FormData();
+
+		progressText.innerText = string_locator.search_preparing;
+		progressWrapper.style.display = 'block';
+		stringLocatorSearchActive = true;
+		clearStringLocatorResultArea();
+
+		const directoryRequest = JSON.stringify(
+			{
+				directory: searchTarget.value,
+				search: searchString.value,
+				regex: searchRegex.checked,
+			}
+		);
+
+		tableWrapper.style.display = 'table';
+
+		formData.append( 'data', directoryRequest );
+		formData.append( '_wpnonce', string_locator.rest_nonce );
+
+		fetch(
+			string_locator.url.directory_structure,
+			{
+				method: 'POST',
+				body: formData,
+			}
+		).then(
+			( response ) => response.json()
+		).then( function( response ) {
+			if ( ! response.success ) {
+				addNotice( '', response.data, 'alert' );
+				return;
+			}
+			progressIndicator.setAttribute( 'max', response.data.total );
+			progressIndicator.value = response.data.current;
+			progressText.innerText = string_locator.search_started;
+			performStringLocatorSingleSearch( response.data.total, 0 );
+		} ).catch( function( error ) {
+			throwError( error, string_locator.search_error );
+		} );
+	};
+
 	searchForm.addEventListener( 'submit', function( e ) {
 		e.preventDefault();
+
+		if ( 'sql' === searchTarget.value ) {
+			performSqlSearch(e);
+			return;
+		}
 
 		formData = new FormData();
 

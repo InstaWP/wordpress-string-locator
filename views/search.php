@@ -48,7 +48,7 @@ if ( isset( $_GET['restore'] ) ) {
 				</strong>
 			</p>
 			<p>
-				<?php esc_html_e( 'Because this site is configured to not allow direct file editing, the String Locator plugin has limited functionality and will only allow you to search for files with your string in them.', 'string-locator' ); ?>
+				<?php esc_html_e( 'Because this site is configured to not allow direct file editing, the String Locator plugin has limited functionality and may noy allow you to directly edit files with your string in them.', 'string-locator' ); ?>
 			</p>
 		</div>
 	<?php endif; ?>
@@ -94,6 +94,8 @@ if ( isset( $_GET['restore'] ) ) {
 		?>
 	</div>
 </div>
+
+<?php do_action( 'string_locator_search_templates' ); ?>
 
 <script id="tmpl-string-locator-search-result" type="text/template">
 	<tr>

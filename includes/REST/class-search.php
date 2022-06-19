@@ -30,9 +30,10 @@ class Search extends REST {
 		/**
 		 * Filter the search handler used to find strings.
 		 *
-		 * @attr object $handler The handler performing searches.
+		 * @attr object           $handler The handler performing searches.
+		 * @attr \WP_REST_Request $request The request received by the REST API handler.
 		 */
-		$handler = apply_filters( 'string_locator_search_handler', $handler );
+		$handler = apply_filters( 'string_locator_search_handler', $handler, $request );
 
 		return array(
 			'success' => true,
