@@ -171,6 +171,8 @@ class Search extends SearchBase {
 
 		$match_count = 0;
 
+		$search_results = array();
+
 		foreach ( $tables as $table ) {
 			$table_name = $table->{ $identifier_name };
 
@@ -277,39 +279,41 @@ class Search extends SearchBase {
 						admin_url( $this->path_to_use )
 					);
 
-					$response['search'][] = array(
-						array(
-							'ID'             => $match_count,
-							'table'          => $table_name,
-							'column'         => $column_name,
-							'primary_key'    => $match->primary_column,
-							'primary_type'   => $primary_type,
-							'primary_column' => $primary_column,
-							'filename'       => sprintf(
-								'`%s`.`%s`',
-								$table_name,
-								$column_name
-							),
-							'filename_raw'   => sprintf(
-								'`%s`.`%s`',
-								$table_name,
-								$column_name
-							),
-							'editurl'        => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
-							'stringresult'   => $string_preview,
-							'linepos'        => $string_location,
-							'linenum'        => 0,
+					$search_results[] = array(
+						'ID'             => $match_count,
+						'table'          => $table_name,
+						'column'         => $column_name,
+						'primary_key'    => $match->primary_column,
+						'primary_type'   => $primary_type,
+						'primary_column' => $primary_column,
+						'filename'       => sprintf(
+							'`%s`.`%s`',
+							$table_name,
+							$column_name
 						),
+						'filename_raw'   => sprintf(
+							'`%s`.`%s`',
+							$table_name,
+							$column_name
+						),
+						'editurl'        => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
+						'stringresult'   => $string_preview,
+						'linepos'        => $string_location,
+						'linenum'        => 0,
 					);
 				}
 			}
 		}
 
-		if ( ! empty( $response['search'] ) ) {
+		if ( ! empty( $search_results ) ) {
 			$history = get_option( 'string-locator-search-history', array() );
-			$history = array_merge( $history, $response['search'][0] );
+			$history = array_merge( $history, $search_results );
 			update_option( 'string-locator-search-history', $history, false );
 		}
+
+		$response['search'] = array(
+			$search_results,
+		);
 
 		return $response;
 	}
