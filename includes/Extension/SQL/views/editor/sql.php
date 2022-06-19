@@ -87,7 +87,7 @@ if ( 'json' === $format ) {
 		<div id="string-locator-notices">
 			<div class="row notice notice-error inline below-h2 hide-if-js">
 				<p>
-					Something about JS being required!
+					<?php esc_html_e( 'The editor requires Javascript to be enabled before it can be used.', 'string-locator' ); ?>
 				</p>
 			</div>
 

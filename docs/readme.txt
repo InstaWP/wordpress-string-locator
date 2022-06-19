@@ -46,12 +46,14 @@ When writing your search string, make sure to wrap your search in forward slashe
 == Changelog ==
 
 = 2.6.0 (TBD) =
+* Added database search feature.
 * Removed one-time donation notice
 * Removed jQuery dependency in favor of vanilla JavaScript code
 * Separated search class into a base class for extenders
 * Fixed bug with code viewer sizes when resizing your window
 * Fixed bug in the list view if special characters were in the search string
 * Fixed a bug where RegEx search validation may have a false positive check for invalid patterns
+* Fixed missing translator function if Javascript is missing.
 
 = 2.5.0 (2022-02-27) =
 * Fixed a bug where content would have slashes stripped unexpectedly.
