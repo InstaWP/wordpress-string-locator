@@ -17,19 +17,17 @@ $this_url = add_query_arg(
 	admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) )
 );
 
-// Table and column names are validated in `/includes/Search/class-sql.php` before reaching this point.
-
 if ( 'int' === $_GET['sql-primary-type'] ) {
 	$row = $wpdb->get_row(
 		$wpdb->prepare(
-			"SELECT * FROM " . $_GET['sql-table'] . " WHERE " . $_GET['sql-primary-column'] . " = %d LIMIT 1",
+			'SELECT * FROM ' . $_GET['sql-table'] . ' WHERE ' . $_GET['sql-primary-column'] . ' = %d LIMIT 1', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is not possible to prepare a table or column name, but these are instead validated in `/includes/Search/class-sql.php` before reaching this point.
 			$_GET['sql-primary-key']
 		)
 	);
 } else {
 	$row = $wpdb->get_row(
 		$wpdb->prepare(
-			"SELECT * FROM " . $_GET['sql-table'] . " WHERE " . $_GET['sql-primary-column'] . " = %s LIMIT 1",
+			'SELECT * FROM ' . $_GET['sql-table'] . ' WHERE ' . $_GET['sql-primary-column'] . ' = %s LIMIT 1', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is not possible to prepare a table or column name, but these are instead validated in `/includes/Search/class-sql.php` before reaching this point.
 			$_GET['sql-primary-key']
 		)
 	);
@@ -37,7 +35,7 @@ if ( 'int' === $_GET['sql-primary-type'] ) {
 
 $format = 'string';
 
-$is_json = @json_decode( $row->{ $_GET['sql-column'] } );
+$is_json = @json_decode( $row->{ $_GET['sql-column'] } ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- The only way to validate if a string is JSON, and valid, is by attempting ot decode it, and then check for an error.
 
 if ( JSON_ERROR_NONE === json_last_error() ) {
 	$format = 'json';
@@ -127,6 +125,7 @@ if ( 'json' === $format ) {
 				<div class="row">
 					<?php
 					printf(
+						// translators: 1: Table name being edited.
 						esc_html__( 'Database table: %s', 'string-locator' ),
 						esc_html( $_GET['sql-table'] )
 					);
@@ -136,6 +135,7 @@ if ( 'json' === $format ) {
 				<div class="row">
 					<?php
 					printf(
+						// translators: 1: Column name being edited.
 						esc_html__( 'Database Column: %s', 'string-locator' ),
 						esc_html( $_GET['sql-column'] )
 					);
@@ -145,6 +145,7 @@ if ( 'json' === $format ) {
 				<div class="row">
 					<?php
 					printf(
+						// translators: 1: Primary database column name. 2: Primary database column key.
 						esc_html__( 'Primary column and key: %1$s:%2$s', 'string-locator' ),
 						esc_html( $_GET['sql-primary-column'] ),
 						esc_html( $_GET['sql-primary-key'] )
@@ -166,23 +167,23 @@ if ( 'json' === $format ) {
 			<div class="string-locator-panel-body">
 
 				<?php
-					foreach ( $row as $key => $value ) {
-						// Do not output the currently edited column as a context relationship.
-						if ( $_GET['sql-column'] === $key ) {
-							continue;
-						}
-						?>
-
-						<div class="row">
-							<?php echo esc_html( $key ); ?>:
-							<br />
-							<span class="string-locator-italics">
-								<?php echo esc_html( $value ); ?>
-							</span>
-						</div>
-
-						<?php
+				foreach ( $row as $key => $value ) {
+					// Do not output the currently edited column as a context relationship.
+					if ( $_GET['sql-column'] === $key ) {
+						continue;
 					}
+					?>
+
+					<div class="row">
+						<?php echo esc_html( $key ); ?>:
+						<br />
+						<span class="string-locator-italics">
+							<?php echo esc_html( $value ); ?>
+						</span>
+					</div>
+
+					<?php
+				}
 				?>
 			</div>
 		</div>

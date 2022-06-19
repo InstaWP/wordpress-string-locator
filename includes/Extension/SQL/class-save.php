@@ -50,14 +50,14 @@ class Save {
 		if ( 'int' === $params['sql-primary-type'] ) {
 			$original = $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT " . $params['sql-column'] . " FROM " . $params['sql-table'] . " WHERE " . $params['sql-primary-column'] . " = %d LIMIT 1",
+					'SELECT ' . $params['sql-column'] . ' FROM ' . $params['sql-table'] . ' WHERE ' . $params['sql-primary-column'] . ' = %d LIMIT 1', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is not possible to prepare a table or column name, but these are instead validated in `/includes/Search/class-sql.php` before reaching this point.
 					$params['sql-primary-key']
 				)
 			);
 		} else {
 			$original = $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT " . $params['sql-column'] . " FROM " . $params['sql-table'] . " WHERE " . $params['sql-primary-column'] . " = %s LIMIT 1",
+					'SELECT ' . $params['sql-column'] . ' FROM ' . $params['sql-table'] . ' WHERE ' . $params['sql-primary-column'] . ' = %s LIMIT 1', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is not possible to prepare a table or column name, but these are instead validated in `/includes/Search/class-sql.php` before reaching this point.
 					$params['sql-primary-key']
 				)
 			);

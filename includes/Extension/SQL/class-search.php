@@ -41,7 +41,7 @@ class Search extends SearchBase {
 					'current' => 0,
 					'regex'   => $data->regex,
 					'total'   => 1,
-				)
+				),
 			);
 		}
 
@@ -61,7 +61,7 @@ class Search extends SearchBase {
 	public function run( $filenum ) {
 		global $wpdb;
 
-		$response        = array(
+		$response = array(
 			'search'  => array(),
 			'filenum' => absint( $filenum ),
 			'current' => 0,
@@ -96,38 +96,51 @@ class Search extends SearchBase {
 
 		$identifier_name = 'Tables_in_' . DB_NAME;
 
+		if ( ! validate_sql_fields( $identifier_name ) ) {
+			wp_send_json_error(
+				array(
+					'continue' => false,
+					'message'  => sprintf(
+					/* translators: %s: The search string used. */
+						__( 'The table identifier, combined with your database name, <strong>%s</strong>, is not a valid SQL pattern, and the search has been aborted.', 'string-locator' ),
+						esc_html( $identifier_name )
+					),
+				)
+			);
+		}
+
 		$match_count = 0;
 
 		foreach ( $tables as $table ) {
 			$table_name = $table->{ $identifier_name };
 
-			$columns = $wpdb->get_results( 'DESCRIBE ' . $table_name );
+			$columns = $wpdb->get_results( 'DESCRIBE ' . $table_name ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The table name is validated earlier for SQLi, and needs to be dynamic due to relying on `DB_NAME`.
 
 			$primary_column = null;
 			$primary_type   = null;
 
 			// Initial loop only gets primary data.
 			foreach ( $columns as $column ) {
-				if ( 'PRI' === $column->Key ) {
-					$primary_column = $column->Field;
-					$primary_type   = ( stristr( $column->Type, 'int' ) ? 'int' : 'str' );
+				if ( 'PRI' === $column->Key ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Object property name is returned by the MySQL database.
+					$primary_column = $column->Field; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Object property name is returned by the MySQL database.
+					$primary_type   = ( stristr( $column->Type, 'int' ) ? 'int' : 'str' ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Object property name is returned by the MySQL database.
 				}
 			}
 
 			foreach ( $columns as $column ) {
-				$column_name = $column->Field;
+				$column_name = $column->Field; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Object property name is returned by the MySQL database.
 
 				if ( $is_regex ) {
 					$matches = $wpdb->get_results(
 						$wpdb->prepare(
-							'SELECT ' . $column_name . ' AS column_name, ' . $primary_column . ' as primary_column FROM ' . $table_name . ' WHERE ' . $column_name . ' REGEXP %s',
+							'SELECT ' . $column_name . ' AS column_name, ' . $primary_column . ' as primary_column FROM ' . $table_name . ' WHERE ' . $column_name . ' REGEXP %s', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is not possible to prepare a table or column name, but these are instead validated in `/includes/Search/class-sql.php` before reaching this point.
 							$scan_data->search
 						)
 					);
 				} else {
 					$matches = $wpdb->get_results(
 						$wpdb->prepare(
-							'SELECT ' . $column_name . ' AS column_name, ' . $primary_column . ' as primary_column FROM ' . $table_name . ' WHERE ' . $column_name . ' LIKE %s',
+							'SELECT ' . $column_name . ' AS column_name, ' . $primary_column . ' as primary_column FROM ' . $table_name . ' WHERE ' . $column_name . ' LIKE %s', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is not possible to prepare a table or column name, but these are instead validated in `/includes/Search/class-sql.php` before reaching this point.
 							'%' . $wpdb->esc_like( $scan_data->search ) . '%'
 						)
 					);
@@ -138,8 +151,9 @@ class Search extends SearchBase {
 						array(
 							'continue' => false,
 							'message'  => sprintf(
-							/* translators: %s: The search string used. */
-								__( 'Your search for <strong>%s</strong> led to an SQL error, and the search has been aborted. The error encountered was: %s', 'string-locator' ),
+								/* translators: 1: The search string used. 2: The error received */
+								__( 'Your search for <strong>%1$s</strong> led to an SQL error, and the search has been aborted. The error encountered was: %2$s', 'string-locator' ),
+								esc_html( $scan_data->search ),
 								esc_html( $matches->get_error_message() )
 							),
 						)
@@ -219,7 +233,7 @@ class Search extends SearchBase {
 							'editurl'        => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
 							'stringresult'   => $string_preview,
 							'linepos'        => $string_location,
-						)
+						),
 					);
 				}
 			}

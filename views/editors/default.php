@@ -40,14 +40,14 @@ if ( 'core' === $_GET['file-type'] ) {
 	);
 } elseif ( 'sql' === $_GET['file-type'] ) {
 	$details = array(
-		'name' => 'Name',
-		'version' => 'Version',
-		'author' => array(
-			'uri' => 'author URI',
+		'name'        => 'Name',
+		'version'     => 'Version',
+		'author'      => array(
+			'uri'  => 'author URI',
 			'name' => 'author name',
 		),
 		'description' => 'description',
-		'parent' => 'parent',
+		'parent'      => 'parent',
 	);
 } else {
 	$plugins = get_plugins();

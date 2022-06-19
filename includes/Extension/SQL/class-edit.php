@@ -42,12 +42,12 @@ class Edit {
 		}
 
 		// Validate the table name.
-		if ( ! isset( $_GET['sql-table'] ) || ! $this->validate_sql_fields( $_GET['sql-table'] ) ) {
+		if ( ! isset( $_GET['sql-table'] ) || ! validate_sql_fields( $_GET['sql-table'] ) ) {
 			return $include_path;
 		}
 
 		// Validate the primary column
-		if ( ! isset( $_GET['sql-primary-column'] ) || ! $this->validate_sql_fields( $_GET['sql-primary-column'] ) ) {
+		if ( ! isset( $_GET['sql-primary-column'] ) || ! validate_sql_fields( $_GET['sql-primary-column'] ) ) {
 			return $include_path;
 		}
 
@@ -58,11 +58,6 @@ class Edit {
 
 		return STRING_LOCATOR_PLUGIN_DIR . '/includes/Extension/SQL/views/editor/sql.php';
 	}
-
-	public function validate_sql_fields( $field ) {
-		return preg_match( '/^[0-9a-zA-Z_]+$/s', $field );
-	}
-
 }
 
 new Edit();

@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die(); } ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
+}
+?>
 <script id="tmpl-string-locator-search-result-sql" type="text/template">
 	<tr>
 		<td>
