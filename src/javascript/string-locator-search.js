@@ -125,7 +125,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		} );
 	}
 
-	const performSqlSearch = function (e) {
+	const performSqlSearch = function( e ) {
 		e.preventDefault();
 
 		formData = new FormData();
@@ -174,7 +174,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		e.preventDefault();
 
 		if ( 'sql' === searchTarget.value ) {
-			performSqlSearch(e);
+			performSqlSearch( e );
 			return;
 		}
 
