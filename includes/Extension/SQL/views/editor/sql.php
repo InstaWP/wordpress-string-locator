@@ -35,20 +35,11 @@ if ( 'int' === $_GET['sql-primary-type'] ) {
 
 $format = 'string';
 
-$is_json = @json_decode( $row->{ $_GET['sql-column'] } ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- The only way to validate if a string is JSON, and valid, is by attempting ot decode it, and then check for an error.
-
-if ( JSON_ERROR_NONE === json_last_error() ) {
-	$format = 'json';
-} elseif ( is_serialized( $row->{ $_GET['sql-column'] }, true ) ) {
+if ( is_serialized( $row->{ $_GET['sql-column'] }, true ) ) {
 	$format = 'serialized';
 }
 
-if ( 'json' === $format ) {
-	$editor_content = $is_json;
-} else {
-	$editor_content = $row->{ $_GET['sql-column'] };
-}
-
+$editor_content = $row->{ $_GET['sql-column'] };
 ?>
 <form id="string-locator-edit-form" class="string-locator-editor-wrapper">
 	<?php wp_nonce_field( 'wp_rest' ); ?>
