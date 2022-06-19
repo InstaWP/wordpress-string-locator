@@ -57,9 +57,6 @@ class String_Locator {
 				<option value="core"><?php esc_html_e( 'The whole WordPress directory', 'string-locator' ); ?></option>
 		<option value="wp-content"><?php esc_html_e( 'Everything under wp-content', 'string-locator' ); ?></option>
 		</optgroup>
-		<optgroup label="<?php esc_attr_e( 'Database', 'string-locator' ); ?>">
-			<option value="sql"><?php esc_html_e( 'All database tables', 'string-locator' ); ?></option>
-		</optgroup>
 		<optgroup label="<?php esc_attr_e( 'Themes', 'string-locator' ); ?>">
 			<?php echo String_Locator::get_themes_options( $search_location ); ?>
 		</optgroup>

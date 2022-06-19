@@ -8,11 +8,27 @@ use JITS\StringLocator\String_Locator;
 class Search extends SearchBase {
 
 	public function __construct() {
+		add_filter( 'string_locator_search_sources_markup', array( $this, 'add_search_options' ), 11, 2 );
 
 		add_filter( 'string_locator_search_handler', array( $this, 'maybe_perform_sql_search' ), 10, 2 );
 		add_filter( 'string_locator_directory_iterator_short_circuit', array( $this, 'maybe_short_circuit_directory_iterator' ), 10, 2 );
 
 		parent::__construct();
+	}
+
+	public function add_search_options( $searchers, $search_location ) {
+		ob_start();
+		?>
+
+		<optgroup label="<?php esc_attr_e( 'Database', 'string-locator' ); ?>">
+			<option value="sql"<?php echo ( 'sql' === $search_location ? ' selected="selected"' : '' ); ?>><?php esc_html_e( 'All database tables', 'string-locator' ); ?></option>
+		</optgroup>
+
+		<?php
+
+		$searchers .= ob_get_clean();
+
+		return $searchers;
 	}
 
 	public function add_search_response_template() {
