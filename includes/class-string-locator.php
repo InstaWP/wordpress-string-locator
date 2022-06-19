@@ -257,7 +257,7 @@ class String_Locator {
 			$item = (object) $item;
 		}
 
-		return sprintf(
+		$row = sprintf(
 			'<tr>
                 <td>
                 	%s
@@ -290,6 +290,16 @@ class String_Locator {
 			esc_html( $item->linenum ),
 			esc_html( $item->linepos )
 		);
+
+		/**
+		 * Enable extensions to override the table row when restoring a previous search.
+		 *
+		 * @attr string $row  The HTML markup for the table row.
+		 * @attr object $item The search result item data.
+		 */
+		$row = apply_filters( 'string_locator_restore_search_row', $row, $item );
+
+		return $row;
 	}
 
 	/**

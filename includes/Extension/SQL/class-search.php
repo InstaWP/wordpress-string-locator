@@ -13,7 +13,51 @@ class Search extends SearchBase {
 		add_filter( 'string_locator_search_handler', array( $this, 'maybe_perform_sql_search' ), 10, 2 );
 		add_filter( 'string_locator_directory_iterator_short_circuit', array( $this, 'maybe_short_circuit_directory_iterator' ), 10, 2 );
 
+		add_filter( 'string_locator_restore_search_row', array( $this, 'restore_sql_search' ), 10, 2 );
+
 		parent::__construct();
+	}
+
+	public function restore_sql_search( $row, $item ) {
+		if ( ! isset( $item->primary_key ) ) {
+			return $row;
+		}
+
+		$row = sprintf(
+			'<tr>
+                <td>
+                	%s
+                	<div class="row-actions">
+                		%s
+                    </div>
+                </td>
+                <td>
+                	%s
+                </td>
+                <td>
+                	%d
+                </td>
+                <td>
+                	%d
+                </td>
+            </tr>',
+			$item->stringresult,
+			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
+				'<span class="edit"><a href="%1$s" aria-label="%2$s">%2$s</a></span>',
+				esc_url( $item->editurl ),
+				// translators: The row-action edit link label.
+				esc_html__( 'Edit', 'string-locator' )
+			) ),
+			( ! current_user_can( 'edit_themes' ) ? $item->filename : sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $item->editurl ),
+				esc_html( $item->filename )
+			) ),
+			esc_html( $item->primary_key ),
+			esc_html( $item->linepos )
+		);
+
+		return $row;
 	}
 
 	public function add_search_options( $searchers, $search_location ) {
@@ -246,13 +290,25 @@ class Search extends SearchBase {
 								$table_name,
 								$column_name
 							),
+							'filename_raw'   => sprintf(
+								'`%s`.`%s`',
+								$table_name,
+								$column_name
+							),
 							'editurl'        => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
 							'stringresult'   => $string_preview,
 							'linepos'        => $string_location,
+							'linenum'        => 0,
 						),
 					);
 				}
 			}
+		}
+
+		if ( ! empty( $response['search'] ) ) {
+			$history = get_option( 'string-locator-search-history', array() );
+			$history = array_merge( $history, $response['search'][0] );
+			update_option( 'string-locator-search-history', $history, false );
 		}
 
 		return $response;
