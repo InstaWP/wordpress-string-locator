@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <script id="tmpl-string-locator-search-result-sql" type="text/template">
-	<tr>
+	<tr data-type="sql" data-primary-key="{{ data.primary_key }}" data-primary-column="{{ data.primary_column }}" data-table-name="{{ data.filename }}">
 		<td>
 			{{{ data.stringresult }}}
 

@@ -1,0 +1,15 @@
+#string-locator-replace-form {
+	display: none;
+	width: 100%;
+	background-color: #fff;
+	padding: 10px;
+	border: 1px solid #c3c4c7;
+
+	&.visible {
+		display: block;
+	}
+
+	h2 {
+		margin-top: 0;
+	}
+}

@@ -44,6 +44,7 @@ require_once __DIR__ . '/includes/Base/class-rest.php';
  * Search handlers
  */
 require_once __DIR__ . '/includes/Extension/SQL/sql.php';
+require_once __DIR__ . '/includes/Extension/SearchReplace/search-replace.php';
 
 /**
  * Plugin test runners

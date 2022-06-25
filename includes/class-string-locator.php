@@ -258,21 +258,21 @@ class String_Locator {
 		}
 
 		$row = sprintf(
-			'<tr>
+			'<tr data-type="file" data-linenum="%6$d" data-filename="%4$s">
                 <td>
-                	%s
+                	%1$s
                 	<div class="row-actions">
-                		%s
+                		%2$s
                     </div>
                 </td>
                 <td>
-                	%s
+                	%3$s
                 </td>
                 <td>
-                	%d
+                	%5$d
                 </td>
                 <td>
-                	%d
+                	%7$d
                 </td>
             </tr>',
 			$item->stringresult,
@@ -287,7 +287,9 @@ class String_Locator {
 				esc_url( $item->editurl ),
 				esc_html( $item->filename_raw )
 			) ),
+			esc_attr( $item->filename_raw ),
 			esc_html( $item->linenum ),
+			esc_attr( $item->linenum ),
 			esc_html( $item->linepos )
 		);
 
@@ -341,7 +343,7 @@ class String_Locator {
 		}
 
 		$table = sprintf(
-			'<div class="tablenav top"><br class="clear"></div><table class="%s"><thead>%s</thead><tbody>%s</tbody><tfoot>%s</tfoot></table>',
+			'<div class="tablenav top"><br class="clear"></div><table class="%s" id="string-locator-search-results-table"><thead>%s</thead><tbody>%s</tbody><tfoot>%s</tfoot></table>',
 			implode( ' ', $table_class ),
 			$table_columns,
 			implode( "\n", $table_rows ),
@@ -592,5 +594,45 @@ class String_Locator {
 		}
 
 		return $valid;
+	}
+
+	public static function create_preview( $string_preview, $string, $regex = false ) {
+		/**
+		 * Define class variables requiring expressions
+		 */
+		$excerpt_length = apply_filters( 'string_locator_excerpt_length', 25 );
+
+		$string_preview_is_cut = false;
+
+		if ( strlen( $string_preview ) > ( strlen( $string ) + $excerpt_length ) ) {
+			$string_location = strpos( $string_preview, $string );
+
+			$string_location_start = $string_location - $excerpt_length;
+			if ( $string_location_start < 0 ) {
+				$string_location_start = 0;
+			}
+
+			$string_location_end = ( strlen( $string ) + ( $excerpt_length * 2 ) );
+			if ( $string_location_end > strlen( $string_preview ) ) {
+				$string_location_end = strlen( $string_preview );
+			}
+
+			$string_preview        = substr( $string_preview, $string_location_start, $string_location_end );
+			$string_preview_is_cut = true;
+		}
+
+		if ( $regex ) {
+			$string_preview = preg_replace( preg_replace( '/\/(.+)\//', '/($1)/', $string ), '<strong>$1</strong>', esc_html( $string_preview ) );
+		} else {
+			$string_preview = preg_replace( '/(' . preg_quote( $string ) . ')/i', '<strong>$1</strong>', esc_html( $string_preview ) );
+		}
+		if ( $string_preview_is_cut ) {
+			$string_preview = sprintf(
+				'&hellip;%s&hellip;',
+				$string_preview
+			);
+		}
+
+		return $string_preview;
 	}
 }

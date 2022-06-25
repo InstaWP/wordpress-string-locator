@@ -244,7 +244,6 @@ class Search extends Base\Search {
 		$readfile = @fopen( $filename, 'r' );
 		if ( $readfile ) {
 			while ( ( $readline = fgets( $readfile ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
-				$string_preview_is_cut = false;
 				$linenum ++;
 				/**
 				 * If our string is found in this line, output the line number and other data
@@ -280,35 +279,7 @@ class Search extends Base\Search {
 					 */
 					$editurl = $this->create_edit_link( $path, $linenum, $str_pos );
 
-					$string_preview = $readline;
-					if ( strlen( $string_preview ) > ( strlen( $string ) + $this->excerpt_length ) ) {
-						$string_location = strpos( $string_preview, $string );
-
-						$string_location_start = $string_location - $this->excerpt_length;
-						if ( $string_location_start < 0 ) {
-							$string_location_start = 0;
-						}
-
-						$string_location_end = ( strlen( $string ) + ( $this->excerpt_length * 2 ) );
-						if ( $string_location_end > strlen( $string_preview ) ) {
-							$string_location_end = strlen( $string_preview );
-						}
-
-						$string_preview        = substr( $string_preview, $string_location_start, $string_location_end );
-						$string_preview_is_cut = true;
-					}
-
-					if ( $regex ) {
-						$string_preview = preg_replace( preg_replace( '/\/(.+)\//', '/($1)/', $string ), '<strong>$1</strong>', esc_html( $string_preview ) );
-					} else {
-						$string_preview = preg_replace( '/(' . preg_quote( $string ) . ')/i', '<strong>$1</strong>', esc_html( $string_preview ) );
-					}
-					if ( $string_preview_is_cut ) {
-						$string_preview = sprintf(
-							'&hellip;%s&hellip;',
-							$string_preview
-						);
-					}
+					$string_preview = String_Locator::create_preview( $readline, $string, $regex );
 
 					$path_string = sprintf(
 						'<a href="%s">%s</a>',

@@ -4,13 +4,6 @@ namespace JITS\StringLocator\Base;
 
 class Search {
 	/**
-	 * The length of the excerpt from the line containing a match.
-	 *
-	 * @var int
-	 */
-	protected $excerpt_length = 25;
-
-	/**
 	 * The server-configured max time a script can run.
 	 *
 	 * @var int
@@ -39,11 +32,6 @@ class Search {
 	protected $path_to_use = '';
 
 	public function __construct() {
-		/**
-		 * Define class variables requiring expressions
-		 */
-		$this->excerpt_length = apply_filters( 'string_locator_excerpt_length', 25 );
-
 		/**
 		 * Define class variables requiring expressions
 		 */

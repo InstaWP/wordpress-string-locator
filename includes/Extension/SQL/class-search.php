@@ -24,7 +24,7 @@ class Search extends SearchBase {
 		}
 
 		$row = sprintf(
-			'<tr>
+			'<tr data-type="sql" data-primary-key="%d" data-primary-column="%s" data-table-name="%s">
                 <td>
                 	%s
                 	<div class="row-actions">
@@ -41,6 +41,9 @@ class Search extends SearchBase {
                 	%d
                 </td>
             </tr>',
+			esc_attr( $item->primary_key ),
+			esc_attr( $item->primary_column ),
+			esc_attr( $item->filename ),
 			$item->stringresult,
 			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
 				'<span class="edit"><a href="%1$s" aria-label="%2$s">%2$s</a></span>',

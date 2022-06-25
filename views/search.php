@@ -71,6 +71,15 @@ if ( isset( $_GET['restore'] ) ) {
 		<p>
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_html_e( 'Search', 'string-locator' ); ?>">
 			<a href="<?php echo esc_url( $this_url . '&restore=true' ); ?>" class="button button-primary"><?php esc_html_e( 'Restore last search', 'string-locator' ); ?></a>
+
+			<?php
+			/**
+			 * Provides an area for outputting additional markup or controls
+			 * immediately following the button controllers for the String Locator
+			 * search form, but within the same paragraph for easier styling where needed.
+			 */
+			do_action( 'string_locator_after_search_buttons' );
+			?>
 		</p>
 	</form>
 
@@ -80,6 +89,14 @@ if ( isset( $_GET['restore'] ) ) {
 		<progress id="string-locator-search-progress" max="100"></progress>
 		<span id="string-locator-feedback-text"><?php esc_html_e( 'Preparing search&hellip;', 'string-locator' ); ?></span>
 	</div>
+
+	<?php
+	/**
+	 * Provides an action for outputting additional markup or controls
+	 * immediately preceding the table displaying search results.
+	 */
+	do_action( 'string_locator_before_search_results_table' );
+	?>
 
 	<div class="table-wrapper">
 		<?php
@@ -93,12 +110,20 @@ if ( isset( $_GET['restore'] ) ) {
 		}
 		?>
 	</div>
+
+	<?php
+	/**
+	 * Provides an action for outputting additional markup or controls
+	 * immediately following the table displaying search results.
+	 */
+	do_action( 'string_locator_after_search_results_table' );
+	?>
 </div>
 
 <?php do_action( 'string_locator_search_templates' ); ?>
 
 <script id="tmpl-string-locator-search-result" type="text/template">
-	<tr>
+	<tr data-type="file" data-linenum="{{ data.linenum }}" data-filename="{{ data.filename_raw }}">
 		<td>
 			{{{ data.stringresult }}}
 
