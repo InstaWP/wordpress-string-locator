@@ -75,7 +75,7 @@ class File {
 		return true;
 	}
 
-	public function get_edit_url( $path, $line, $linepos ) {
-		return $this->search->create_edit_link( $path, $line, $linepos );
+	public function get_edit_url() {
+		return $this->search->create_edit_link( $this->file, $this->line, 0 );
 	}
 }

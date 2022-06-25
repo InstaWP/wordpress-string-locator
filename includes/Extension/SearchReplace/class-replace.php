@@ -36,6 +36,9 @@ class Replace {
 				'url'           => array(
 					'replace' => get_rest_url( null, 'string-locator/v1/replace' ),
 				),
+				'string'        => array(
+					'replace_started' => __( 'Running replacemenets...', 'string-locator' ),
+				),
 			)
 		);
 	}

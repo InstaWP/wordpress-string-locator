@@ -8,7 +8,9 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		noticeWrapper = document.getElementById( 'string-locator-search-notices' ),
 		progressWrapper = document.getElementById( 'string-locator-progress-wrapper' ),
 		progressIndicator = document.getElementById( 'string-locator-search-progress' ),
-		progressText = document.getElementById( 'string-locator-feedback-text' );
+		progressText = document.getElementById( 'string-locator-feedback-text' ),
+		searchString = document.getElementById( 'string-locator-string' ),
+		searchRegex = document.getElementById( 'string-locator-regex' );
 
 	let searchResultsTableRow,
 		searchResultText;
@@ -20,6 +22,8 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		formData.append( '_wpnonce', stringLocatorReplace.rest_nonce );
 		formData.append( 'replace_nonce', stringLocatorReplace.replace_nonce );
 		formData.append( 'replace_string', replaceStringField.value );
+		formData.append( 'search_string', searchString.value );
+		formData.append( 'search_regex', searchRegex.checked );
 
 		for ( const key in dataSets ) {
 			formData.append( key, dataSets[ key ] );
@@ -58,6 +62,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		searchResultsTableRow = searchResultsTable.getElementsByTagName( 'tbody' )[0].getElementsByTagName( 'tr' );
 
 		progressWrapper.style.display = 'block';
+		progressText.innerText = stringLocatorReplace.string.replace_started;
 		noticeWrapper.innerHTML = '';
 
 		progressIndicator.value = 0;

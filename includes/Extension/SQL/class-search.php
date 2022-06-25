@@ -24,7 +24,7 @@ class Search extends SearchBase {
 		}
 
 		$row = sprintf(
-			'<tr data-type="sql" data-primary-key="%d" data-primary-column="%s" data-table-name="%s">
+			'<tr data-type="sql" data-primary-key="%d" data-primary-column="%s" data-primary-type="%s" data-table-name="%s" data-column-name="%s">
                 <td>
                 	%s
                 	<div class="row-actions">
@@ -43,7 +43,9 @@ class Search extends SearchBase {
             </tr>',
 			esc_attr( $item->primary_key ),
 			esc_attr( $item->primary_column ),
-			esc_attr( $item->filename ),
+			esc_attr( $item->primary_type ),
+			esc_attr( $item->table ),
+			esc_attr( $item->column ),
 			$item->stringresult,
 			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
 				'<span class="edit"><a href="%1$s" aria-label="%2$s">%2$s</a></span>',
@@ -235,24 +237,7 @@ class Search extends SearchBase {
 
 					$string_preview = String_Locator::create_preview( $string_preview, $string, $is_regex );
 
-					$editurl = add_query_arg(
-						array(
-							'page'               => 'string-locator',
-							'edit-file'          => true,
-							'file-type'          => 'sql',
-							'file-reference'     => sprintf(
-								'`%s`.`%s`',
-								$table_name,
-								$column_name
-							),
-							'sql-column'         => $column_name,
-							'sql-table'          => $table_name,
-							'sql-primary-column' => $primary_column,
-							'sql-primary-type'   => $primary_type,
-							'sql-primary-key'    => $match->primary_column,
-						),
-						admin_url( $this->path_to_use )
-					);
+					$editurl = $this->create_edit_link( $table_name, $column_name, $primary_column, $primary_type, $match );
 
 					$search_results[] = array(
 						'ID'             => $match_count,
@@ -293,6 +278,26 @@ class Search extends SearchBase {
 		return $response;
 	}
 
+	public function create_edit_link( $table_name, $column_name, $primary_column, $primary_type, $match ) {
+		return add_query_arg(
+			array(
+				'page'               => 'string-locator',
+				'edit-file'          => true,
+				'file-type'          => 'sql',
+				'file-reference'     => sprintf(
+					'`%s`.`%s`',
+					$table_name,
+					$column_name
+				),
+				'sql-column'         => $column_name,
+				'sql-table'          => $table_name,
+				'sql-primary-column' => $primary_column,
+				'sql-primary-type'   => $primary_type,
+				'sql-primary-key'    => $match->primary_column,
+			),
+			admin_url( $this->path_to_use )
+		);
+	}
 }
 
 new Search();

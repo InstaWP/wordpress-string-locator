@@ -4,6 +4,7 @@ namespace JITS\StringLocator\Extension\SearchReplace\REST;
 
 use JITS\StringLocator\Base\REST;
 use JITS\StringLocator\Extension\SearchReplace\Replace\File;
+use JITS\StringLocator\Extension\SearchReplace\Replace\SQL;
 
 class Replace extends REST {
 
@@ -32,17 +33,37 @@ class Replace extends REST {
 			return new \WP_Error( 'invalid_nonce', __( 'Invalid nonce.', 'string-locator' ), array( 'status' => 400 ) );
 		}
 
-		$search_request = get_transient( 'string-locator-search-overview' );
+		// Ensure the regex flag is a boolean value.
+		$is_regex = $request->get_param( 'search_regex' );
+		if ( ! is_bool( $is_regex ) ) {
+			if ( 'false' === $is_regex ) {
+				$is_regex = false;
+			} else {
+				$is_regex = true;
+			}
+		}
 
 		switch ( $request->get_param( 'type' ) ) {
+			case 'sql':
+				$handler = new SQL(
+					$request->get_param( 'primaryColumn' ),
+					$request->get_param( 'primaryKey' ),
+					$request->get_param( 'primaryType' ),
+					$request->get_param( 'tableName' ),
+					$request->get_param( 'columnName' ),
+					$request->get_param( 'search_string' ),
+					$request->get_param( 'replace_string' ),
+					$is_regex
+				);
+				break;
 			case 'file':
 			default:
 				$handler = new File(
 					$request->get_param( 'filename' ),
 					$request->get_param( 'linenum' ),
-					$search_request->search,
+					$request->get_param( 'search_string' ),
 					$request->get_param( 'replace_string' ),
-					$search_request->regex
+					$is_regex
 				);
 		}
 
@@ -56,12 +77,19 @@ class Replace extends REST {
 			return $replace;
 		}
 
-		$string_preview = sprintf(
-			'%s<div class="row-actions"><span class="edit"><a href="%s">%s</a></span></div>',
-			$replace,
-			$handler->get_edit_url( trailingslashit( ABSPATH ) . $request->get_param( 'filename' ), $request->get_param( 'linenum' ), 0 ),
-			esc_html__( 'Edit', 'string-locator' )
-		);
+		/*
+		 * A `true` response means no errors occurred, but also no replacements/updated were made.
+		 */
+		if ( true !== $replace ) {
+			$string_preview = sprintf(
+				'%s<div class="row-actions"><span class="edit"><a href="%s">%s</a></span></div>',
+				$replace,
+				$handler->get_edit_url(),
+				esc_html__( 'Edit', 'string-locator' )
+			);
+		} else {
+			$string_preview = true;
+		}
 
 		return new \WP_REST_Response(
 			array(
