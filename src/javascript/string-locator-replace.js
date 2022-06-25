@@ -16,7 +16,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		searchResultText;
 
 	function replaceSingleInstance( instance ) {
-		let formData = new FormData(),
+		const formData = new FormData(),
 			dataSets = { ...searchResultsTableRow[ instance ].dataset };
 
 		formData.append( '_wpnonce', stringLocatorReplace.rest_nonce );
@@ -52,14 +52,15 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				progressWrapper.style.display = 'none';
 			}
 		} ).catch( function( error ) {
-			console.error( error );
+			noticeWrapper.style.display = 'block';
+			noticeWrapper.innerHTML = error.message;
 		} );
 	}
 
 	replaceForm.addEventListener( 'submit', function( e ) {
 		e.preventDefault();
 
-		searchResultsTableRow = searchResultsTable.getElementsByTagName( 'tbody' )[0].getElementsByTagName( 'tr' );
+		searchResultsTableRow = searchResultsTable.getElementsByTagName( 'tbody' )[ 0 ].getElementsByTagName( 'tr' );
 
 		progressWrapper.style.display = 'block';
 		progressText.innerText = stringLocatorReplace.string.replace_started;
