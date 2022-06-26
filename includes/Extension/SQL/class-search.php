@@ -25,6 +25,9 @@ class Search extends SearchBase {
 
 		$row = sprintf(
 			'<tr data-type="sql" data-primary-key="%d" data-primary-column="%s" data-primary-type="%s" data-table-name="%s" data-column-name="%s">
+				<th scope="row" class="check-column">
+					<input type="checkbox" name="string-locator-replace-checked[]" class="check-column-box">
+				</th>
                 <td>
                 	%s
                 	<div class="row-actions">
