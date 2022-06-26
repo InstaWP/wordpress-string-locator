@@ -9,6 +9,12 @@ class Replace {
 		add_action( 'string_locator_search_results_tablenav_controls', array( $this, 'output_replace_form' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'maybe_enqueue_assets' ) );
+
+		add_action( 'string_locator_search_templates', array( $this, 'add_replace_response_template' ) );
+	}
+
+	public function add_replace_response_template() {
+		require_once STRING_LOCATOR_PLUGIN_DIR . '/includes/Extension/SearchReplace/template/error-notice.php';
 	}
 
 	public function maybe_enqueue_assets( $hook ) {

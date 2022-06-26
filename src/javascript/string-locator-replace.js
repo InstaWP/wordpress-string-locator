@@ -13,7 +13,8 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		searchString = document.getElementById( 'string-locator-string' ),
 		searchRegex = document.getElementById( 'string-locator-regex' ),
 		replaceFormButtonAll = document.getElementById( 'string-locator-replace-button-all' ),
-		replaceFormButtonSelect = document.getElementById( 'string-locator-replace-button-selected' );
+		replaceFormButtonSelect = document.getElementById( 'string-locator-replace-button-selected' ),
+		httpErrorTemplate = wp.template( 'string-locator-replace-error' );
 
 	let searchResultsTableRow,
 		searchResultText,
@@ -60,22 +61,33 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		).then(
 			( response ) => response.json()
 		).then( function( response ) {
-			searchResultText = searchResultsTableRow[ instance ].getElementsByTagName( 'td' )[ 0 ];
-
-			if ( true !== response.data.replace_string ) {
-				searchResultText.innerHTML = response.data.replace_string;
-			}
-
-			if ( instance < ( searchResultsTableRow.length - 1 ) ) {
-				replaceSingleInstance( instance + 1 );
+			if ( ! response?.success ) {
+				httpRequestErrorHandler( response );
 			} else {
-				progressWrapper.style.display = 'none';
-				replaceFormDoAll = false;
+				searchResultText = searchResultsTableRow[ instance ].getElementsByTagName( 'td' )[ 0 ];
+
+				if ( true !== response.data.replace_string ) {
+					searchResultText.innerHTML = response.data.replace_string;
+				}
+
+				if ( instance < ( searchResultsTableRow.length - 1 ) ) {
+					replaceSingleInstance( instance + 1 );
+				} else {
+					progressWrapper.style.display = 'none';
+					replaceFormDoAll = false;
+				}
 			}
 		} ).catch( function( error ) {
-			noticeWrapper.style.display = 'block';
-			noticeWrapper.innerHTML = error.message;
+			httpRequestErrorHandler( error );
 		} );
+	}
+
+	function httpRequestErrorHandler( error ) {
+		noticeWrapper.style.display = 'block';
+		progressWrapper.style.display = 'none';
+		replaceFormDoAll = false;
+
+		noticeWrapper.innerHTML += httpErrorTemplate( error );
 	}
 
 	function handleFormSubmission() {
