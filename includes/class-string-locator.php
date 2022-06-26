@@ -48,6 +48,12 @@ class String_Locator {
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 		add_filter( 'string_locator_search_sources_markup', array( $this, 'add_search_options' ), 10, 2 );
+
+		add_action( 'string_locator_search_templates', array( $this, 'add_search_restults_templates' ) );
+	}
+
+	public function add_search_restults_templates() {
+		require_once STRING_LOCATOR_PLUGIN_DIR . '/views/templates/search-default.php';
 	}
 
 	public function add_search_options( $searchers, $search_location ) {
@@ -259,6 +265,9 @@ class String_Locator {
 
 		$row = sprintf(
 			'<tr data-type="file" data-linenum="%6$d" data-filename="%4$s">
+				<th scope="row" class="check-column">
+					<input type="checkbox" name="string-locator-replace-checked[]" class="check-column-box">
+				</th>
                 <td>
                 	%1$s
                 	<div class="row-actions">
@@ -326,6 +335,10 @@ class String_Locator {
 
 		$table_columns = sprintf(
 			'<tr>
+				<th scope="col" class="manage-column column-cb check-column">
+					<label class="screen-reader-text" for="cb-select-all-1">Select All</label>
+					<input id="cb-select-all-1" type="checkbox">
+				</th>
 				<th scope="col" class="manage-column column-stringresult column-primary string">%s</th>
 				<th scope="col" class="manage-column column-filename filename">%s</th>
 				<th scope="col" class="manage-column column-linenum line">%s</th>
