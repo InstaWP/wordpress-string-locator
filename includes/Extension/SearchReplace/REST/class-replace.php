@@ -99,14 +99,35 @@ class Replace extends REST {
 				if ( is_wp_error( $loopback ) ) {
 					$handler->restore();
 
-					return new \WP_Error( 'loopback_failed', __( 'Your site could not be loaded after the edits were made, and the changes were reverted.', 'string-locator' ), array( 'status' => 400 ) );
+					return new \WP_Error(
+						'loopback_failed',
+						sprintf(
+							// translators: 1: The URL being requested.
+							__( 'The address `%s` could not be loaded after the edits were made, and the changes were therefore reverted.', 'string-locator' ),
+							esc_html( $url )
+						),
+						array(
+							'status' => 400,
+						)
+					);
 				}
 
 				$response_code = wp_remote_retrieve_response_code( $loopback );
 				if ( (int) substr( $response_code, 0, 1 ) > 3 ) {
 					$handler->restore();
 
-					return new \WP_Error( 'loopback_failed', __( 'Your site could not be loaded after the edits were made, and the changes were reverted.', 'string-locator' ), array( 'status' => 400 ) );
+					return new \WP_Error(
+						'loopback_failed',
+						sprintf(
+							// translators: 1: The URL being requested. 2: The HTTP status code returned.
+							__( 'The address `%1$s` returned an error code (%2$s), and the changes were therefore reverted.', 'string-locator' ),
+							esc_html( $url ),
+							esc_html( $response_code )
+						),
+						array(
+							'status' => 400,
+						)
+					);
 				}
 			}
 		}
