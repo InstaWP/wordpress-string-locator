@@ -60,10 +60,14 @@ class File {
 			fwrite( $file, $file_line );
 		}
 
+		fclose( $file );
+
 		return String_Locator::create_preview( $file_contents[ $this->line ], $this->new_string, $this->regex );
 	}
 
 	public function restore() {
+		$file_contents = file( $this->file );
+
 		$file_contents[ $this->line ] = $this->original_string;
 
 		$file = fopen( $this->file, 'w' );
@@ -71,6 +75,8 @@ class File {
 		foreach ( $file_contents as $file_line ) {
 			fwrite( $file, $file_line );
 		}
+
+		fclose( $file );
 
 		return true;
 	}

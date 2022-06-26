@@ -43,6 +43,15 @@ class Replace extends REST {
 			}
 		}
 
+		$check_loopback = $request->get_param( 'replace_loopback' );
+		if ( ! is_bool( $check_loopback ) ) {
+			if ( 'false' === $check_loopback ) {
+				$check_loopback = false;
+			} else {
+				$check_loopback = true;
+			}
+		}
+
 		switch ( $request->get_param( 'type' ) ) {
 			case 'sql':
 				$handler = new SQL(
@@ -75,6 +84,31 @@ class Replace extends REST {
 
 		if ( is_wp_error( $replace ) ) {
 			return $replace;
+		}
+
+		// Basic check to ensure the site is not broken after the modifications.
+		if ( $check_loopback ) {
+			$urls = array(
+				get_site_url( null, '/' ),
+				get_admin_url( null, '/' ),
+			);
+
+			foreach ( $urls as $url ) {
+				$loopback = wp_remote_head( $url );
+
+				if ( is_wp_error( $loopback ) ) {
+					$handler->restore();
+
+					return new \WP_Error( 'loopback_failed', __( 'Your site could not be loaded after the edits were made, and the changes were reverted.', 'string-locator' ), array( 'status' => 400 ) );
+				}
+
+				$response_code = wp_remote_retrieve_response_code( $loopback );
+				if ( (int) substr( $response_code, 0, 1 ) > 3 ) {
+					$handler->restore();
+
+					return new \WP_Error( 'loopback_failed', __( 'Your site could not be loaded after the edits were made, and the changes were reverted.', 'string-locator' ), array( 'status' => 400 ) );
+				}
+			}
 		}
 
 		/*

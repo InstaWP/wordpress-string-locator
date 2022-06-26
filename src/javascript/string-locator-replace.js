@@ -1,6 +1,7 @@
 /* global stringLocatorReplace, fetch, confirm, FormData, Event */
 document.addEventListener( 'DOMContentLoaded', function() {
 	const replaceStringField = document.getElementById( 'string-locator-replace-new-string' ),
+		replaceLoopbackCheckbox = document.getElementById( 'string-locator-replace-loopback-check' ),
 		toggleButton = document.getElementById( 'string-locator-toggle-replace-controls' ),
 		replaceControls = document.getElementById( 'string-locator-replace-form' ),
 		replaceForm = document.getElementById( 'string-locator-replace-form' ),
@@ -44,6 +45,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		formData.append( 'replace_string', replaceStringField.value );
 		formData.append( 'search_string', searchString.value );
 		formData.append( 'search_regex', searchRegex.checked );
+		formData.append( 'replace_loopback', replaceLoopbackCheckbox.checked );
 
 		for ( const key in dataSets ) {
 			formData.append( key, dataSets[ key ] );
