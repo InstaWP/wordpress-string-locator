@@ -343,7 +343,7 @@ class String_Locator {
 		}
 
 		$table = sprintf(
-			'<div class="tablenav top"><br class="clear"></div><table class="%s" id="string-locator-search-results-table"><thead>%s</thead><tbody>%s</tbody><tfoot>%s</tfoot></table>',
+			'<table class="%s" id="string-locator-search-results-table"><thead>%s</thead><tbody>%s</tbody><tfoot>%s</tfoot></table>',
 			implode( ' ', $table_class ),
 			$table_columns,
 			implode( "\n", $table_rows ),

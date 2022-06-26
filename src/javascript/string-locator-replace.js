@@ -74,6 +74,14 @@ document.addEventListener( 'DOMContentLoaded', function() {
 
 	toggleButton.addEventListener( 'click', function() {
 		replaceControls.classList.toggle( 'visible' );
+
+		if ( replaceControls.classList.contains( 'visible' ) ) {
+			toggleButton.setAttribute( 'aria-expanded', 'true' );
+			toggleButton.innerText = stringLocatorReplace.string.button_hide;
+		} else {
+			toggleButton.setAttribute( 'aria-expanded', 'false' );
+			toggleButton.innerText = stringLocatorReplace.string.button_show;
+		}
 	} );
 } );
 

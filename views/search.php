@@ -96,9 +96,27 @@ if ( isset( $_GET['restore'] ) ) {
 	 * immediately preceding the table displaying search results.
 	 */
 	do_action( 'string_locator_before_search_results_table' );
+
+	$wrapper_classes = array(
+		'table-wrapper',
+	);
+
+	if ( isset( $_GET['restore'] ) ) {
+		$wrapper_classes[] = 'restore';
+	}
 	?>
 
-	<div class="table-wrapper">
+	<div id="string-locator-search-results-table-wrapper" class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>">
+		<div class="tablenav top">
+			<?php
+			/**
+			 * An action to output controls in the tablenav region, which only
+			 * become visible when there are search results available.
+			 */
+			do_action( 'string_locator_search_results_tablenav_controls' );
+			?>
+			<br class="clear" />
+		</div>
 		<?php
 		if ( isset( $_GET['restore'] ) ) {
 			$items = get_option( 'string-locator-search-history', array() );

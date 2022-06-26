@@ -5,8 +5,8 @@ namespace JITS\StringLocator\Extension\SearchReplace;
 class Replace {
 
 	public function __construct() {
-		add_action( 'string_locator_after_search_buttons', array( $this, 'add_replace_button' ) );
-		add_action( 'string_locator_before_search_results_table', array( $this, 'output_replace_form' ) );
+		add_action( 'string_locator_search_results_tablenav_controls', array( $this, 'add_replace_button' ) );
+		add_action( 'string_locator_search_results_tablenav_controls', array( $this, 'output_replace_form' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'maybe_enqueue_assets' ) );
 	}
@@ -38,6 +38,8 @@ class Replace {
 				),
 				'string'        => array(
 					'replace_started' => __( 'Running replacemenets...', 'string-locator' ),
+					'button_show'     => __( 'Show replacement controls', 'string-locator' ),
+					'button_hide'     => __( 'Hide replacement controls', 'string-locator' ),
 				),
 			)
 		);
@@ -45,7 +47,7 @@ class Replace {
 
 	public function add_replace_button() {
 		printf(
-			'<button type="button" class="button button-primary" id="string-locator-toggle-replace-controls">%s</button>',
+			'<button type="button" class="button button-link" id="string-locator-toggle-replace-controls" aria-expanded="false" aria-controls="string-locator-replace-form">%s</button>',
 			esc_html__( 'Show replacement controls', 'string-locator' )
 		);
 	}

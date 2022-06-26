@@ -1,3 +1,19 @@
+#string-locator-search-results-table-wrapper {
+
+	display: none;
+
+	&.restore {
+
+		display: block;
+	}
+
+	.tablenav {
+
+		min-height: 30px;
+		height: initial;
+	}
+}
+
 table {
 
 	&.tools_page_string-locator { /* stylelint-disable-line selector-class-pattern -- WordPress' class for page paths */

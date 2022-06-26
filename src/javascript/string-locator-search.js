@@ -13,7 +13,8 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		searchTarget = document.getElementById( 'string-locator-search' ),
 		searchString = document.getElementById( 'string-locator-string' ),
 		searchRegex = document.getElementById( 'string-locator-regex' ),
-		tableWrapper = document.getElementsByTagName( 'table' )[ 0 ],
+		tableContainerWrapper = document.getElementById( 'string-locator-search-results-table-wrapper' ),
+		tableWrapper = document.getElementById( 'string-locator-search-results-table' ),
 		tableBody = document.getElementsByTagName( 'tbody' )[ 0 ];
 
 	function addNotice( title, message, format ) {
@@ -144,6 +145,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		);
 
 		tableWrapper.style.display = 'table';
+		tableContainerWrapper.style.display = 'block';
 
 		formData.append( 'data', directoryRequest );
 		formData.append( '_wpnonce', string_locator.rest_nonce );
@@ -194,6 +196,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		);
 
 		tableWrapper.style.display = 'table';
+		tableContainerWrapper.style.display = 'block';
 
 		formData.append( 'data', directoryRequest );
 		formData.append( '_wpnonce', string_locator.rest_nonce );
