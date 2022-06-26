@@ -20,8 +20,11 @@ $this_url = admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) . 
 		</p>
 
 		<p>
-			<button type="submit" class="button button-primary">
-				<?php esc_html_e( 'Replace strings', 'string-locator' ); ?>
+			<button type="button" class="button button-primary" id="string-locator-replace-button-all">
+				<?php esc_html_e( 'Replace all strings', 'string-locator' ); ?>
+			</button>
+			<button type="button" class="button button-primary" id="string-locator-replace-button-selected">
+				<?php esc_html_e( 'Replace selected strings', 'string-locator' ); ?>
 			</button>
 		</p>
 	</form>

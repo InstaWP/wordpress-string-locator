@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <script id="tmpl-string-locator-search-result" type="text/template">
 	<tr>
+		<th scope="row" class="check-column">
+			<input type="checkbox" name="string-locator-replace-checked[]" class="check-column-box">
+		</th>
 		<td>
 			{{{ data.stringresult }}}
 

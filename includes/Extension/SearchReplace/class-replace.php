@@ -40,6 +40,7 @@ class Replace {
 					'replace_started' => __( 'Running replacemenets...', 'string-locator' ),
 					'button_show'     => __( 'Show replacement controls', 'string-locator' ),
 					'button_hide'     => __( 'Hide replacement controls', 'string-locator' ),
+					'confirm_all'     => __( 'Are you sure you want to replace all strings?', 'string-locator' ),
 				),
 			)
 		);

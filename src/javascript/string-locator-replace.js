@@ -1,4 +1,4 @@
-/* global stringLocatorReplace, fetch, FormData */
+/* global stringLocatorReplace, fetch, confirm, FormData, Event */
 document.addEventListener( 'DOMContentLoaded', function() {
 	const replaceStringField = document.getElementById( 'string-locator-replace-new-string' ),
 		toggleButton = document.getElementById( 'string-locator-toggle-replace-controls' ),
@@ -10,14 +10,34 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		progressIndicator = document.getElementById( 'string-locator-search-progress' ),
 		progressText = document.getElementById( 'string-locator-feedback-text' ),
 		searchString = document.getElementById( 'string-locator-string' ),
-		searchRegex = document.getElementById( 'string-locator-regex' );
+		searchRegex = document.getElementById( 'string-locator-regex' ),
+		replaceFormButtonAll = document.getElementById( 'string-locator-replace-button-all' ),
+		replaceFormButtonSelect = document.getElementById( 'string-locator-replace-button-selected' );
 
 	let searchResultsTableRow,
-		searchResultText;
+		searchResultText,
+		replaceFormConfirmed = false,
+		replaceFormDoAll = false;
 
 	function replaceSingleInstance( instance ) {
 		const formData = new FormData(),
 			dataSets = { ...searchResultsTableRow[ instance ].dataset };
+
+		progressIndicator.value = instance;
+
+		// Check if this line has been ticked off if not replacing all entries.
+		if ( ! replaceFormDoAll ) {
+			if ( ! searchResultsTableRow[ instance ].getElementsByClassName( 'check-column-box' )[ 0 ].checked ) {
+				if ( instance < ( searchResultsTableRow.length - 1 ) ) {
+					replaceSingleInstance( instance + 1 );
+				} else {
+					progressWrapper.style.display = 'none';
+					replaceFormDoAll = false;
+				}
+
+				return;
+			}
+		}
 
 		formData.append( '_wpnonce', stringLocatorReplace.rest_nonce );
 		formData.append( 'replace_nonce', stringLocatorReplace.replace_nonce );
@@ -28,8 +48,6 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		for ( const key in dataSets ) {
 			formData.append( key, dataSets[ key ] );
 		}
-
-		progressIndicator.value = instance;
 
 		fetch(
 			stringLocatorReplace.url.replace,
@@ -50,6 +68,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				replaceSingleInstance( instance + 1 );
 			} else {
 				progressWrapper.style.display = 'none';
+				replaceFormDoAll = false;
 			}
 		} ).catch( function( error ) {
 			noticeWrapper.style.display = 'block';
@@ -57,8 +76,12 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		} );
 	}
 
-	replaceForm.addEventListener( 'submit', function( e ) {
-		e.preventDefault();
+	function handleFormSubmission() {
+		if ( ! replaceFormConfirmed ) {
+			replaceFormButtonAll.dispatchEvent( new Event( 'click' ) );
+
+			return false;
+		}
 
 		searchResultsTableRow = searchResultsTable.getElementsByTagName( 'tbody' )[ 0 ].getElementsByTagName( 'tr' );
 
@@ -69,7 +92,34 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		progressIndicator.value = 0;
 		progressIndicator.setAttribute( 'max', searchResultsTableRow.length );
 
+		replaceFormConfirmed = false;
+
 		replaceSingleInstance( 0 );
+	}
+
+	replaceForm.addEventListener( 'submit', function( e ) {
+		e.preventDefault();
+
+		handleFormSubmission();
+
+		return false;
+	} );
+
+	replaceFormButtonAll.addEventListener( 'click', function() {
+		if ( ! confirm( stringLocatorReplace.string.confirm_all ) ) { // eslint-disable-line no-alert -- We need the users confirmation before doing an action on all results.
+			return false;
+		}
+
+		replaceFormDoAll = true;
+		replaceFormConfirmed = true;
+
+		handleFormSubmission();
+	} );
+	replaceFormButtonSelect.addEventListener( 'click', function() {
+		replaceFormDoAll = false;
+		replaceFormConfirmed = true;
+
+		handleFormSubmission();
 	} );
 
 	toggleButton.addEventListener( 'click', function() {
