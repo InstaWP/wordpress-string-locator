@@ -10,6 +10,7 @@ namespace JITS\StringLocator\Extension\SearchReplace\Replace;
 
 use JITS\StringLocator\Extension\SQL\Search;
 use JITS\StringLocator\String_Locator;
+use function JITS\StringLocator\Extension\SQL\validate_sql_fields;
 
 class SQL {
 
@@ -39,6 +40,16 @@ class SQL {
 	}
 
 	public function validate() {
+		if ( ! validate_sql_fields( $this->primary_column ) ) {
+			return false;
+		}
+		if ( ! validate_sql_fields( $this->table_name ) ) {
+			return false;
+		}
+		if ( ! validate_sql_fields( $this->column_name ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
