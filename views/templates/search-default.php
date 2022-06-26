@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <script id="tmpl-string-locator-search-result" type="text/template">
-	<tr>
+	<tr data-type="file" data-linenum="{{ data.linenum }}" data-filename="{{ data.filename_raw }}">
 		<th scope="row" class="check-column">
 			<input type="checkbox" name="string-locator-replace-checked[]" class="check-column-box">
 		</th>
