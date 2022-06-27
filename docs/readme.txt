@@ -47,6 +47,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 = 2.6.0 (TBD) =
 * Added database search feature.
+* Added tools for quickly replacing data in the search results.
 * Added many more filters and actions.
 * Removed one-time donation notice
 * Removed jQuery dependency in favor of vanilla JavaScript code
