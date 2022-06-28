@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator\Extensions\SQL\Tests;
+namespace StringLocator\Extensions\SQL\Tests;
 
 class Serialized_Data {
 

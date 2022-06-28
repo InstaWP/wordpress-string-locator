@@ -6,11 +6,11 @@
  * interconnect.it Search-Replace script (https://github.com/interconnectit/Search-Replace-DB).
  */
 
-namespace JITS\StringLocator\Extension\SearchReplace\Replace;
+namespace StringLocator\Extension\SearchReplace\Replace;
 
-use JITS\StringLocator\Extension\SQL\Search;
-use JITS\StringLocator\String_Locator;
-use function JITS\StringLocator\Extension\SQL\validate_sql_fields;
+use StringLocator\Extension\SQL\Search;
+use StringLocator\String_Locator;
+use function StringLocator\Extension\SQL\validate_sql_fields;
 
 class SQL {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator\Extension\SearchReplace;
+namespace StringLocator\Extension\SearchReplace;
 
 // Primary extension class.
 require_once __DIR__ . '/class-replace.php';

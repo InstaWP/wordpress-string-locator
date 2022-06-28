@@ -1,10 +1,10 @@
 <?php
 
-namespace JITS\StringLocator\Extension\SearchReplace\REST;
+namespace StringLocator\Extension\SearchReplace\REST;
 
-use JITS\StringLocator\Base\REST;
-use JITS\StringLocator\Extension\SearchReplace\Replace\File;
-use JITS\StringLocator\Extension\SearchReplace\Replace\SQL;
+use StringLocator\Base\REST;
+use StringLocator\Extension\SearchReplace\Replace\File;
+use StringLocator\Extension\SearchReplace\Replace\SQL;
 
 class Replace extends REST {
 

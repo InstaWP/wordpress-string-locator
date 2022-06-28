@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator\Extension\SQL;
+namespace StringLocator\Extension\SQL;
 
 class Edit {
 

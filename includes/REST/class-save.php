@@ -1,8 +1,8 @@
 <?php
 
-namespace JITS\StringLocator\REST;
+namespace StringLocator\REST;
 
-use JITS\StringLocator\Base\REST;
+use StringLocator\Base\REST;
 
 class Save extends REST {
 
@@ -25,7 +25,7 @@ class Save extends REST {
 	}
 
 	public function save( \WP_REST_Request $request ) {
-		$handler = new \JITS\StringLocator\Save();
+		$handler = new \StringLocator\Save();
 
 		/**
 		 * Filters the REST Request parameter values that will be used for the save call.

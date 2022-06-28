@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator\Base;
+namespace StringLocator\Base;
 
 class REST extends \WP_REST_Controller {
 

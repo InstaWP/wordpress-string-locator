@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator\Tests;
+namespace StringLocator\Tests;
 
 class Smart_Scan {
 

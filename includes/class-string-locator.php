@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator;
+namespace StringLocator;
 
 /**
  * Class String_Locator

@@ -1,9 +1,9 @@
 <?php
 
-namespace JITS\StringLocator\Extension\SQL;
+namespace StringLocator\Extension\SQL;
 
-use JITS\StringLocator\Base\Search as SearchBase;
-use JITS\StringLocator\String_Locator;
+use StringLocator\Base\Search as SearchBase;
+use StringLocator\String_Locator;
 
 class Search extends SearchBase {
 

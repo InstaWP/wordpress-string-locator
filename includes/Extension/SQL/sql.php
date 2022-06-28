@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator\Extension\SQL;
+namespace StringLocator\Extension\SQL;
 
 function validate_sql_fields( $field ) {
 	return preg_match( '/^[0-9a-zA-Z_]+$/s', $field );

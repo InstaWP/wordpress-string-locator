@@ -1,8 +1,8 @@
 <?php
 
-namespace JITS\StringLocator\REST;
+namespace StringLocator\REST;
 
-use JITS\StringLocator\Base\REST;
+use StringLocator\Base\REST;
 
 class Clean extends REST {
 

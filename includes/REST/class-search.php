@@ -1,8 +1,8 @@
 <?php
 
-namespace JITS\StringLocator\REST;
+namespace StringLocator\REST;
 
-use JITS\StringLocator\Base\REST;
+use StringLocator\Base\REST;
 
 class Search extends REST {
 
@@ -25,7 +25,7 @@ class Search extends REST {
 	}
 
 	public function perform_search( \WP_REST_Request $request ) {
-		$handler = new \JITS\StringLocator\Search();
+		$handler = new \StringLocator\Search();
 
 		/**
 		 * Filter the search handler used to find strings.

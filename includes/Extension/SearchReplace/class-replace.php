@@ -1,6 +1,6 @@
 <?php
 
-namespace JITS\StringLocator\Extension\SearchReplace;
+namespace StringLocator\Extension\SearchReplace;
 
 class Replace {
 

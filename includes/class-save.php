@@ -1,9 +1,9 @@
 <?php
 
-namespace JITS\StringLocator;
+namespace StringLocator;
 
-use JITS\StringLocator\Tests\Loopback;
-use JITS\StringLocator\Tests\Smart_Scan;
+use StringLocator\Tests\Loopback;
+use StringLocator\Tests\Smart_Scan;
 
 class Save {
 

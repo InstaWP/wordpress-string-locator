@@ -1,9 +1,9 @@
 <?php
 
-namespace JITS\StringLocator\REST;
+namespace StringLocator\REST;
 
-use JITS\StringLocator\Base\REST;
-use JITS\StringLocator\Directory_Iterator;
+use StringLocator\Base\REST;
+use StringLocator\Directory_Iterator;
 
 class Directory_Structure extends REST {
 

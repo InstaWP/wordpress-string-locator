@@ -1,9 +1,9 @@
 <?php
 
-namespace JITS\StringLocator\Extension\SearchReplace\Replace;
+namespace StringLocator\Extension\SearchReplace\Replace;
 
-use JITS\StringLocator\Search;
-use JITS\StringLocator\String_Locator;
+use StringLocator\Search;
+use StringLocator\String_Locator;
 
 class File {
 
