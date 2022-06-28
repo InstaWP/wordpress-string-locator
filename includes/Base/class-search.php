@@ -1,7 +1,13 @@
 <?php
+/**
+ * Base class for handling Search requests.
+ */
 
 namespace StringLocator\Base;
 
+/**
+ * Search class.
+ */
 class Search {
 	/**
 	 * The server-configured max time a script can run.
@@ -31,6 +37,9 @@ class Search {
 	 */
 	protected $path_to_use = '';
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		/**
 		 * Define class variables requiring expressions
@@ -49,6 +58,11 @@ class Search {
 		add_action( 'string_locator_search_templates', array( $this, 'add_search_response_template' ) );
 	}
 
+	/**
+	 * Load an underscores template file to be used in the search response.
+	 *
+	 * @return void
+	 */
 	public function add_search_response_template() {
 		require_once STRING_LOCATOR_PLUGIN_DIR . '/views/templates/search-default.php';
 	}

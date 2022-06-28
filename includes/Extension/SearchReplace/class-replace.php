@@ -1,9 +1,18 @@
 <?php
+/**
+ * Base class for the Replace feature.
+ */
 
 namespace StringLocator\Extension\SearchReplace;
 
+/**
+ * Replace class.
+ */
 class Replace {
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		add_action( 'string_locator_search_results_tablenav_controls', array( $this, 'add_replace_button' ) );
 		add_action( 'string_locator_search_results_tablenav_controls', array( $this, 'output_replace_form' ) );
@@ -13,10 +22,22 @@ class Replace {
 		add_action( 'string_locator_search_templates', array( $this, 'add_replace_response_template' ) );
 	}
 
+	/**
+	 * Add error notice template.
+	 *
+	 * @return void
+	 */
 	public function add_replace_response_template() {
 		require_once STRING_LOCATOR_PLUGIN_DIR . '/includes/Extension/SearchReplace/template/error-notice.php';
 	}
 
+	/**
+	 * Conditionally register assets on the appropriate pages within wp-admin.
+	 *
+	 * @param string $hook The hook name for the page being loaded.
+	 *
+	 * @return void
+	 */
 	public function maybe_enqueue_assets( $hook ) {
 		// Break out early if we are not on a String Locator page
 		if ( 'tools_page_string-locator' !== $hook && 'toplevel_page_string-locator' !== $hook ) {
@@ -52,6 +73,11 @@ class Replace {
 		);
 	}
 
+	/**
+	 * Output a toggle button to display the replacement form.
+	 *
+	 * @return void
+	 */
 	public function add_replace_button() {
 		printf(
 			'<button type="button" class="button button-link" id="string-locator-toggle-replace-controls" aria-expanded="false" aria-controls="string-locator-replace-form">%s</button>',
@@ -59,6 +85,11 @@ class Replace {
 		);
 	}
 
+	/**
+	 * Output the replacement form.
+	 *
+	 * @return void
+	 */
 	public function output_replace_form() {
 		include_once __DIR__ . '/views/replace-form.php';
 	}

@@ -2,15 +2,28 @@
 
 namespace StringLocator\Extension\SQL;
 
+/**
+ * Save class.
+ */
 class Save {
 
 	private $override_save = false;
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		add_filter( 'string_locator_save_params', array( $this, 'check_save_parameters' ) );
 		add_filter( 'string_locator_save_handler', array( $this, 'maybe_handle_save' ) );
 	}
 
+	/**
+	 * Check the save parameters to determine if the SQL handler should take over the save request.
+	 *
+	 * @param array $parameters An array of REST API request parameters.
+	 *
+	 * @return array
+	 */
 	public function check_save_parameters( $parameters ) {
 		if ( isset( $parameters['file-type'] ) && 'sql' === $parameters['file-type'] ) {
 			$this->override_save = true;
@@ -19,6 +32,13 @@ class Save {
 		return $parameters;
 	}
 
+	/**
+	 * Override the save handler if the parameters indicate that the SQL handler should take over.
+	 *
+	 * @param mixed $handler The class handling the save request.
+	 *
+	 * @return self|mixed
+	 */
 	public function maybe_handle_save( $handler ) {
 		if ( ! $this->override_save ) {
 			return $handler;
@@ -27,6 +47,13 @@ class Save {
 		return $this;
 	}
 
+	/**
+	 * Funciton to trigger the save behavior.
+	 *
+	 * @param array $params An array of save parameters.
+	 *
+	 * @return array|\array[][]
+	 */
 	public function save( $params ) {
 		global $wpdb;
 

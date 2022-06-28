@@ -1,10 +1,16 @@
 <?php
+/**
+ * Class for handling replacements in files.
+ */
 
 namespace StringLocator\Extension\SearchReplace\Replace;
 
 use StringLocator\Search;
 use StringLocator\String_Locator;
 
+/**
+ * File class.
+ */
 class File {
 
 	private $file;
@@ -16,6 +22,15 @@ class File {
 
 	private $search;
 
+	/**
+	 * Class constructor.
+	 *
+	 * @param string $file       The relative path from the WordPress root to the file being edited.
+	 * @param int    $line       The line in the file containing the string to be replaced.
+	 * @param string $old_string The string to be replaced.
+	 * @param string $new_string The string to be added.
+	 * @param bool   $regex      Is the search string a regex string.
+	 */
 	public function __construct( $file, $line, $old_string, $new_string, $regex = false ) {
 		$this->file       = trailingslashit( ABSPATH ) . $file;
 		$this->line       = ( absint( $line ) - 1 );
@@ -26,10 +41,20 @@ class File {
 		$this->search = new Search();
 	}
 
+	/**
+	 * Validate that the file is in a location that does not allow directory traversals.
+	 *
+	 * @return bool
+	 */
 	public function validate() {
 		return String_Locator::is_valid_location( $this->file );
 	}
 
+	/**
+	 * Run the replacement function.
+	 *
+	 * @return bool|string|\WP_Error
+	 */
 	public function replace() {
 		// A value of 0 or lower indicates a filename or similar matched, and these should NOT be replaced.
 		if ( $this->line < 0 ) {
@@ -65,6 +90,11 @@ class File {
 		return String_Locator::create_preview( $file_contents[ $this->line ], $this->new_string, $this->regex );
 	}
 
+	/**
+	 * Restore the last ran modification.
+	 *
+	 * @return bool
+	 */
 	public function restore() {
 		$file_contents = file( $this->file );
 
@@ -81,6 +111,11 @@ class File {
 		return true;
 	}
 
+	/**
+	 * Return the URL for the editor interface for this file.
+	 *
+	 * @return string
+	 */
 	public function get_edit_url() {
 		return $this->search->create_edit_link( $this->file, $this->line, 0 );
 	}

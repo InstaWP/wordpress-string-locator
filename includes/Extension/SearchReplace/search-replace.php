@@ -1,4 +1,7 @@
 <?php
+/**
+ * Plugin Name: String Locator: Replacement module
+ */
 
 namespace StringLocator\Extension\SearchReplace;
 

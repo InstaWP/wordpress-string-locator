@@ -1,4 +1,8 @@
 <?php
+/**
+ * Template for notices returned form the REST API when performing a replacement.
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }

@@ -12,6 +12,9 @@ use StringLocator\Extension\SQL\Search;
 use StringLocator\String_Locator;
 use function StringLocator\Extension\SQL\validate_sql_fields;
 
+/**
+ * SQL class.
+ */
 class SQL {
 
 	private $table_name;
@@ -26,6 +29,18 @@ class SQL {
 
 	private $search;
 
+	/**
+	 * Class constructor.
+	 *
+	 * @param string $primary_column The name of the primary column of the entry being edited.
+	 * @param string $primary_key    The key identified of the primary column.
+	 * @param string $primary_type   The type of the primary column (`int` or `string`).
+	 * @param string $table_name     The name of the table to perform an edit within.
+	 * @param string $column_name    The column being edited.
+	 * @param string $old_string     The string to be replaced.
+	 * @param string $new_string     The string to be added.
+	 * @param bool   $regex          Is the search string a regex string.
+	 */
 	public function __construct( $primary_column, $primary_key, $primary_type, $table_name, $column_name, $old_string, $new_string, $regex = false ) {
 		$this->primary_column = $primary_column;
 		$this->primary_key    = $primary_key;
@@ -39,6 +54,11 @@ class SQL {
 		$this->search = new Search();
 	}
 
+	/**
+	 * Validate that the only non-escaped strings are alpha-numeric to avoid SQL injections.
+	 *
+	 * @return bool
+	 */
 	public function validate() {
 		if ( ! validate_sql_fields( $this->primary_column ) ) {
 			return false;
@@ -53,6 +73,11 @@ class SQL {
 		return true;
 	}
 
+	/**
+	 * Run the replacement function.
+	 *
+	 * @return bool|string|\WP_Error
+	 */
 	public function replace() {
 		global $wpdb;
 
@@ -104,6 +129,11 @@ class SQL {
 		return String_Locator::create_preview( $replaced_line, $this->new_string, $this->regex );
 	}
 
+	/**
+	 * Restore the last ran modification.
+	 *
+	 * @return bool
+	 */
 	public function restore() {
 		global $wpdb;
 

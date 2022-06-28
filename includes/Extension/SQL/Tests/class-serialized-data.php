@@ -1,7 +1,13 @@
 <?php
+/**
+ * Class for testing serialized data on SQL saves.
+ */
 
 namespace StringLocator\Extensions\SQL\Tests;
 
+/**
+ * Serialized_Data class.
+ */
 class Serialized_Data {
 
 	/**
@@ -28,6 +34,13 @@ class Serialized_Data {
 		add_filter( 'string_locator_pre_save_fail_notice', array( $this, 'return_failure_notices' ) );
 	}
 
+	/**
+	 * Combine reported errors with any new notices.
+	 *
+	 * @param $notices
+	 *
+	 * @return mixed
+	 */
 	public function return_failure_notices( $notices ) {
 		if ( empty( $this->errors ) ) {
 			return $notices;
@@ -39,6 +52,14 @@ class Serialized_Data {
 		);
 	}
 
+	/**
+	 * Conditionally run the test tool.
+	 *
+	 * @param bool   $can_save A boolean value if the test has passed or failed.
+	 * @param string $content  The content being modified.
+	 *
+	 * @return bool|mixed|null
+	 */
 	public function maybe_perform_test( $can_save, $content ) {
 		// If another addon has determined the file can not be saved, bail early.
 		if ( ! $can_save ) {
@@ -53,6 +74,11 @@ class Serialized_Data {
 		return $this->run( $content );
 	}
 
+	/**
+	 * Output a checkbox to enable or disable this feature from within the editor interface.
+	 *
+	 * @return void
+	 */
 	public function print_checks_option() {
 		if ( ! isset( $_GET['file-type'] ) || 'sql' !== $_GET['file-type'] ) {
 			return;

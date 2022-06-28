@@ -5,8 +5,14 @@ namespace StringLocator\Extension\SQL;
 use StringLocator\Base\Search as SearchBase;
 use StringLocator\String_Locator;
 
+/**
+ * Search class.
+ */
 class Search extends SearchBase {
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		add_filter( 'string_locator_search_sources_markup', array( $this, 'add_search_options' ), 11, 2 );
 
@@ -18,6 +24,14 @@ class Search extends SearchBase {
 		parent::__construct();
 	}
 
+	/**
+	 * Handle markup output when restoring a search result.
+	 *
+	 * @param string $row  The result row.
+	 * @param object $item The search result item for this row.
+	 *
+	 * @return string
+	 */
 	public function restore_sql_search( $row, $item ) {
 		if ( ! isset( $item->primary_key ) ) {
 			return $row;
@@ -68,6 +82,14 @@ class Search extends SearchBase {
 		return $row;
 	}
 
+	/**
+	 * Add SQL items as search options.
+	 *
+	 * @param string $searchers       The markup for the existing search options.
+	 * @param string $search_location The currently selected search option, when restoring a search.
+	 *
+	 * @return string
+	 */
 	public function add_search_options( $searchers, $search_location ) {
 		ob_start();
 		?>
@@ -83,10 +105,23 @@ class Search extends SearchBase {
 		return $searchers;
 	}
 
+	/**
+	 * Output the underscores template used for SQL search results.
+	 *
+	 * @return void
+	 */
 	public function add_search_response_template() {
 		require_once STRING_LOCATOR_PLUGIN_DIR . '/includes/Extension/SQL/views/template/search.php';
 	}
 
+	/**
+	 * Allow the SQL search to ignore the DirectoryIterator request used to build search bases for files.
+	 *
+	 * @param bool              $short_circuit Whether to short-circuit the DirectoryIterator request.
+	 * @param \WP_REST_Response $request       The WP_REST_Request for this API call.
+	 *
+	 * @return array
+	 */
 	public function maybe_short_circuit_directory_iterator( $short_circuit, $request ) {
 		$data = json_decode( $request->get_param( 'data' ) );
 
@@ -116,6 +151,14 @@ class Search extends SearchBase {
 		return $short_circuit;
 	}
 
+	/**
+	 * Conditionally override the search handler.
+	 *
+	 * @param mixed            $handler The currently active class for handling the search request.
+	 * @param \WP_REST_Request $request The request received by the REST API handler.
+	 *
+	 * @return $this
+	 */
 	public function maybe_perform_sql_search( $handler, $request ) {
 		$search_data = get_transient( 'string-locator-search-overview' );
 
@@ -126,6 +169,13 @@ class Search extends SearchBase {
 		return $this;
 	}
 
+	/**
+	 * Run the search.
+	 *
+	 * @param int $filenum An integer representing where in the line you are when doing batch searches.
+	 *
+	 * @return array
+	 */
 	public function run( $filenum ) {
 		global $wpdb;
 
@@ -281,6 +331,17 @@ class Search extends SearchBase {
 		return $response;
 	}
 
+	/**
+	 * Generate a link to the editor interface for a search result.
+	 *
+	 * @param string $table_name     The table name where a match was found.
+	 * @param string $column_name    The column name where a match was found.
+	 * @param string $primary_column The primary column from the table having a match.
+	 * @param string $primary_type   The type of the primary column.
+	 * @param object $match          An object containing details of the match.
+	 *
+	 * @return string
+	 */
 	public function create_edit_link( $table_name, $column_name, $primary_column, $primary_type, $match ) {
 		return add_query_arg(
 			array(

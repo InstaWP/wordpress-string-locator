@@ -1,4 +1,7 @@
 <?php
+/**
+ * Form output for the replace feature.
+ */
 
 namespace StringLocator;
 
@@ -7,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $this_url = admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) . '?page=string-locator' );
-
 ?>
 
 <div id="string-locator-replace-form">

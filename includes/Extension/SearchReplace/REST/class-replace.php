@@ -1,4 +1,7 @@
 <?php
+/**
+ * REST API endpoints for the replacement module.
+ */
 
 namespace StringLocator\Extension\SearchReplace\REST;
 
@@ -6,14 +9,25 @@ use StringLocator\Base\REST;
 use StringLocator\Extension\SearchReplace\Replace\File;
 use StringLocator\Extension\SearchReplace\Replace\SQL;
 
+/**
+ * Replace class.
+ */
 class Replace extends REST {
 
 	protected $rest_base = 'replace';
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 	}
 
+	/**
+	 * Register custom REST API endpoints.
+	 *
+	 * @return void
+	 */
 	public function register_rest_route() {
 		register_rest_route(
 			$this->namespace,
@@ -26,6 +40,13 @@ class Replace extends REST {
 		);
 	}
 
+	/**
+	 * REST API handler for the replacement endpoint.
+	 *
+	 * @param \WP_REST_Request $request A dynamic request object depending on the data type being replaced.
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function replace( \WP_REST_Request $request ) {
 		$replace_nonce = $request->get_param( 'replace_nonce' );
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Plugin Name: String Locator: SQL search module
+ */
 
 namespace StringLocator\Extension\SQL;
 

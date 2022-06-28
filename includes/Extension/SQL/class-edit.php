@@ -1,9 +1,18 @@
 <?php
+/**
+ * Class to handle the edit page.
+ */
 
 namespace StringLocator\Extension\SQL;
 
+/**
+ * Edit class.
+ */
 class Edit {
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		add_filter( 'string_locator_view', array( $this, 'sql_edit_page' ) );
 
@@ -11,6 +20,13 @@ class Edit {
 		add_filter( 'string_locator_editor_fields', array( $this, 'editor_form_fields' ) );
 	}
 
+	/**
+	 * Generate form fields that need ot be a part of the editor interface for this data type.
+	 *
+	 * @param array $fields An array of form fields to output in hidden elements.
+	 *
+	 * @return array
+	 */
 	public function editor_form_fields( $fields ) {
 		if ( isset( $_GET['file-type'] ) && 'sql' === $_GET['file-type'] ) {
 			$fields = array_merge(
@@ -28,6 +44,13 @@ class Edit {
 		return $fields;
 	}
 
+	/**
+	 * Append a helper class ot the wp-admin body class.
+	 *
+	 * @param string $class The classes for the admin body class.
+	 *
+	 * @return string
+	 */
 	public function admin_body_class( $class ) {
 		if ( isset( $_GET['file-type'] ) && 'sql' === $_GET['file-type'] && current_user_can( 'edit_themes' ) ) {
 			$class .= ' file-edit-screen';
@@ -36,6 +59,13 @@ class Edit {
 		return $class;
 	}
 
+	/**
+	 * Conditionally filter the editor interface for SQL files.
+	 *
+	 * @param string $include_path The path to the editor interface.
+	 *
+	 * @return string
+	 */
 	public function sql_edit_page( $include_path ) {
 		if ( ! isset( $_GET['file-type'] ) || 'sql' !== $_GET['file-type'] || ! current_user_can( 'edit_themes' ) ) {
 			return $include_path;
