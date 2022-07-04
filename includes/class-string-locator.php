@@ -60,8 +60,13 @@ class String_Locator {
 		ob_start();
 		?>
 		<optgroup label="<?php esc_attr_e( 'Core', 'string-locator' ); ?>">
-				<option value="core"><?php esc_html_e( 'The whole WordPress directory', 'string-locator' ); ?></option>
-		<option value="wp-content"><?php esc_html_e( 'Everything under wp-content', 'string-locator' ); ?></option>
+			<option value="core"><?php esc_html_e( 'The whole WordPress directory', 'string-locator' ); ?></option>
+			<option value="wp-content"><?php esc_html_e( 'Everything under wp-content', 'string-locator' ); ?></option>
+
+		    <?php if ( function_exists( 'wc_get_logger' ) ) : ?>
+		    <option value="wc-logs"><?php esc_html_e( 'WooCommerce Log Files', 'string-locator' ); ?></option>
+		    <?php endif; ?>
+
 		</optgroup>
 		<optgroup label="<?php esc_attr_e( 'Themes', 'string-locator' ); ?>">
 			<?php echo String_Locator::get_themes_options( $search_location ); ?>
