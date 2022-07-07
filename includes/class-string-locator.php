@@ -97,8 +97,8 @@ class String_Locator {
 	function plugin_row_meta( $meta, $plugin_file ) {
 		if ( 'string-locator/string-locator.php' === $plugin_file ) {
 			$meta[] = sprintf(
-				'<a href="https://github.com/sponsors/Clorith/">%s</a>',
-				esc_html__( 'Donate to this plugin', 'string-locator' )
+				'<a href="https://instawp.com/?utm_source=stringlocator/" target="_blank">%s</a>',
+				esc_html__( 'Create Disposable WordPress Sites in Seconds', 'string-locator' )
 			);
 		}
 
