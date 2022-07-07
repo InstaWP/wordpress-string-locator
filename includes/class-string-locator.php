@@ -599,7 +599,7 @@ class String_Locator {
 		 * Check that the ABSPath is the start of the path.
 		 * This helps ensure that no protocol triggers can be used as part of the file path.
 		 */
-		if ( $abspath !== substr( $path, 0, strlen( $abspath ) ) ) {
+		if ( substr( $path, 0, strlen( $abspath ) ) !== $abspath ) {
 			return false;
 		}
 
