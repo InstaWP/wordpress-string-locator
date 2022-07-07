@@ -2,7 +2,6 @@
 Contributors: Clorith
 Author URI: http://www.clorith.net
 Plugin URI: http://wordpress.org/plugins/string-locator/
-Donate link: https://www.paypal.me/clorith
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
 Tested up to: 6.0
