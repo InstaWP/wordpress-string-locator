@@ -50,10 +50,15 @@ class String_Locator {
 		add_filter( 'string_locator_search_sources_markup', array( $this, 'add_search_options' ), 10, 2 );
 
 		add_action( 'string_locator_search_templates', array( $this, 'add_search_restults_templates' ) );
+		add_action( 'string_locator_editor_sidebar_before_checks', array( $this, 'add_instawp_reference' ) );
 	}
 
 	public function add_search_restults_templates() {
 		require_once STRING_LOCATOR_PLUGIN_DIR . '/views/templates/search-default.php';
+	}
+
+	public function add_instawp_reference() {
+		include_once STRING_LOCATOR_PLUGIN_DIR . '/views/templates/instawp.php';
 	}
 
 	public function add_search_options( $searchers, $search_location ) {
