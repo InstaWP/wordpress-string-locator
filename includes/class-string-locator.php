@@ -587,26 +587,30 @@ class String_Locator {
 	 * @return bool
 	 */
 	public static function is_valid_location( $path ) {
-		$valid   = true;
 		$path    = str_replace( array( '/' ), array( DIRECTORY_SEPARATOR ), stripslashes( $path ) );
 		$abspath = str_replace( array( '/' ), array( DIRECTORY_SEPARATOR ), ABSPATH );
 
+		/*
+		 * Check that the ABSPath is the start of the path.
+		 * This helps ensure that no protocol triggers can be used as part of the file path.
+		 */
+		if ( $abspath !== substr( $path, 0, strlen( $abspath ) ) ) {
+			return false;
+		}
+
 		// Check that it is a valid file we are trying to access as well.
 		if ( ! file_exists( $path ) ) {
-			$valid = false;
+			return false;
 		}
 
 		if ( empty( $path ) ) {
-			$valid = false;
+			return false;
 		}
 		if ( stristr( $path, '..' ) ) {
-			$valid = false;
-		}
-		if ( ! stristr( $path, $abspath ) ) {
-			$valid = false;
+			return false;
 		}
 
-		return $valid;
+		return true;
 	}
 
 	public static function create_preview( $string_preview, $string, $regex = false ) {
