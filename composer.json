@@ -19,5 +19,10 @@
   "support": {
     "issues": "https://github.com/Clorith/wordpress-string-locator/issues",
     "source": "https://github.com/Clorith/wordpress-string-locator"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
