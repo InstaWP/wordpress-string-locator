@@ -50,6 +50,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 * Added database search feature.
 * Added tools for quickly replacing data in the search results.
 * Added many more filters and actions.
+* Added hardening of file path checks.
 * Removed one-time donation notice
 * Removed jQuery dependency in favor of vanilla JavaScript code
 * Separated search class into a base class for extenders
@@ -57,15 +58,6 @@ When writing your search string, make sure to wrap your search in forward slashe
 * Fixed bug in the list view if special characters were in the search string
 * Fixed a bug where RegEx search validation may have a false positive check for invalid patterns
 * Fixed missing translator function if Javascript is missing.
-
-= 2.5.0 (2022-02-27) =
-* Fixed a bug where content would have slashes stripped unexpectedly.
-* Improved table spacing on search results.
-* Improved loopback checks to also check admin access.
-* Hardened the search iterator so users can't accidentally perform unexpected directory traversal.
-* Introduced actions and filters in various places to enable extenders, and future enhancements.
-* Moved all ajax requests to dedicated REST endpoints.
-* Refactored file structure.
 
 = Older entries =
 See changelog.txt for the version history

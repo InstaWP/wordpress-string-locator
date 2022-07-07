@@ -1,3 +1,12 @@
+= 2.5.0 (2022-02-27) =
+* Fixed a bug where content would have slashes stripped unexpectedly.
+* Improved table spacing on search results.
+* Improved loopback checks to also check admin access.
+* Hardened the search iterator so users can't accidentally perform unexpected directory traversal.
+* Introduced actions and filters in various places to enable extenders, and future enhancements.
+* Moved all ajax requests to dedicated REST endpoints.
+* Refactored file structure.
+
 = 2.4.2 =
 * Fixed the option to restore previous search.
 * Fixed respecting text capitalization in previews when doing a non-regex search.
