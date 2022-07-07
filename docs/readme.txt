@@ -22,6 +22,8 @@ You can then quickly make edits directly in your browser by clicking the link fr
 By default a consistency check is performed when making edits to files, this will look for inconsistencies with braces, brackets and parenthesis that are often accidentally left in.
 This drastically reduces the risk of breaking your site when making edits, but is in no way an absolute guarantee.
 
+[Create Disposable WordPress Sites in Seconds](https://instawp.com/?utm_source=stringlocator)
+
 
 == Frequently asked questions ==
 
