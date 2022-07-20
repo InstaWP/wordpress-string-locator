@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/plugins/string-locator/
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
 Tested up to: 6.0
-Stable tag: 2.5.0
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,7 +46,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
-= 2.6.0 (TBD) =
+= 2.6.0 (2022-07-20) =
 * Added database search feature.
 * Added tools for quickly replacing data in the search results.
 * Added many more filters and actions.
