@@ -30,9 +30,10 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Setup node
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
+          cache: 'npm'
 
       - name: PHP Syntax check
         working-directory: ./
