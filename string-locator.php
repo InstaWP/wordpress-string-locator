@@ -1,15 +1,16 @@
 <?php
 /**
  * Plugin Name: String Locator
- * Plugin URI: http://www.clorith.net/wordpress-string-locator/
+ * Plugin URI: http://wordpress.org/plugins/string-locator/
  * Description: Scan through theme and plugin files looking for text strings
  * Version: 2.6.0-beta1
- * Author: Clorith
- * Author URI: http://www.clorith.net
+ * Author: InstaWP
+ * Author URI: https://instawp.com/
  * Text Domain: string-locator
  * License: GPL2
  *
  * Copyright 2013 Marius Jensen (email : marius@clorith.net)
+ *           2022 InstaWP (https://instawp.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as

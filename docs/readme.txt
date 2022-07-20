@@ -1,6 +1,6 @@
 === String locator ===
-Contributors: Clorith
-Author URI: http://www.clorith.net
+Contributors: InstaWP, Clorith
+Author URI: https://instawp.com/
 Plugin URI: http://wordpress.org/plugins/string-locator/
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
