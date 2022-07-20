@@ -2,18 +2,18 @@
   "name": "wordpress-string-locator",
   "version": "2.4.2",
   "description": "Find and edit code or texts in your themes and plugins.",
-  "author": "clorith",
+  "author": "instawp",
   "license": "GPL-2.0-or-later",
   "keywords": [
     "wordpress",
     "plugin"
   ],
-  "homepage": "https://www.clorith.net",
+  "homepage": "https://instawp.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Clorith/wordpress-string-locator"
+    "url": "https://github.com/InstaWP/wordpress-string-locator"
   },
-  "bugs": "https://github.com/Clorith/wordpress-string-locator/issues",
+  "bugs": "https://github.com/InstaWP/wordpress-string-locator/issues",
   "engines": {
     "node": ">=10.16.0"
   },
