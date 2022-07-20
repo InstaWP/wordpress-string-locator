@@ -236,7 +236,7 @@ class Search extends Base\Search {
 				'path'         => $path,
 				'filename'     => $path_string,
 				'filename_raw' => $relativepath,
-				'editurl'      => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
+				'editurl'      => ( current_user_can( String_Locator::$default_capability ) ? $editurl : false ),
 				'stringresult' => $file,
 			);
 		}
@@ -294,7 +294,7 @@ class Search extends Base\Search {
 						'path'         => $path,
 						'filename'     => $path_string,
 						'filename_raw' => $relativepath,
-						'editurl'      => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
+						'editurl'      => ( current_user_can( String_Locator::$default_capability ) ? $editurl : false ),
 						'stringresult' => $string_preview,
 					);
 				}

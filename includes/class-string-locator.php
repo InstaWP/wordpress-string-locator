@@ -14,6 +14,13 @@ class String_Locator {
 	public $string_locator_language = '';
 
 	/**
+	 * The default capability to check for when seeing if a user can access the plugin.
+	 *
+	 * @var string
+	 */
+	public static $default_capability = 'edit_themes';
+
+	/**
 	 * An array containing all notices to display.
 	 *
 	 * @var array
@@ -290,13 +297,13 @@ class String_Locator {
                 </td>
             </tr>',
 			$item->stringresult,
-			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
+			( ! current_user_can( String_Locator::$default_capability ) ? '' : sprintf(
 				'<span class="edit"><a href="%1$s" aria-label="%2$s">%2$s</a></span>',
 				esc_url( $item->editurl ),
 				// translators: The row-action edit link label.
 				esc_html__( 'Edit', 'string-locator' )
 			) ),
-			( ! current_user_can( 'edit_themes' ) ? $item->filename_raw : sprintf(
+			( ! current_user_can( String_Locator::$default_capability ) ? $item->filename_raw : sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( $item->editurl ),
 				esc_html( $item->filename_raw )
@@ -424,7 +431,7 @@ class String_Locator {
 		 */
 		wp_enqueue_style( 'string-locator', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator.css', array(), $search['version'] );
 
-		if ( ! isset( $_GET['edit-file'] ) || ! current_user_can( 'edit_themes' ) ) {
+		if ( ! isset( $_GET['edit-file'] ) || ! current_user_can( String_Locator::$default_capability ) ) {
 			/**
 			 * String Locator Scripts
 			 */
@@ -533,7 +540,7 @@ class String_Locator {
 		/**
 		 * Don't load anything if the user can't edit themes any way
 		 */
-		if ( ! current_user_can( 'update_core' ) ) {
+		if ( ! current_user_can( String_Locator::$default_capability ) ) {
 			return false;
 		}
 
@@ -546,7 +553,7 @@ class String_Locator {
 		 * - The edit file path query var does not contains double dots (used to traverse directories)
 		 * - The user is capable of editing files.
 		 */
-		if ( isset( $_GET['string-locator-path'] ) && self::is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
+		if ( isset( $_GET['string-locator-path'] ) && self::is_valid_location( $_GET['string-locator-path'] ) && current_user_can( String_Locator::$default_capability ) ) {
 			$include_path = trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/editors/default.php';
 		} else {
 			$include_path = trailingslashit( STRING_LOCATOR_PLUGIN_DIR ) . 'views/search.php';
@@ -560,7 +567,7 @@ class String_Locator {
 	}
 
 	function admin_body_class( $class ) {
-		if ( isset( $_GET['string-locator-path'] ) && self::is_valid_location( $_GET['string-locator-path'] ) && current_user_can( 'edit_themes' ) ) {
+		if ( isset( $_GET['string-locator-path'] ) && self::is_valid_location( $_GET['string-locator-path'] ) && current_user_can( String_Locator::$default_capability ) ) {
 			$class .= ' file-edit-screen';
 		}
 

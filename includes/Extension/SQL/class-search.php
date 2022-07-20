@@ -64,13 +64,13 @@ class Search extends SearchBase {
 			esc_attr( $item->table ),
 			esc_attr( $item->column ),
 			$item->stringresult,
-			( ! current_user_can( 'edit_themes' ) ? '' : sprintf(
+			( ! current_user_can( String_Locator::$default_capability ) ? '' : sprintf(
 				'<span class="edit"><a href="%1$s" aria-label="%2$s">%2$s</a></span>',
 				esc_url( $item->editurl ),
 				// translators: The row-action edit link label.
 				esc_html__( 'Edit', 'string-locator' )
 			) ),
-			( ! current_user_can( 'edit_themes' ) ? $item->filename : sprintf(
+			( ! current_user_can( String_Locator::$default_capability ) ? $item->filename : sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( $item->editurl ),
 				esc_html( $item->filename )
@@ -309,7 +309,7 @@ class Search extends SearchBase {
 							$table_name,
 							$column_name
 						),
-						'editurl'        => ( current_user_can( 'edit_themes' ) ? $editurl : false ),
+						'editurl'        => ( current_user_can( String_Locator::$default_capability ) ? $editurl : false ),
 						'stringresult'   => $string_preview,
 						'linepos'        => $string_location,
 						'linenum'        => 0,

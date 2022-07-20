@@ -122,7 +122,7 @@ class Save {
 	 * @return void
 	 */
 	private function write_file( $path, $content ) {
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		if ( ! current_user_can( String_Locator::$default_capability ) ) {
 			return;
 		}
 

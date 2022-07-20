@@ -5,6 +5,8 @@
 
 namespace StringLocator\Extension\SQL;
 
+use StringLocator\String_Locator;
+
 /**
  * Edit class.
  */
@@ -52,7 +54,7 @@ class Edit {
 	 * @return string
 	 */
 	public function admin_body_class( $class ) {
-		if ( isset( $_GET['file-type'] ) && 'sql' === $_GET['file-type'] && current_user_can( 'edit_themes' ) ) {
+		if ( isset( $_GET['file-type'] ) && 'sql' === $_GET['file-type'] && current_user_can( String_Locator::$default_capability ) ) {
 			$class .= ' file-edit-screen';
 		}
 
@@ -67,7 +69,7 @@ class Edit {
 	 * @return string
 	 */
 	public function sql_edit_page( $include_path ) {
-		if ( ! isset( $_GET['file-type'] ) || 'sql' !== $_GET['file-type'] || ! current_user_can( 'edit_themes' ) ) {
+		if ( ! isset( $_GET['file-type'] ) || 'sql' !== $_GET['file-type'] || ! current_user_can( String_Locator::$default_capability ) ) {
 			return $include_path;
 		}
 

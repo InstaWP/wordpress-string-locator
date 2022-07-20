@@ -5,6 +5,8 @@
 
 namespace StringLocator\Base;
 
+use StringLocator\String_Locator;
+
 /**
  * Base REST class.
  */
@@ -26,7 +28,7 @@ class REST extends \WP_REST_Controller {
 	 * @return bool
 	 */
 	public function permission_callback() {
-		return current_user_can( 'edit_themes' );
+		return current_user_can( String_Locator::$default_capability );
 	}
 
 }
