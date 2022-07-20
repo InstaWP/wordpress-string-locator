@@ -51,13 +51,13 @@ When writing your search string, make sure to wrap your search in forward slashe
 * Added tools for quickly replacing data in the search results.
 * Added many more filters and actions.
 * Added hardening of file path checks.
-* Removed one-time donation notice
-* Removed jQuery dependency in favor of vanilla JavaScript code
-* Separated search class into a base class for extenders
-* Fixed bug with code viewer sizes when resizing your window
-* Fixed bug in the list view if special characters were in the search string
-* Fixed a bug where RegEx search validation may have a false positive check for invalid patterns
+* Removed one-time donation notice.
+* Removed jQuery dependency in favor of vanilla JavaScript code.
+* Separated search class into a base class for extenders.
+* Fixed bug with code viewer sizes when resizing your window.
+* Fixed bug in the list view if special characters were in the search string.
+* Fixed a bug where RegEx search validation may have a false positive check for invalid patterns.
 * Fixed missing translator function if Javascript is missing.
 
 = Older entries =
-See changelog.txt for the version history
+See changelog.txt for the version history.
