@@ -48,7 +48,7 @@ jobs:
 
       - name: Set up node modules
         working-directory: ./
-        run: npm install
+        run: npm ci
 
       - name: CSS Lint
         working-directory: ./
