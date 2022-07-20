@@ -74,35 +74,21 @@ jobs:
           echo $changelog
           echo "::set-output name=changes::$changelog"
 
-      - name: Remove unneccesary assets
+      - name: Create plugin directory
         working-directory: ./
         run: |
-          mv docs/changelog.txt ./changelog.txt
-          mv docs/readme.txt ./readme.txt
-          rm -rf node_modules
-          rm -rf src
-          rm -rf .git
-          rm -rf .github
-          rm -rf docs
-          rm -rf vendor
-          rm -rf .editorconfig
-          rm -rf .eslintignore
-          rm -rf .eslintrc.js
-          rm -rf .gitignore
-          rm -rf .jscsrc
-          rm -rf .wp-env.json
-          rm -rf composer.json
-          rm -rf composer.lock
-          rm -rf package.json
-          rm -rf package-lock.json
-          rm -rf phpcs.xml.dist
-          rm -rf README.md
+          mkdir ./string-locator
+          mv ./string-locator.php ./string-locator/
+          mv ./uninstall.php ./string-locator/
+          mv docs/changelog.txt ./string-locator/changelog.txt
+          mv docs/readme.txt ./string-locator/readme.txt
+          mv build ./string-locator/
+          mv includes ./string-locator/
+          mv views ./string-locator/
 
       - name: Package build
         working-directory: ./
         run: |
-          mkdir string-locator
-          ls | grep -v string-locator/ | xargs mv -t string-locator
           zip -r string-locator string-locator
 
       - name: Create release
