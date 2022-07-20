@@ -58,6 +58,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 * Fixed bug in the list view if special characters were in the search string.
 * Fixed a bug where RegEx search validation may have a false positive check for invalid patterns.
 * Fixed missing translator function if Javascript is missing.
+* Improved capability checks for displaying the search interface when editing is disabled.
 
 = Older entries =
 See changelog.txt for the version history.

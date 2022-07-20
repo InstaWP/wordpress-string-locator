@@ -540,7 +540,7 @@ class String_Locator {
 		/**
 		 * Don't load anything if the user can't edit themes any way
 		 */
-		if ( ! current_user_can( String_Locator::$default_capability ) ) {
+		if ( ! current_user_can( 'edit_users' ) ) {
 			return false;
 		}
 
