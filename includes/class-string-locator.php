@@ -368,7 +368,7 @@ class String_Locator {
 		}
 
 		$table = sprintf(
-			'<table class="%s" id="string-locator-search-results-table"><thead>%s</thead><tbody>%s</tbody><tfoot>%s</tfoot></table>',
+			'<table class="%s" id="string-locator-search-results-table"><thead>%s</thead><tbody id="string-locator-search-results-tbody">%s</tbody><tfoot>%s</tfoot></table>',
 			implode( ' ', $table_class ),
 			$table_columns,
 			implode( "\n", $table_rows ),

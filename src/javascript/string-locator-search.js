@@ -15,7 +15,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		searchRegex = document.getElementById( 'string-locator-regex' ),
 		tableContainerWrapper = document.getElementById( 'string-locator-search-results-table-wrapper' ),
 		tableWrapper = document.getElementById( 'string-locator-search-results-table' ),
-		tableBody = document.getElementsByTagName( 'tbody' )[ 0 ];
+		tableBody = document.getElementById( 'string-locator-search-results-tbody' );
 
 	function addNotice( title, message, format ) {
 		noticeWrapper.innerHTML += '<div class="notice notice-' + format + ' is-dismissible"><p><strong>' + title + '</strong><br />' + message + '</p></div>';
