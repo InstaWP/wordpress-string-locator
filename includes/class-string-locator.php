@@ -21,6 +21,20 @@ class String_Locator {
 	public static $default_capability = 'edit_themes';
 
 	/**
+	 * The capability required to perform searches, but not necessarily edit files.
+	 *
+	 * We use the `edit_users` capability here, although this is not technically the most ideal,
+	 * all other relevant capabilities are disabled in one way or another when certain features
+	 * are used to disable things like the plugin or theme editing.
+	 *
+	 * The use of `edit_users` may also cause other problems, but we do not want to allow any user
+	 * access to search the entire filesystem, or database, without some sort of restriction.
+	 *
+	 * @var string
+	 */
+	public static $search_capability = 'edit_users';
+
+	/**
 	 * An array containing all notices to display.
 	 *
 	 * @var array

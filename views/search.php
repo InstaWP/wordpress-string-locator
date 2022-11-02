@@ -40,7 +40,7 @@ if ( isset( $_GET['restore'] ) ) {
 
 	<?php do_action( 'string_locator_view_search_pre_form' ); ?>
 
-	<?php if ( ! current_user_can( 'edit_themes' ) ) : ?>
+	<?php if ( ! current_user_can( String_Locator::$default_capability ) ) : ?>
 		<div class="notice notice-warning inline">
 			<p>
 				<strong>
@@ -49,6 +49,26 @@ if ( isset( $_GET['restore'] ) ) {
 			</p>
 			<p>
 				<?php esc_html_e( 'Because this site is configured to not allow direct file editing, the String Locator plugin has limited functionality and may noy allow you to directly edit files with your string in them.', 'string-locator' ); ?>
+			</p>
+			<p>
+				<?php esc_html_e( sprintf( 'To edit files, you need to have the `%s` capability.', String_Locator::$default_capability ), 'string-locator' ); ?>
+			</p>
+		</div>
+	<?php endif; ?>
+
+	<?php if ( ! current_user_can( String_Locator::$search_capability ) ) : ?>
+		<div class="notice notice-warning inline">
+			<p>
+				<strong>
+					<?php esc_html_e( 'String Locator is restricted.', 'string-locator' ); ?>
+				</strong>
+			</p>
+			<p>
+				<?php esc_html_e( 'Your user does not have the needed capabilities to edit, or search through files on this site.', 'string-locator' ); ?>
+			</p>
+
+			<p>
+				<?php esc_html_e( sprintf( 'To use the search feature, you need to have the `%s` capability.', String_Locator::$search_capability ), 'string-locator' ); ?>
 			</p>
 		</div>
 	<?php endif; ?>
