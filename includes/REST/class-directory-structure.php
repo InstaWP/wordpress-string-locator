@@ -4,6 +4,7 @@ namespace StringLocator\REST;
 
 use StringLocator\Base\REST;
 use StringLocator\Directory_Iterator;
+use StringLocator\String_Locator;
 
 class Directory_Structure extends REST {
 
@@ -23,6 +24,10 @@ class Directory_Structure extends REST {
 				'permission_callback' => array( $this, 'permission_callback' ),
 			)
 		);
+	}
+
+	public function permission_callback() {
+		return current_user_can( String_Locator::$search_capability );
 	}
 
 	public function get_structure( \WP_REST_Request $request ) {

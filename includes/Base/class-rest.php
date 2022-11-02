@@ -28,7 +28,7 @@ class REST extends \WP_REST_Controller {
 	 * @return bool
 	 */
 	public function permission_callback() {
-		return current_user_can( String_Locator::$search_capability );
+		return current_user_can( String_Locator::$default_capability );
 	}
 
 }

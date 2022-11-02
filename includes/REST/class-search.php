@@ -3,6 +3,7 @@
 namespace StringLocator\REST;
 
 use StringLocator\Base\REST;
+use StringLocator\String_Locator;
 
 class Search extends REST {
 
@@ -22,6 +23,10 @@ class Search extends REST {
 				'permission_callback' => array( $this, 'permission_callback' ),
 			)
 		);
+	}
+
+	public function permission_callback() {
+		return current_user_can( String_Locator::$search_capability );
 	}
 
 	public function perform_search( \WP_REST_Request $request ) {
