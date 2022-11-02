@@ -48,6 +48,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 = 2.6.1 (2022-11-02) =
 * Fixed a bug causing certain setups to be unable to perform searches when editing would also be unavailable.
+* Fixed a bug causing certain plugins to prevent the search results list from being displayed properly.
 * Verified compatibility with WordPress 6.1
 
 = 2.6.0 (2022-07-20) =
