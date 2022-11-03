@@ -18,7 +18,7 @@
     "node": ">=10.16.0"
   },
   "devDependencies": {
-    "@wordpress/env": "~5.5.0",
+    "@wordpress/env": "~5.6.0",
     "@wordpress/scripts": "~24.4.0",
     "@wordpress/stylelint-config": "^21.3.0"
   },
