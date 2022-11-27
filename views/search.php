@@ -51,7 +51,13 @@ if ( isset( $_GET['restore'] ) ) {
 				<?php esc_html_e( 'Because this site is configured to not allow direct file editing, the String Locator plugin has limited functionality and may noy allow you to directly edit files with your string in them.', 'string-locator' ); ?>
 			</p>
 			<p>
-				<?php esc_html_e( sprintf( 'To edit files, you need to have the `%s` capability.', String_Locator::$default_capability ), 'string-locator' ); ?>
+				<?php 
+					echo sprintf( 
+						// translators: 1: The capability needed for this feature.
+						esc_html__( 'To edit files, you need to have the `%s` capability.', 'string-locator' ),
+						String_Locator::$default_capability
+					);
+				?>
 			</p>
 		</div>
 	<?php endif; ?>
@@ -68,7 +74,13 @@ if ( isset( $_GET['restore'] ) ) {
 			</p>
 
 			<p>
-				<?php esc_html_e( sprintf( 'To use the search feature, you need to have the `%s` capability.', String_Locator::$search_capability ), 'string-locator' ); ?>
+				<?php 
+					echo sprintf(
+						// translators: 1: The capability needed for this feature.
+						esc_html__( 'To use the search feature, you need to have the `%s` capability.', 'string-locator' ),
+						String_Locator::$search_capability
+					);
+				?>
 			</p>
 		</div>
 	<?php endif; ?>
