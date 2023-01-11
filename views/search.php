@@ -28,7 +28,7 @@ if ( isset( $_GET['restore'] ) ) {
 		$search_regex    = String_Locator::absbool( $restore->regex );
 	} else {
 		?>
-	<div class="notice notice-large notice-warning"><?php esc_html_e( 'No previous searches could be restored.', 'string-locator' ); ?></div>
+		<div class="notice notice-large notice-warning"><?php esc_html_e( 'No previous searches could be restored.', 'string-locator' ); ?></div>
 		<?php
 	}
 }
@@ -52,11 +52,11 @@ if ( isset( $_GET['restore'] ) ) {
 			</p>
 			<p>
 				<?php
-					echo sprintf(
+				echo sprintf(
 						// translators: 1: The capability needed for this feature.
-						esc_html__( 'To edit files, you need to have the `%s` capability.', 'string-locator' ),
-						String_Locator::$default_capability
-					);
+					esc_html__( 'To edit files, you need to have the `%s` capability.', 'string-locator' ),
+					String_Locator::$default_capability
+				);
 				?>
 			</p>
 		</div>
@@ -75,11 +75,11 @@ if ( isset( $_GET['restore'] ) ) {
 
 			<p>
 				<?php
-					echo sprintf(
+				echo sprintf(
 						// translators: 1: The capability needed for this feature.
-						esc_html__( 'To use the search feature, you need to have the `%s` capability.', 'string-locator' ),
-						String_Locator::$search_capability
-					);
+					esc_html__( 'To use the search feature, you need to have the `%s` capability.', 'string-locator' ),
+					String_Locator::$search_capability
+				);
 				?>
 			</p>
 		</div>
@@ -89,9 +89,9 @@ if ( isset( $_GET['restore'] ) ) {
 		<label for="string-locator-search"><?php esc_html_e( 'Search through', 'string-locator' ); ?></label>
 		<select name="string-locator-search" id="string-locator-search">
 			<?php
-				$searchers = apply_filters( 'string_locator_search_sources_markup', '', $search_location );
+			$searchers = apply_filters( 'string_locator_search_sources_markup', '', $search_location );
 
-				echo $searchers;
+			echo $searchers;
 			?>
 		</select>
 
@@ -140,14 +140,27 @@ if ( isset( $_GET['restore'] ) ) {
 
 	<div id="string-locator-search-results-table-wrapper" class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>">
 		<div class="tablenav top">
-			<?php
-			/**
-			 * An action to output controls in the tablenav region, which only
-			 * become visible when there are search results available.
-			 */
-			do_action( 'string_locator_search_results_tablenav_controls' );
-			?>
-			<br class="clear" />
+			<div style="display: flex;">		
+				<div style="width: 50%;">
+					<?php
+					/**
+					 * An action to output controls in the tablenav region, which only
+					 * become visible when there are search results available.
+					 */
+					do_action( 'string_locator_search_results_tablenav_controls' );
+					?>
+				</div>
+				<br class="clear" />
+				<div style="width: 50%;">
+					<?php
+					/**
+					 * An action to output controls in the tablenav region, which only
+					 * become visible when there are search results available.
+					 */
+					do_action( 'string_locator_instawp_tablenav_controls' );
+					?>
+				</div>
+			</div>
 		</div>
 		<?php
 		if ( isset( $_GET['restore'] ) ) {

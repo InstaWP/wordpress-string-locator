@@ -16,6 +16,7 @@ class Replace {
 	public function __construct() {
 		add_action( 'string_locator_search_results_tablenav_controls', array( $this, 'add_replace_button' ) );
 		add_action( 'string_locator_search_results_tablenav_controls', array( $this, 'output_replace_form' ) );
+		add_action( 'string_locator_instawp_tablenav_controls', array( $this, 'add_instawp_stage_button' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'maybe_enqueue_assets' ) );
 
@@ -71,6 +72,11 @@ class Replace {
 				),
 			)
 		);
+
+		/**
+		 * Instawp installation event handle script 
+		 * */
+		wp_enqueue_script( 'string-locator-instawp', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-instawp.js', array( 'jquery', 'updates' ), false, 'all' );
 	}
 
 	/**
@@ -83,6 +89,106 @@ class Replace {
 			'<button type="button" class="button button-link" id="string-locator-toggle-replace-controls" aria-expanded="false" aria-controls="string-locator-replace-form">%s</button>',
 			esc_html__( 'Show replacement controls', 'string-locator' )
 		);
+	}
+
+	/**
+	 * Output a button to display the create staging site.
+	 *
+	 * @return void
+	 */
+	public function add_instawp_stage_button() {
+		self::install_plugin_button( 'instawp-connect', 'instawp-connect.php', 'InstaWP Connect', array(), __( 'Create a Staging Site', 'string-locator' ), __( 'Create a Staging Site', 'string-locator' ), __( 'Create a Staging Site', 'string-locator' ) );
+	}
+
+	public static function install_plugin_button( $plugin_slug, $plugin_file, $plugin_name, $classes = array(), $activated = '', $activate = '', $install = '' ) {
+		if ( current_user_can( 'install_plugins' ) && current_user_can( 'activate_plugins' ) ) {
+			if ( is_plugin_active( $plugin_slug . '/' . $plugin_file ) ) {
+				// The plugin is already active.
+				$instawp_connect = menu_page_url( 'instawp-connect', false );				
+				$button = array(
+					'message' => esc_attr__( 'Create a Staging Site', 'string-locator' ),
+					'url'     => $instawp_connect,
+					'classes' => array( 'string-locator-instawp-button', 'disabled' ),
+				);
+
+				if ( '' !== $activated ) {
+					$button['message'] = esc_attr( $activated );
+				}
+			} elseif ( self::is_plugin_installed( $plugin_slug ) ) {
+				$url = self::is_plugin_installed( $plugin_slug );
+
+				// The plugin exists but isn't activated yet.
+				$button = array(
+					'message' => esc_attr__( 'Create a Staging Site', 'string-locator' ),
+					'url'     => $url,
+					'classes' => array( 'instawp-activate-now' ),
+				);
+
+				if ( '' !== $activate ) {
+					$button['message'] = esc_attr( $activate );
+				}
+			} else {
+				// The plugin doesn't exist.
+				$url    = wp_nonce_url(
+					add_query_arg(
+						array(
+							'action' => 'install-plugin',
+							'plugin' => $plugin_slug,
+						),
+						self_admin_url( 'update.php' )
+					),
+					'install-plugin_' . $plugin_slug
+				);
+				$button = array(
+					'message' => esc_attr__( 'Create a Staging Site', 'string-locator' ),
+					'url'     => $url,
+					'classes' => array( 'sl-instawp-install-now', 'install-now', 'install-' . $plugin_slug ),
+				);
+
+				if ( '' !== $install ) {
+					$button['message'] = esc_attr( $install );
+				}
+			}
+
+			if ( ! empty( $classes ) ) {
+				$button['classes'] = array_merge( $button['classes'], $classes );
+			}
+
+			$button['classes'] = implode( ' ', $button['classes'] );
+
+			?>
+			<span class="plugin-card-<?php echo esc_attr( $plugin_slug ); ?>" style="float: right; margin-top: 7px;">
+				<a href="<?php echo esc_url( $button['url'] ); ?>" class="<?php echo esc_attr( $button['classes'] ); ?>" data-originaltext="<?php echo esc_attr( $button['message'] ); ?>" data-name="<?php echo esc_attr( $plugin_name ); ?>" data-slug="<?php echo esc_attr( $plugin_slug ); ?>" aria-label="<?php echo esc_attr( $button['message'] ); ?>"><?php echo esc_html( $button['message'] ); ?></a>
+			</span>
+			<?php
+		}
+	}
+
+	/**
+	 * Check if a plugin is installed and return the url to activate it if so.
+	 *
+	 * @param string $plugin_slug The plugin slug.
+	 */
+	private static function is_plugin_installed( $plugin_slug ) {
+		if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_slug ) ) {
+			$plugins = get_plugins( '/' . $plugin_slug );
+			if ( ! empty( $plugins ) ) {
+				$keys        = array_keys( $plugins );
+				$plugin_file = $plugin_slug . '/' . $keys[0];
+				$url         = wp_nonce_url(
+					add_query_arg(
+						array(
+							'action' => 'activate',
+							'plugin' => $plugin_file,
+						),
+						admin_url( 'plugins.php' )
+					),
+					'activate-plugin_' . $plugin_file
+				);
+				return $url;
+			}
+		}
+		return false;
 	}
 
 	/**
