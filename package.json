@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@wordpress/env": "~5.7.0",
-    "@wordpress/scripts": "~24.6.0",
+    "@wordpress/scripts": "~25.5.0",
     "@wordpress/stylelint-config": "^21.5.0"
   },
   "scripts": {
