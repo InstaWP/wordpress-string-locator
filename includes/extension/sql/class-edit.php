@@ -5,6 +5,7 @@
 
 namespace StringLocator\Extension\SQL;
 
+use StringLocator\Extension\SQL\Helpers;
 use StringLocator\String_Locator;
 
 /**
@@ -74,12 +75,12 @@ class Edit {
 		}
 
 		// Validate the table name.
-		if ( ! isset( $_GET['sql-table'] ) || ! validate_sql_fields( $_GET['sql-table'] ) ) {
+		if ( ! isset( $_GET['sql-table'] ) || ! Helpers::validate_sql_fields( $_GET['sql-table'] ) ) {
 			return $include_path;
 		}
 
 		// Validate the primary column
-		if ( ! isset( $_GET['sql-primary-column'] ) || ! validate_sql_fields( $_GET['sql-primary-column'] ) ) {
+		if ( ! isset( $_GET['sql-primary-column'] ) || ! Helpers::validate_sql_fields( $_GET['sql-primary-column'] ) ) {
 			return $include_path;
 		}
 

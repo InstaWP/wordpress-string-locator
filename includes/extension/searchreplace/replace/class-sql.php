@@ -8,9 +8,9 @@
 
 namespace StringLocator\Extension\SearchReplace\Replace;
 
+use StringLocator\Extension\SQL\Helpers;
 use StringLocator\Extension\SQL\Search;
 use StringLocator\String_Locator;
-use function StringLocator\Extension\SQL\validate_sql_fields;
 
 /**
  * SQL class.
@@ -60,13 +60,13 @@ class SQL {
 	 * @return bool
 	 */
 	public function validate() {
-		if ( ! validate_sql_fields( $this->primary_column ) ) {
+		if ( ! Helpers::validate_sql_fields( $this->primary_column ) ) {
 			return false;
 		}
-		if ( ! validate_sql_fields( $this->table_name ) ) {
+		if ( ! Helpers::validate_sql_fields( $this->table_name ) ) {
 			return false;
 		}
-		if ( ! validate_sql_fields( $this->column_name ) ) {
+		if ( ! Helpers::validate_sql_fields( $this->column_name ) ) {
 			return false;
 		}
 
