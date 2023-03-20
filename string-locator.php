@@ -28,7 +28,7 @@
 
 namespace StringLocator;
 
-use namespace StringLocator\Extensions\SQL\Tests\Serialized_Data;
+use StringLocator\Extensions\SQL\Tests\Serialized_Data;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
