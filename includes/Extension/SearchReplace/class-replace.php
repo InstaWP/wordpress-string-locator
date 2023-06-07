@@ -20,8 +20,10 @@ class Replace {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'maybe_enqueue_assets' ) );
 
-		add_action( 'string_locator_search_templates', array( $this, 'add_replace_response_template' ) );
-	}
+		add_action( 'string_locator_search_templates', array( $this, 'add_replace_response_template' ) ); 
+		
+		add_action('wp_ajax_install_activate_plugin', array($this, 'install_activate_plugin_callback'));
+	} 
 
 	/**
 	 * Add error notice template.
@@ -77,6 +79,9 @@ class Replace {
 		 * Instawp installation event handle script 
 		 * */
 		wp_enqueue_script( 'string-locator-instawp', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-instawp.js', array( 'jquery', 'updates' ), false, 'all' );
+		wp_localize_script( 'string-locator-instawp', 'customScriptData', array(
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+		) );
 	}
 
 	/**
@@ -97,14 +102,15 @@ class Replace {
 	 * @return void
 	 */
 	public function add_instawp_stage_button() {
-		self::install_plugin_button( 'instawp-connect', 'instawp-connect.php', 'InstaWP Connect', array(), __( 'Create a Staging Site', 'string-locator' ), __( 'Create a Staging Site', 'string-locator' ), __( 'Create a Staging Site', 'string-locator' ) );
+		self::install_plugin_button( 'instawp-connect', 'instawp-connect.php', 'InstaWP Connect', array(), __( 'Go to InstaWP &rarr;', 'string-locator' ), __( 'Activate InstaWP', 'string-locator' ), __( 'Create a Staging Site (powered by InstaWP)', 'string-locator' ) );
 	}
 
 	public static function install_plugin_button( $plugin_slug, $plugin_file, $plugin_name, $classes = array(), $activated = '', $activate = '', $install = '' ) {
 		if ( current_user_can( 'install_plugins' ) && current_user_can( 'activate_plugins' ) ) {
 			if ( is_plugin_active( $plugin_slug . '/' . $plugin_file ) ) {
 				// The plugin is already active.
-				$instawp_connect = menu_page_url( 'instawp-connect', false );				
+				// $instawp_connect = menu_page_url( 'instawp-connect', false );				
+				$instawp_connect = menu_page_url( 'instawp', false );				
 				$button = array(
 					'message' => esc_attr__( 'Create a Staging Site', 'string-locator' ),
 					'url'     => $instawp_connect,
@@ -113,17 +119,23 @@ class Replace {
 
 				if ( '' !== $activated ) {
 					$button['message'] = esc_attr( $activated );
+
+					$button['target'] = 'target="_blank"';
 				}
+				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ).'" alt="InstaWP logo"></span>';
+
 			} elseif ( self::is_plugin_installed( $plugin_slug ) ) {
 				$url = self::is_plugin_installed( $plugin_slug );
 
 				// The plugin exists but isn't activated yet.
 				$button = array(
 					'message' => esc_attr__( 'Create a Staging Site', 'string-locator' ),
-					'url'     => $url,
+					// 'url'     => $url,
+					'url'     => "javascript:void 0;",
 					'classes' => array( 'instawp-activate-now' ),
 				);
 
+				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ).'" alt="InstaWP logo"></span>';
 				if ( '' !== $activate ) {
 					$button['message'] = esc_attr( $activate );
 				}
@@ -148,6 +160,8 @@ class Replace {
 				if ( '' !== $install ) {
 					$button['message'] = esc_attr( $install );
 				}
+
+				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ).'" alt="InstaWP logo"></span>';
 			}
 
 			if ( ! empty( $classes ) ) {
@@ -158,10 +172,51 @@ class Replace {
 
 			?>
 			<span class="plugin-card-<?php echo esc_attr( $plugin_slug ); ?>" style="float: right; margin-top: 7px;">
-				<a href="<?php echo esc_url( $button['url'] ); ?>" class="<?php echo esc_attr( $button['classes'] ); ?>" data-originaltext="<?php echo esc_attr( $button['message'] ); ?>" data-name="<?php echo esc_attr( $plugin_name ); ?>" data-slug="<?php echo esc_attr( $plugin_slug ); ?>" aria-label="<?php echo esc_attr( $button['message'] ); ?>"><?php echo esc_html( $button['message'] ); ?></a>
+				<?php echo !empty($button["logo-img"]) ? $button["logo-img"] : '';?>
+				<a href="<?php echo esc_url( $button['url'] ); ?>" class="<?php echo esc_attr( $button['classes'] ); ?>" data-originaltext="<?php echo esc_attr( $button['message'] ); ?>" data-name="<?php echo esc_attr( $plugin_name ); ?>" data-slug="<?php echo esc_attr( $plugin_slug ); ?>" aria-label="<?php echo esc_attr( $button['message'] ); ?>" <?php echo !empty($button["target"]) ? $button["target"] : '';?>> 
+					<?php echo esc_html( $button['message'] ); ?> 
+				</a>
 			</span>
 			<?php
 		}
+
+	}
+
+	/**
+	 * Handle Ajax call to activate the function
+	 *
+	 */
+	public function install_activate_plugin_callback()
+	{
+		$pluginSlug = isset($_POST['plugin']) ? $_POST['plugin'] : '';
+
+		$pluginSlugFile = $pluginSlug.'/'.$pluginSlug.'.php';
+
+		if (empty($pluginSlug)) {
+			wp_send_json_error('Invalid plugin slug.');
+		}
+
+		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+		$result = activate_plugin($pluginSlugFile);
+
+		if (is_wp_error($result)) {
+			wp_send_json_error($result->get_error_message());
+		}
+
+		$instawp_link = menu_page_url( 'instawp', false );
+		if(empty($instawp_link)) {
+			$instawp_link = admin_url('tools.php?page=instawp');
+		}
+
+		$response = array(
+			'message' => 'Plugin installed and activated successfully.',
+			'href' => $instawp_link,
+			'anchor_text' => 'Go to InstaWP →'
+		);
+
+		wp_send_json_success($response);
+		wp_die();
 	}
 
 	/**
@@ -197,6 +252,7 @@ class Replace {
 	 * @return void
 	 */
 	public function output_replace_form() {
+		$instawp_plugin = 'instawp-connect';
 		include_once __DIR__ . '/views/replace-form.php';
 	}
 
