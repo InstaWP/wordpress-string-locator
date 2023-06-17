@@ -135,5 +135,3 @@ class Serialized_Data {
 		return true;
 	}
 }
-
-new Serialized_Data();

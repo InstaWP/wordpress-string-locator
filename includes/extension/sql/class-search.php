@@ -3,6 +3,7 @@
 namespace StringLocator\Extension\SQL;
 
 use StringLocator\Base\Search as SearchBase;
+use StringLocator\Extension\SQL\Helpers;
 use StringLocator\String_Locator;
 
 /**
@@ -214,7 +215,7 @@ class Search extends SearchBase {
 
 		$identifier_name = 'Tables_in_' . DB_NAME;
 
-		if ( ! validate_sql_fields( $identifier_name ) ) {
+		if ( ! Helpers::validate_sql_fields( $identifier_name ) ) {
 			wp_send_json_error(
 				array(
 					'continue' => false,

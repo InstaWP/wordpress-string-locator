@@ -28,6 +28,8 @@
 
 namespace StringLocator;
 
+use StringLocator\Extensions\SQL\Tests\Serialized_Data;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -36,41 +38,11 @@ define( 'STRING_LOCATOR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'STRING_LOCATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'STRING_LOCATOR_PLUGIN_FILE', __FILE__ );
 
-/**
- * Base classes that other classes may extend.
- */
-require_once __DIR__ . '/includes/Base/class-search.php';
-require_once __DIR__ . '/includes/Base/class-rest.php';
+require __DIR__ . '/autoload.php';
 
-/**
- * Search handlers
- */
-require_once __DIR__ . '/includes/Extension/SQL/sql.php';
-require_once __DIR__ . '/includes/Extension/SearchReplace/search-replace.php';
-
-/**
- * Plugin test runners
- */
-require_once __DIR__ . '/includes/Tests/class-loopback.php';
-require_once __DIR__ . '/includes/Tests/class-smart-scan.php';
-
-/**
- * Plugin action classes.
- */
-require_once __DIR__ . '/includes/class-save.php';
-require_once __DIR__ . '/includes/class-search.php';
-require_once __DIR__ . '/includes/class-directory-iterator.php';
-
-/**
- * Prepare REST endpoints.
- */
-require_once __DIR__ . '/includes/REST/class-save.php';
-require_once __DIR__ . '/includes/REST/class-clean.php';
-require_once __DIR__ . '/includes/REST/class-search.php';
-require_once __DIR__ . '/includes/REST/class-directory-structure.php';
+new Serialized_Data();
 
 /**
  * Instantiate the plugin
  */
-require_once __DIR__ . '/includes/class-string-locator.php';
 new String_Locator();
