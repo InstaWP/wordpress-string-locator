@@ -22,7 +22,7 @@ class Replace {
 
 		add_action( 'string_locator_search_templates', array( $this, 'add_replace_response_template' ) ); 
 		
-		add_action('wp_ajax_install_activate_plugin', array($this, 'install_activate_plugin_callback'));
+		add_action( 'wp_ajax_install_activate_plugin', array( $this, 'install_activate_plugin_callback' ) );
 	} 
 
 	/**
@@ -78,10 +78,8 @@ class Replace {
 		/**
 		 * Instawp installation event handle script 
 		 * */
-		wp_enqueue_script( 'string-locator-instawp', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-instawp.js', array( 'jquery', 'updates' ), false, 'all' );
-		wp_localize_script( 'string-locator-instawp', 'customScriptData', array(
-			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-		) );
+		wp_enqueue_script( 'string-locator-instawp', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-instawp.js', array( 'jquery', 'updates' ), $replace['version'], false );
+
 	}
 
 	/**
@@ -120,9 +118,9 @@ class Replace {
 				if ( '' !== $activated ) {
 					$button['message'] = esc_attr( $activated );
 
-					$button['target'] = 'target="_blank"';
+					$button['target'] = "onclick=\"window.open('{$instawp_connect}', '_blank');\"";
 				}
-				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ).'" alt="InstaWP logo"></span>';
+				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. esc_url( plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ) ) .'" alt="InstaWP logo"></span>';
 
 			} elseif ( self::is_plugin_installed( $plugin_slug ) ) {
 				$url = self::is_plugin_installed( $plugin_slug );
@@ -135,7 +133,7 @@ class Replace {
 					'classes' => array( 'instawp-activate-now' ),
 				);
 
-				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ).'" alt="InstaWP logo"></span>';
+				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. esc_url( plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ) ) .'" alt="InstaWP logo"></span>';
 				if ( '' !== $activate ) {
 					$button['message'] = esc_attr( $activate );
 				}
@@ -161,7 +159,7 @@ class Replace {
 					$button['message'] = esc_attr( $install );
 				}
 
-				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ).'" alt="InstaWP logo"></span>';
+				$button['logo-img'] = '<span class="btn-logo-inline"><img src="'. esc_url( plugins_url( 'views/assets/instawp-logo.svg', STRING_LOCATOR_PLUGIN_FILE ) ) .'" alt="InstaWP logo"></span>';
 			}
 
 			if ( ! empty( $classes ) ) {
@@ -173,9 +171,9 @@ class Replace {
 			?>
 			<span class="plugin-card-<?php echo esc_attr( $plugin_slug ); ?>" style="float: right; margin-top: 7px;">
 				<?php echo !empty($button["logo-img"]) ? $button["logo-img"] : '';?>
-				<a href="<?php echo esc_url( $button['url'] ); ?>" class="<?php echo esc_attr( $button['classes'] ); ?>" data-originaltext="<?php echo esc_attr( $button['message'] ); ?>" data-name="<?php echo esc_attr( $plugin_name ); ?>" data-slug="<?php echo esc_attr( $plugin_slug ); ?>" aria-label="<?php echo esc_attr( $button['message'] ); ?>" <?php echo !empty($button["target"]) ? $button["target"] : '';?>> 
+				<button href="<?php echo esc_url( $button['url'] ); ?>" class="<?php echo esc_attr( $button['classes'] ); ?>" data-originaltext="<?php echo esc_attr( $button['message'] ); ?>" data-name="<?php echo esc_attr( $plugin_name ); ?>" data-slug="<?php echo esc_attr( $plugin_slug ); ?>" aria-label="<?php echo esc_attr( $button['message'] ); ?>" <?php echo !empty($button['target']) ? $button['target'] : '';?>> 
 					<?php echo esc_html( $button['message'] ); ?> 
-				</a>
+				</button>
 			</span>
 			<?php
 		}
@@ -193,7 +191,7 @@ class Replace {
 		$pluginSlugFile = $pluginSlug.'/'.$pluginSlug.'.php';
 
 		if (empty($pluginSlug)) {
-			wp_send_json_error('Invalid plugin slug.');
+			wp_send_json_error(esc_html_e('Invalid plugin slug.', 'string-locator'));
 		}
 
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
@@ -210,9 +208,9 @@ class Replace {
 		}
 
 		$response = array(
-			'message' => 'Plugin installed and activated successfully.',
+			'message' => esc_html_e('Plugin installed and activated successfully.', 'string-locator'),
 			'href' => $instawp_link,
-			'anchor_text' => 'Go to InstaWP →'
+			'anchor_text' => esc_html_e('Go to InstaWP →', 'string-locator')
 		);
 
 		wp_send_json_success($response);

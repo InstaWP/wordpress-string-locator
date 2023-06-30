@@ -53,6 +53,6 @@ $this_url = admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) . 
 		</p>
 	</form>
 	<?php if (!self::is_plugin_installed( $instawp_plugin )): ?>
-		<p class="notice notice-error update-nag">It is always a good idea to create a staging site before making changes <span id="notice-btn-toggle-replace-controls" class="button-link">Install Staging Plugin</span></p>
+		<p class="notice notice-error update-nag"><?php esc_html_e('It is always a good idea to create a staging site before making changes', 'string-locator'); ?> <button id="notice-btn-toggle-replace-controls" class="button-link"><?php esc_html_e('Install Staging Plugin', 'string-locator'); ?></button></p>
 	<?php endif ?>
 </div>
