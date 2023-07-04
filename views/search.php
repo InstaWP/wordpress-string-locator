@@ -140,8 +140,8 @@ if ( isset( $_GET['restore'] ) ) {
 
 	<div id="string-locator-search-results-table-wrapper" class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>">
 		<div class="tablenav top">
-			<div style="display: flex;">		
-				<div style="width: 50%;">
+			<div class="replacement-control-main-wrapper">		
+				<div class="replacement-control-left-details">
 					<?php
 					/**
 					 * An action to output controls in the tablenav region, which only
@@ -151,7 +151,7 @@ if ( isset( $_GET['restore'] ) ) {
 					?>
 				</div>
 				<br class="clear" />
-				<div style="width: 50%;">
+				<div class="replacement-control-instawp-btn">
 					<?php
 					/**
 					 * An action to output controls in the tablenav region, which only
