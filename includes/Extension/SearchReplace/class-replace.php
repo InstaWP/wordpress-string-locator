@@ -79,6 +79,9 @@ class Replace {
 		 * Instawp installation event handle script 
 		 * */
 		wp_enqueue_script( 'string-locator-instawp', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-instawp.js', array( 'jquery', 'updates' ), $replace['version'], false );
+		wp_localize_script( 'string-locator-instawp', 'my_ajax_object', array(
+			'security' => wp_create_nonce( 'my_ajax_nonce' ),
+		) );
 
 	}
 
@@ -186,12 +189,19 @@ class Replace {
 	 */
 	public function install_activate_plugin_callback()
 	{
-		$pluginSlug = isset($_POST['plugin']) ? $_POST['plugin'] : '';
+		// for instawp-connect plugin only
+		$pluginSlug = 'instawp-connect';
 
 		$pluginSlugFile = $pluginSlug.'/'.$pluginSlug.'.php';
 
-		if (empty($pluginSlug)) {
-			wp_send_json_error(esc_html_e('Invalid plugin slug.', 'string-locator'));
+		// Verify the nonce
+		if ( ! check_ajax_referer( 'my_ajax_nonce', 'security', false ) ) {
+			wp_send_json_error( __('Invalid nonce.', 'string-locator') );
+		}
+
+		// Check if the current user has the required capability
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( __('You do not have permission to perform this action.', 'string-locator') );
 		}
 
 		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
@@ -208,9 +218,9 @@ class Replace {
 		}
 
 		$response = array(
-			'message' => esc_html_e('Plugin installed and activated successfully.', 'string-locator'),
+			'message' => __( 'Plugin installed and activated successfully.', 'string-locator' ),
 			'href' => $instawp_link,
-			'anchor_text' => esc_html_e('Go to InstaWP →', 'string-locator')
+			'anchor_text' => __( 'Go to InstaWP →', 'string-locator' )
 		);
 
 		wp_send_json_success($response);

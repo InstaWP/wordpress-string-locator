@@ -16,7 +16,8 @@
 
 			let data = {
 				action: 'install_activate_plugin',
-				plugin: slug
+				plugin: slug,
+				security: my_ajax_object.security
 			}; 
 
 			$.post(ajaxurl, data, function(response) {
@@ -82,7 +83,7 @@
 
 					let data = {
 						action: 'install_activate_plugin',
-						plugin: $button.data( 'slug' )
+						security: my_ajax_object.security
 					}; 
 					$.post(ajaxurl, data, function(response) {
 						if (response.success) {
