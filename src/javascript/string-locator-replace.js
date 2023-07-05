@@ -3,6 +3,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 	const replaceStringField = document.getElementById( 'string-locator-replace-new-string' ),
 		replaceLoopbackCheckbox = document.getElementById( 'string-locator-replace-loopback-check' ),
 		toggleButton = document.getElementById( 'string-locator-toggle-replace-controls' ),
+		noticeToggleButton = document.getElementById( 'notice-btn-toggle-replace-controls' ),
 		replaceControls = document.getElementById( 'string-locator-replace-form' ),
 		replaceForm = document.getElementById( 'string-locator-replace-form' ),
 		searchResultsTable = document.getElementById( 'string-locator-search-results-table' ),
@@ -136,17 +137,42 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		handleFormSubmission();
 	} );
 
-	toggleButton.addEventListener( 'click', function() {
-		replaceControls.classList.toggle( 'visible' );
+	let buttonsArray = [toggleButton];
+	if (noticeToggleButton !== null) {
+		buttonsArray = [noticeToggleButton, toggleButton];
+	}
 
-		if ( replaceControls.classList.contains( 'visible' ) ) {
-			toggleButton.setAttribute( 'aria-expanded', 'true' );
-			toggleButton.innerText = stringLocatorReplace.string.button_hide;
-		} else {
-			toggleButton.setAttribute( 'aria-expanded', 'false' );
-			toggleButton.innerText = stringLocatorReplace.string.button_show;
-		}
+	buttonsArray.forEach(variable => {
+
+		variable.addEventListener( 'click', function() {
+			replaceControls.classList.toggle( 'visible' );
+
+			if ( replaceControls.classList.contains( 'visible' ) ) {
+				toggleButton.setAttribute( 'aria-expanded', 'true' );
+				toggleButton.innerText = stringLocatorReplace.string.button_hide;
+			} else {
+				toggleButton.setAttribute( 'aria-expanded', 'false' );
+				toggleButton.innerText = stringLocatorReplace.string.button_show;
+			}
+
+			if (variable.id === 'notice-btn-toggle-replace-controls') {
+				var parentInstallBtn = document.querySelector('.plugin-card-instawp-connect');
+				if (parentInstallBtn) {
+					var installBtn = parentInstallBtn.querySelector('.string-locator-instawp-button');
+					var redirectBtn = parentInstallBtn.querySelector('.sl-instawp-install-now');
+					if(installBtn) {
+						installBtn.click(); 
+					}
+					if(redirectBtn) {
+						redirectBtn.click();
+					}
+
+				}
+			}
+		} );
+
 	} );
+
 } );
 
 import '../sass/replace/replace.scss';

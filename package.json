@@ -23,8 +23,8 @@
     "@wordpress/stylelint-config": "^21.18.0"
   },
   "scripts": {
-    "start": "wp-scripts start src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js",
-    "build": "wp-scripts build src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js",
+    "start": "wp-scripts start src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js src/javascript/string-locator-instawp.js",
+    "build": "wp-scripts build src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js src/javascript/string-locator-instawp.js",
     "lint:css": "wp-scripts lint-style ./src/sass/**/*.scss",
     "lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
     "wp-env": "wp-env",
