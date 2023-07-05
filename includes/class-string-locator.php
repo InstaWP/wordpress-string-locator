@@ -517,9 +517,9 @@ class String_Locator {
 	 * @return void
 	 */
 	function populate_menu() {
-		if ( is_multisite() ) {
-			return;
-		}
+		// if ( is_multisite() ) {
+		// 	return;
+		// }
 		$page_title  = __( 'String Locator', 'string-locator' );
 		$menu_title  = __( 'String Locator', 'string-locator' );
 		$capability  = 'install_plugins';
