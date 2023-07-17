@@ -18,20 +18,20 @@
     "node": ">=10.16.0"
   },
   "devDependencies": {
-    "@wordpress/env": "~5.7.0",
-    "@wordpress/scripts": "~24.6.0",
-    "@wordpress/stylelint-config": "^21.5.0"
+    "@wordpress/env": "^8.2.0",
+    "@wordpress/scripts": "^26.6.0",
+    "@wordpress/stylelint-config": "^21.18.0"
   },
   "scripts": {
-    "start": "wp-scripts start src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js",
-    "build": "wp-scripts build src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js",
+    "start": "wp-scripts start src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js src/javascript/string-locator-instawp.js",
+    "build": "wp-scripts build src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js src/javascript/string-locator-instawp.js",
     "lint:css": "wp-scripts lint-style ./src/sass/**/*.scss",
     "lint:js": "wp-scripts lint-js ./src/javascript/**/*.js",
     "wp-env": "wp-env",
     "cli": "wp-env run cli wp"
   },
   "stylelint": {
-    "extends": "@wordpress/stylelint-config",
+    "extends": "@wordpress/stylelint-config/scss",
     "rules": {
       "no-descending-specificity": null
     }

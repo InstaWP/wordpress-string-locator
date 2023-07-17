@@ -517,9 +517,9 @@ class String_Locator {
 	 * @return void
 	 */
 	function populate_menu() {
-		if ( is_multisite() ) {
-			return;
-		}
+		// if ( is_multisite() ) {
+		// 	return;
+		// }
 		$page_title  = __( 'String Locator', 'string-locator' );
 		$menu_title  = __( 'String Locator', 'string-locator' );
 		$capability  = 'install_plugins';
@@ -667,7 +667,7 @@ class String_Locator {
 		if ( $regex ) {
 			$string_preview = preg_replace( preg_replace( '/\/(.+)\//', '/($1)/', $string ), '<strong>$1</strong>', esc_html( $string_preview ) );
 		} else {
-			$string_preview = preg_replace( '/(' . preg_quote( $string ) . ')/i', '<strong>$1</strong>', esc_html( $string_preview ) );
+			$string_preview = preg_replace( '/(' . preg_quote( $string, '/' ) . ')/i', '<strong>$1</strong>', esc_html( $string_preview ) );
 		}
 		if ( $string_preview_is_cut ) {
 			$string_preview = sprintf(
