@@ -16,7 +16,7 @@
 
 table {
 
-	&.tools_page_string-locator {
+	&.tools-page-string-locator {
 
 		display: none;
 
@@ -63,7 +63,7 @@ table {
 }
 
 @media screen and (min-width: 992px) and (max-width: 1150px) {
-	
+
 	.replacement-control-instawp-btn {
 		width: 40%;
 	}
@@ -74,7 +74,7 @@ table {
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
-	
+
 	.replacement-control-instawp-btn {
 		width: 45%;
 	}
