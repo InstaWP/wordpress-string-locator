@@ -16,7 +16,8 @@
 
 table {
 
-	&.tools_page_string-locator { /* stylelint-disable-line selector-class-pattern -- WordPress' class for page paths */
+	&.tools_page_string-locator {
+		/* stylelint-disable-line selector-class-pattern -- WordPress' class for page paths */
 
 		display: none;
 
@@ -55,19 +56,29 @@ table {
 	}
 }
 
-.replacement-control-main-wrapper{
+.replacement-control-main-wrapper {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 
 }
 
-@media screen and (min-width:992px) and (max-width:1150px){
-	.replacement-control-instawp-btn{width: 40%;}
-	.replacement-control-left-details{width:60%;}
+@media screen and (min-width:992px) and (max-width:1150px) {
+	.replacement-control-instawp-btn {
+		width: 40%;
+	}
+
+	.replacement-control-left-details {
+		width: 60%;
+	}
 }
 
-@media screen and (min-width:768px) and (max-width:992px){
-	.replacement-control-instawp-btn{width: 45%;}
-	.replacement-control-left-details{width:55%;}
+@media screen and (min-width:768px) and (max-width:992px) {
+	.replacement-control-instawp-btn {
+		width: 45%;
+	}
+
+	.replacement-control-left-details {
+		width: 55%;
+	}
 }
