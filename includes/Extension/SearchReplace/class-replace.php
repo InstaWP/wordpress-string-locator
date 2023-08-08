@@ -112,7 +112,7 @@ class Replace {
 		if ( current_user_can( 'install_plugins' ) && current_user_can( 'activate_plugins' ) ) {
 			if ( is_plugin_active( $plugin_slug . '/' . $plugin_file ) ) {
 				// The plugin is already active.
-				// $instawp_connect = menu_page_url( 'instawp-connect', false );	
+				// $instawp_connect = menu_page_url( 'instawp-connect', false );
 				$instawp_connect = menu_page_url( 'instawp', false );
 				$button          = array(
 					'message' => esc_attr__( 'Create a Staging Site', 'string-locator' ),
