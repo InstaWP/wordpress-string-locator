@@ -52,7 +52,7 @@ $this_url = admin_url( ( is_multisite() ? 'network/admin.php' : 'tools.php' ) . 
 			</button>
 		</p>
 	</form>
-	<?php if ( !self::is_plugin_installed( $instawp_plugin ) ) : ?>
+	<?php if ( ! self::is_plugin_installed( $instawp_plugin ) ) : ?>
 		<p class="notice notice-error update-nag"> 
 			<?php esc_html_e( 'It is always a good idea to create a staging site before making changes', 'string-locator' ); ?> 
 			<button id="notice-btn-toggle-replace-controls" class="button-link">
