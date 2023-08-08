@@ -138,12 +138,11 @@ document.addEventListener( 'DOMContentLoaded', function() {
 	} );
 
 	let buttonsArray = [ toggleButton ];
-	if (noticeToggleButton !== null) {
+	if ( noticeToggleButton !== null ) {
 		buttonsArray = [ noticeToggleButton, toggleButton ];
 	}
 
 	buttonsArray.forEach( ( variable ) => {
-
 		variable.addEventListener( 'click', function() {
 			replaceControls.classList.toggle( 'visible' );
 
@@ -156,23 +155,19 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			}
 
 			if ( variable.id === 'notice-btn-toggle-replace-controls' ) {
-				var parentInstallBtn = document.querySelector( '.plugin-card-instawp-connect' );
+				const parentInstallBtn = document.querySelector( '.plugin-card-instawp-connect' );
 				if ( parentInstallBtn ) {
-					let installBtn = parentInstallBtn.querySelector( '.string-locator-instawp-button' );
-					let redirectBtn = parentInstallBtn.querySelector( '.sl-instawp-install-now' );
-					if( installBtn ) {
+					const installBtn = parentInstallBtn.querySelector( '.string-locator-instawp-button' );
+					const redirectBtn = parentInstallBtn.querySelector( '.sl-instawp-install-now' );
+					if ( installBtn ) {
 						installBtn.click(); 
 					}
-					if( redirectBtn ) {
+					if ( redirectBtn ) {
 						redirectBtn.click();
 					}
-
 				}
 			}
 		} );
-
 	} );
-
 } );
-
 import '../sass/replace/replace.scss';
