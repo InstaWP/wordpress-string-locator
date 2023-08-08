@@ -33,7 +33,7 @@ const MyPlugin = {
 					if ( xhr.readyState === 4 ) {
 						if ( xhr.status === 200 ) {
 							const response = JSON.parse( xhr.responseText );
-							if (response.success) {
+							if ( response.success ) {
 								button.textContent = response.data.anchor_text;
 								button.setAttribute(
 									'onclick',
@@ -92,7 +92,7 @@ const MyPlugin = {
 					} )
 					.join( '&' );
 				xhr.send( params );
-			});
+			} );
 
 			document.addEventListener( 'click', function( event ) {
 				const button = event.target;
@@ -124,7 +124,7 @@ const MyPlugin = {
 							);
 							message.classList.remove( 'updating-message' );
 							message.textContent = wp.updates.l10n.installNow;
-							wp.a11y.speak (wp.updates.l10n.updateCancel, 'polite' );
+							wp.a11y.speak( wp.updates.l10n.updateCancel, 'polite' );
 						}
 					);
 				}
@@ -133,9 +133,9 @@ const MyPlugin = {
 					button.textContent = 'Installing plugin...';
 				}, 200 );
 
-				wp.updates.installPlugin({
+				wp.updates.installPlugin( {
 					slug: button.getAttribute( 'data-slug' ),
-					success: function() {
+					success() {
 						button.textContent = 'Activating plugin ...';
 
 						const data = {
@@ -238,7 +238,7 @@ const MyPlugin = {
 							.join( '&' );
 						xhr.send( params );
 					},
-					error: function( error ) {
+					error( error ) {
 						const errorNotice = document.createElement( 'div' );
 						errorNotice.className =
 							'notice notice-error is-dismissible';
@@ -250,9 +250,9 @@ const MyPlugin = {
 							.querySelector( '.wrap' )
 							.insertAdjacentElement( 'afterbegin', errorNotice );
 					},
-				});
-			});
-		});
+				} );
+			} );
+		} );
 	},
 };
 MyPlugin.init( window.wp );
