@@ -8,31 +8,31 @@ const MyPlugin = {
 
 		document.addEventListener( 'DOMContentLoaded', function() {
 			document.addEventListener( 'click', function( event ) {
-				let button = event.target;
+				const button = event.target;
 				if ( ! button.matches( '.instawp-activate-now' ) ) {
 					return;
 				}
 
-				let slug = button.getAttribute( 'data-slug' );
+				const slug = button.getAttribute( 'data-slug' );
 				button.textContent = 'Activating plugin ...';
 				event.preventDefault();
 
-				let data = {
+				const data = {
 					action: 'install_activate_plugin',
 					plugin: slug,
 					nonce: instawp_activate.nonce,
 				};
 
-				let xhr = new XMLHttpRequest();
+				const xhr = new XMLHttpRequest();
 				xhr.open( 'POST', ajaxurl, true );
 				xhr.setRequestHeader(
 					'Content-Type',
 					'application/x-www-form-urlencoded'
 				);
-				xhr.onreadystatechange = function () {
+				xhr.onreadystatechange = function() {
 					if ( xhr.readyState === 4 ) {
 						if ( xhr.status === 200 ) {
-							let response = JSON.parse( xhr.responseText );
+							const response = JSON.parse( xhr.responseText );
 							if (response.success) {
 								button.textContent = response.data.anchor_text;
 								button.setAttribute(
@@ -56,8 +56,8 @@ const MyPlugin = {
 									'disabled'
 								);
 							} else {
-								let error = response.data;
-								let notice = document.createElement( 'div' );
+								const error = response.data;
+								const notice = document.createElement( 'div' );
 								notice.className =
 									'notice notice-error is-dismissible';
 								notice.innerHTML =
@@ -69,7 +69,7 @@ const MyPlugin = {
 									.insertAdjacentElement( 'afterbegin', notice );
 							}
 						} else {
-							let errorNotice = document.createElement( 'div' );
+							const errorNotice = document.createElement( 'div' );
 							errorNotice.className =
 								'notice notice-error is-dismissible';
 							errorNotice.innerHTML =
@@ -82,20 +82,20 @@ const MyPlugin = {
 						}
 					}
 				};
-				let params = Object.keys( data )
-					.map(function ( key ) {
+				const params = Object.keys( data )
+					.map( function( key ) {
 						return (
 							encodeURIComponent( key ) +
 							'=' +
 							encodeURIComponent( data[ key ] )
 						);
-					})
+					} )
 					.join( '&' );
 				xhr.send( params );
 			});
 
 			document.addEventListener( 'click', function( event ) {
-				let button = event.target;
+				const button = event.target;
 				if ( ! button.matches( '.sl-instawp-install-now' ) ) {
 					return;
 				}
@@ -114,12 +114,12 @@ const MyPlugin = {
 					wp.updates.shouldRequestFilesystemCredentials &&
 					! wp.updates.ajaxLocked
 				) {
-					wp.updates.requestFilesystemCredentials(event);
+					wp.updates.requestFilesystemCredentials( event );
 
 					document.addEventListener(
 						'credential-modal-cancel',
-						function () {
-							let message = document.querySelector(
+						function() {
+							const message = document.querySelector(
 								'.sl-instawp-install-now.updating-message'
 							);
 							message.classList.remove( 'updating-message' );
@@ -129,34 +129,34 @@ const MyPlugin = {
 					);
 				}
 
-				setTimeout( function () {
+				setTimeout( function() {
 					button.textContent = 'Installing plugin...';
 				}, 200 );
 
 				wp.updates.installPlugin({
 					slug: button.getAttribute( 'data-slug' ),
-					success: function () {
+					success: function() {
 						button.textContent = 'Activating plugin ...';
 
-						let data = {
+						const data = {
 							action: 'install_activate_plugin',
 							nonce: instawp_activate.nonce,
 						};
 
-						let xhr = new XMLHttpRequest();
+						const xhr = new XMLHttpRequest();
 						xhr.open( 'POST', ajaxurl, true );
 						xhr.setRequestHeader(
 							'Content-Type',
 							'application/x-www-form-urlencoded'
 						);
-						xhr.onreadystatechange = function () {
+						xhr.onreadystatechange = function() {
 							if ( xhr.readyState === 4 ) {
 								if ( xhr.status === 200 ) {
-									let response = JSON.parse( xhr.responseText );
+									const response = JSON.parse( xhr.responseText );
 									if ( response.success ) {
 										button.textContent = 'Plugin installed';
 
-										setTimeout( function () {
+										setTimeout( function() {
 											button.textContent =
 												response.data.anchor_text;
 											button.setAttribute(
@@ -185,7 +185,7 @@ const MyPlugin = {
 												'disabled'
 											);
 
-											let updateNag =
+											const updateNag =
 												document.querySelector(
 													'.update-nag'
 												);
@@ -194,8 +194,8 @@ const MyPlugin = {
 											}
 										}, 3000 );
 									} else {
-										let error = response.data;
-										let notice = document.createElement( 'div' );
+										const error = response.data;
+										const notice = document.createElement( 'div' );
 										notice.className =
 											'notice notice-error is-dismissible';
 										notice.innerHTML =
@@ -210,7 +210,7 @@ const MyPlugin = {
 											);
 									}
 								} else {
-									let errorNotice = document.createElement( 'div' );
+									const errorNotice = document.createElement( 'div' );
 									errorNotice.className =
 										'notice notice-error is-dismissible';
 									errorNotice.innerHTML =
@@ -227,8 +227,8 @@ const MyPlugin = {
 							}
 						};
 
-						let params = Object.keys( data )
-							.map( function ( key ) {
+						const params = Object.keys( data )
+							.map( function( key ) {
 								return (
 									encodeURIComponent( key ) +
 									'=' +
@@ -238,8 +238,8 @@ const MyPlugin = {
 							.join( '&' );
 						xhr.send( params );
 					},
-					error: function ( error ) {
-						let errorNotice = document.createElement( 'div' );
+					error: function( error ) {
+						const errorNotice = document.createElement( 'div' );
 						errorNotice.className =
 							'notice notice-error is-dismissible';
 						errorNotice.innerHTML =
@@ -253,6 +253,6 @@ const MyPlugin = {
 				});
 			});
 		});
-	}
+	},
 };
 MyPlugin.init( window.wp );
