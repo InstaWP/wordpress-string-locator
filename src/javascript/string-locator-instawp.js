@@ -1,13 +1,13 @@
 const MyPlugin = {
 	init( wp ) {
-	  'use strict';
-  
+		'use strict';
+
 		if ( ! wp ) {
 			return;
 		}
-  
-		document.addEventListener( 'DOMContentLoaded', function () {
-			document.addEventListener( 'click', function ( event ) {
+
+		document.addEventListener( 'DOMContentLoaded', function() {
+			document.addEventListener( 'click', function( event ) {
 				let button = event.target;
 				if ( ! button.matches( '.instawp-activate-now' ) ) {
 					return;
@@ -94,7 +94,7 @@ const MyPlugin = {
 				xhr.send( params );
 			});
 
-			document.addEventListener( 'click', function ( event ) {
+			document.addEventListener( 'click', function( event ) {
 				let button = event.target;
 				if ( ! button.matches( '.sl-instawp-install-now' ) ) {
 					return;
@@ -112,7 +112,7 @@ const MyPlugin = {
 
 				if (
 					wp.updates.shouldRequestFilesystemCredentials &&
-					!wp.updates.ajaxLocked
+					! wp.updates.ajaxLocked
 				) {
 					wp.updates.requestFilesystemCredentials(event);
 
@@ -254,6 +254,5 @@ const MyPlugin = {
 			});
 		});
 	}
-  };
-  
-  MyPlugin.init( window.wp );
+};
+MyPlugin.init( window.wp );

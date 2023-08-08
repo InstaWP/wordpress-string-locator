@@ -160,7 +160,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 					const installBtn = parentInstallBtn.querySelector( '.string-locator-instawp-button' );
 					const redirectBtn = parentInstallBtn.querySelector( '.sl-instawp-install-now' );
 					if ( installBtn ) {
-						installBtn.click(); 
+						installBtn.click();
 					}
 					if ( redirectBtn ) {
 						redirectBtn.click();
