@@ -137,12 +137,12 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		handleFormSubmission();
 	} );
 
-	let buttonsArray = [toggleButton];
+	let buttonsArray = [ toggleButton ];
 	if (noticeToggleButton !== null) {
-		buttonsArray = [noticeToggleButton, toggleButton];
+		buttonsArray = [ noticeToggleButton, toggleButton ];
 	}
 
-	buttonsArray.forEach(variable => {
+	buttonsArray.forEach( ( variable ) => {
 
 		variable.addEventListener( 'click', function() {
 			replaceControls.classList.toggle( 'visible' );
@@ -155,15 +155,15 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				toggleButton.innerText = stringLocatorReplace.string.button_show;
 			}
 
-			if (variable.id === 'notice-btn-toggle-replace-controls') {
-				var parentInstallBtn = document.querySelector('.plugin-card-instawp-connect');
-				if (parentInstallBtn) {
-					var installBtn = parentInstallBtn.querySelector('.string-locator-instawp-button');
-					var redirectBtn = parentInstallBtn.querySelector('.sl-instawp-install-now');
-					if(installBtn) {
+			if ( variable.id === 'notice-btn-toggle-replace-controls' ) {
+				var parentInstallBtn = document.querySelector( '.plugin-card-instawp-connect' );
+				if ( parentInstallBtn ) {
+					let installBtn = parentInstallBtn.querySelector( '.string-locator-instawp-button' );
+					let redirectBtn = parentInstallBtn.querySelector( '.sl-instawp-install-now' );
+					if( installBtn ) {
 						installBtn.click(); 
 					}
-					if(redirectBtn) {
+					if( redirectBtn ) {
 						redirectBtn.click();
 					}
 
