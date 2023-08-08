@@ -80,9 +80,9 @@ class Replace {
 		 * */
 		wp_enqueue_script( 'string-locator-instawp', trailingslashit( STRING_LOCATOR_PLUGIN_URL ) . 'build/string-locator-instawp.js', array( 'jquery', 'updates' ), $replace['version'], false );
 		wp_localize_script(
-			'string-locator-instawp', 
-			'instawp_activate', 
-			array( 'nonce' => wp_create_nonce( 'string-locator-activate-instawp' ) ) 
+			'string-locator-instawp',
+			'instawp_activate',
+			array( 'nonce' => wp_create_nonce( 'string-locator-activate-instawp' ) )
 		);
 
 	}
@@ -112,7 +112,7 @@ class Replace {
 		if ( current_user_can( 'install_plugins' ) && current_user_can( 'activate_plugins' ) ) {
 			if ( is_plugin_active( $plugin_slug . '/' . $plugin_file ) ) {
 				// The plugin is already active.
-				// $instawp_connect = menu_page_url( 'instawp-connect', false );				
+				// $instawp_connect = menu_page_url( 'instawp-connect', false );	
 				$instawp_connect = menu_page_url( 'instawp', false );
 				$button          = array(
 					'message' => esc_attr__( 'Create a Staging Site', 'string-locator' ),
