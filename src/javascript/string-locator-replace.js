@@ -1,4 +1,4 @@
-/* global stringLocatorReplace, fetch, confirm, FormData, Event */
+/* global stringLocatorReplace */
 document.addEventListener( 'DOMContentLoaded', function() {
 	const replaceStringField = document.getElementById( 'string-locator-replace-new-string' ),
 		replaceLoopbackCheckbox = document.getElementById( 'string-locator-replace-loopback-check' ),
@@ -137,13 +137,12 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		handleFormSubmission();
 	} );
 
-	let buttonsArray = [toggleButton];
-	if (noticeToggleButton !== null) {
-		buttonsArray = [noticeToggleButton, toggleButton];
+	let buttonsArray = [ toggleButton ];
+	if ( noticeToggleButton !== null ) {
+		buttonsArray = [ noticeToggleButton, toggleButton ];
 	}
 
-	buttonsArray.forEach(variable => {
-
+	buttonsArray.forEach( ( variable ) => {
 		variable.addEventListener( 'click', function() {
 			replaceControls.classList.toggle( 'visible' );
 
@@ -155,24 +154,20 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				toggleButton.innerText = stringLocatorReplace.string.button_show;
 			}
 
-			if (variable.id === 'notice-btn-toggle-replace-controls') {
-				var parentInstallBtn = document.querySelector('.plugin-card-instawp-connect');
-				if (parentInstallBtn) {
-					var installBtn = parentInstallBtn.querySelector('.string-locator-instawp-button');
-					var redirectBtn = parentInstallBtn.querySelector('.sl-instawp-install-now');
-					if(installBtn) {
-						installBtn.click(); 
+			if ( variable.id === 'notice-btn-toggle-replace-controls' ) {
+				const parentInstallBtn = document.querySelector( '.plugin-card-instawp-connect' );
+				if ( parentInstallBtn ) {
+					const installBtn = parentInstallBtn.querySelector( '.string-locator-instawp-button' );
+					const redirectBtn = parentInstallBtn.querySelector( '.sl-instawp-install-now' );
+					if ( installBtn ) {
+						installBtn.click();
 					}
-					if(redirectBtn) {
+					if ( redirectBtn ) {
 						redirectBtn.click();
 					}
-
 				}
 			}
 		} );
-
 	} );
-
 } );
-
 import '../sass/replace/replace.scss';

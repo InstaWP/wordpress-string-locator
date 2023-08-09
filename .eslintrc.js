@@ -9,6 +9,11 @@ module.exports = {
 		window: true,
 		wp: true,
 	},
+	env: {
+		browser: true,
+		es6: true,
+		node: true,
+	},
 	"overrides": [
 		{
 			"files": ["*.js" ],

@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/plugins/string-locator/
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
 Tested up to: 6.0
-Stable tag: 2.6.1
+Stable tag: 2.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ When writing your search string, make sure to wrap your search in forward slashe
 4. Smart-Scan has detected an inconsistency in the use of braces.
 
 == Changelog ==
+
+= 2.6.2 (2023-07-06) =
+* Added InstaWP integration.
+* WP ORG Support ticket fixes.
 
 = 2.6.1 (2022-11-02) =
 * Fixed a bug causing certain setups to be unable to perform searches when editing would also be unavailable.
