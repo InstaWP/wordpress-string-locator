@@ -1,3 +1,4 @@
+/* global string_locator */
 document.addEventListener( 'DOMContentLoaded', function() {
 	let stringLocatorSearchActive = false,
 		searchType = '',
