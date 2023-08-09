@@ -1,4 +1,4 @@
-// global string_locator, fetch, FormData
+/* global string_locator */
 document.addEventListener( 'DOMContentLoaded', function() {
 	let StringLocator,
 		formData;

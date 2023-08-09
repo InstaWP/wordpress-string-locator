@@ -1,4 +1,3 @@
-// global string_locator, fetch, FormData
 document.addEventListener( 'DOMContentLoaded', function() {
 	let stringLocatorSearchActive = false,
 		searchType = '',

@@ -1,4 +1,4 @@
-// global stringLocatorReplace, fetch, confirm, FormData, Event
+/* global stringLocatorReplace, fetch, confirm, FormData, Event */
 document.addEventListener( 'DOMContentLoaded', function() {
 	const replaceStringField = document.getElementById( 'string-locator-replace-new-string' ),
 		replaceLoopbackCheckbox = document.getElementById( 'string-locator-replace-loopback-check' ),

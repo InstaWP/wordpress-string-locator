@@ -1,3 +1,4 @@
+/* global instawp_activate, ajaxurl */
 const MyPlugin = {
 	init( wp ) {
 		'use strict';
