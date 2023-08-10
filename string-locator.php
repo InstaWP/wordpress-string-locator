@@ -3,7 +3,7 @@
  * Plugin Name: String Locator
  * Plugin URI: https://wordpress.org/plugins/string-locator/
  * Description: Scan through theme and plugin files looking for text strings
- * Version: 2.6.2
+ * Version: 2.6.3
  * Author: InstaWP
  * Author URI: https://instawp.com/
  * Text Domain: string-locator

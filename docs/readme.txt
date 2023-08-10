@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/plugins/string-locator/
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
 Tested up to: 6.3
-Stable tag: 2.6.2
+Stable tag: 2.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ You can then quickly make edits directly in your browser by clicking the link fr
 By default a consistency check is performed when making edits to files, this will look for inconsistencies with braces, brackets and parenthesis that are often accidentally left in.
 This drastically reduces the risk of breaking your site when making edits, but is in no way an absolute guarantee.
 
-Create [WordPress Sandbox](https://instawp.com/?utm_source=sl_plugin_readme) before testing substitutions. 
+Create a replica of your live site a.k.a - [WordPress Staging](https://wordpress.org/plugins/instawp-connect) site before testing substitutions. 
 
 
 == Frequently asked questions ==
@@ -45,6 +45,9 @@ When writing your search string, make sure to wrap your search in forward slashe
 4. Smart-Scan has detected an inconsistency in the use of braces.
 
 == Changelog ==
+
+= 2.6.3 (2023-08-10) =
+* CSS/JS Loading bug fixes
 
 = 2.6.2 (2023-08-10) =
 * Added InstaWP integration.
