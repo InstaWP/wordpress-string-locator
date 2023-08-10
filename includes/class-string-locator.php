@@ -430,7 +430,7 @@ class String_Locator {
 	 */
 	function admin_enqueue_scripts( $hook ) {
 		// Break out early if we are not on a String Locator page
-		if ( 'tools-page-string-locator' !== $hook && 'toplevel_page_string-locator' !== $hook ) {
+		if ( 'tools_page_string-locator' !== $hook && 'toplevel_page_string-locator' !== $hook ) {
 			return;
 		}
 

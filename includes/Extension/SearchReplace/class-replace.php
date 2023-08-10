@@ -43,7 +43,7 @@ class Replace {
 	 */
 	public function maybe_enqueue_assets( $hook ) {
 		// Break out early if we are not on a String Locator page
-		if ( 'tools-page-string-locator' !== $hook && 'toplevel_page_string-locator' !== $hook ) {
+		if ( 'tools_page_string-locator' !== $hook && 'toplevel_page_string-locator' !== $hook ) {
 			return;
 		}
 
