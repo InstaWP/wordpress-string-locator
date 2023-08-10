@@ -1,3 +1,26 @@
+= 2.6.2 (2023-08-10) =
+* Added InstaWP integration.
+* WP ORG Support ticket fixes.
+
+= 2.6.1 (2022-11-02) =
+* Fixed a bug causing certain setups to be unable to perform searches when editing would also be unavailable.
+* Fixed a bug causing certain plugins to prevent the search results list from being displayed properly.
+* Verified compatibility with WordPress 6.1
+
+= 2.6.0 (2022-07-20) =
+* Added database search feature.
+* Added tools for quickly replacing data in the search results.
+* Added many more filters and actions.
+* Added hardening of file path checks.
+* Removed one-time donation notice.
+* Removed jQuery dependency in favor of vanilla JavaScript code.
+* Separated search class into a base class for extenders.
+* Fixed bug with code viewer sizes when resizing your window.
+* Fixed bug in the list view if special characters were in the search string.
+* Fixed a bug where RegEx search validation may have a false positive check for invalid patterns.
+* Fixed missing translator function if Javascript is missing.
+* Improved capability checks for displaying the search interface when editing is disabled.
+
 = 2.5.0 (2022-02-27) =
 * Fixed a bug where content would have slashes stripped unexpectedly.
 * Improved table spacing on search results.
