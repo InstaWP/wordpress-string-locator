@@ -1,10 +1,10 @@
 === String locator ===
 Contributors: InstaWP, Clorith
-Author URI: https://instawp.com/
+Author URI: https://instawp.com/?utm_source=sl_plugin_author
 Plugin URI: http://wordpress.org/plugins/string-locator/
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
-Tested up to: 6.0
+Tested up to: 6.3
 Stable tag: 2.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -21,7 +21,7 @@ You can then quickly make edits directly in your browser by clicking the link fr
 By default a consistency check is performed when making edits to files, this will look for inconsistencies with braces, brackets and parenthesis that are often accidentally left in.
 This drastically reduces the risk of breaking your site when making edits, but is in no way an absolute guarantee.
 
-[Create Disposable WordPress Sites in Seconds](https://instawp.com/?utm_source=stringlocator)
+Create [WordPress Sandbox](https://instawp.com/?utm_source=sl_plugin_readme) before testing substitutions. 
 
 
 == Frequently asked questions ==
@@ -46,7 +46,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
-= 2.6.2 (2023-07-06) =
+= 2.6.2 (2023-08-10) =
 * Added InstaWP integration.
 * WP ORG Support ticket fixes.
 
