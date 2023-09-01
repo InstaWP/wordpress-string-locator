@@ -20,7 +20,7 @@
   "devDependencies": {
     "@wordpress/env": "^8.2.0",
     "@wordpress/scripts": "^26.6.0",
-    "@wordpress/stylelint-config": "^21.18.0"
+    "@wordpress/stylelint-config": "^21.24.0"
   },
   "scripts": {
     "start": "wp-scripts start src/javascript/string-locator.js src/javascript/string-locator-search.js src/javascript/string-locator-replace.js src/javascript/string-locator-instawp.js",
