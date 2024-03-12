@@ -46,7 +46,7 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
-= 2.6.4 (2024-02-06) =
+= 2.6.4 (2024-03-12) =
 * Verified compatibility with WordPress 6.4
 
 = 2.6.3 (2023-08-10) =
