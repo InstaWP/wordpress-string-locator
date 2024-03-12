@@ -1,5 +1,5 @@
 = 2.6.4 (2024-03-12) =
-* Verified compatibility with WordPress 6.5
+* Verified compatibility with WordPress 6.4
 
 = 2.6.3 (2023-08-10) =
 * CSS/JS Loading bug fixes
