@@ -135,6 +135,10 @@ class Directory_Iterator {
 				$data['path'] = WP_CONTENT_DIR;
 				$data['type'] = 'core';
 				break;
+			case ( 'wc-logs' === $option ):
+				$data['path'] = WP_CONTENT_DIR . '/uploads/wc-logs';
+				$data['type'] = 'core';
+				break;
 		}
 
 		if ( empty( $data['path'] ) ) {
