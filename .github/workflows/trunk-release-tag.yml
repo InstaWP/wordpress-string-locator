@@ -4,7 +4,20 @@ name: Create release
 on:
   push:
     tags:
-      - '*'
+      # Release tags only. This was '*', which matched ANY tag name, so a tag
+      # created for something other than a release — pinning a commit for
+      # reference, for instance — would publish that commit to WordPress.org.
+      # That is not hypothetical: it happened to InstaWP/instawp-connect on
+      # 2026-09-07, where a tag named 'incident-14ypaj0acdw' deployed its
+      # commit to SVN trunk and the public download served it.
+      #
+      # Every release tag here is a bare version (2.6.7, 2.6.0-beta1, ...), so
+      # requiring a digit-led "N.N" prefix covers all 13 existing tags,
+      # pre-releases included, and excludes names like that one.
+      #
+      # To pin a commit without publishing it, use a ref outside refs/tags —
+      # e.g. refs/incident/<name> — which no workflow watches.
+      - '[0-9]+.[0-9]+*'
 
 jobs:
   build:
