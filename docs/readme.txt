@@ -4,8 +4,9 @@ Author URI: https://instawp.com/?utm_source=sl_plugin_author
 Plugin URI: http://wordpress.org/plugins/string-locator/
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
-Tested up to: 6.7
-Stable tag: 2.6.7
+Requires PHP: 7.0
+Tested up to: 7.1
+Stable tag: 2.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +46,9 @@ When writing your search string, make sure to wrap your search in forward slashe
 4. Smart-Scan has detected an inconsistency in the use of braces.
 
 == Changelog ==
+
+= 2.6.8 (2026-09-24) =
+* Security: hardened serialized data processing.
 
 = 2.6.7 (2025-01-15) =
 * Fixed secured unserialized data handling to prevent potential vulnerabilities.

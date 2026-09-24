@@ -118,7 +118,22 @@ class Serialized_Data {
 		$this->errors = array();
 
 		if ( \is_serialized( $this->content ) ) {
-			$test_data = @unserialize( $this->content );
+			/*
+			 * This check only needs to know whether the value is well-formed
+			 * serialized PHP; it never needs the objects that value describes, and
+			 * the value itself is row content that the site owner did not
+			 * necessarily author. `allowed_classes => false` therefore keeps any
+			 * object in it from being instantiated during validation.
+			 *
+			 * Objects still decode to `__PHP_Incomplete_Class`, which is not
+			 * `false`, so the validity test below is unchanged for legitimate data.
+			 *
+			 * Enum cases are the one thing PHP does not gate here -- an `E:` value
+			 * still resolves to the real case. That is safe: an enum may not declare
+			 * `__wakeup()`, `__destruct()`, `__construct()`, `__serialize()` or
+			 * `__unserialize()`, so it cannot carry a gadget.
+			 */
+			$test_data = @unserialize( $this->content, array( 'allowed_classes' => false ) );
 
 			if ( 'b:0;' !== $this->content && false === $test_data ) {
 				$this->errors[] = array(
