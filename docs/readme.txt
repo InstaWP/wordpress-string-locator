@@ -53,7 +53,7 @@ Security release. Updating is recommended for all sites.
 == Changelog ==
 
 = 2.6.8 (2026-09-24) =
-* Security: hardened serialized data validation in the database editor so that objects in the data being checked are never instantiated. Reported by Raphael P. Cigana via WPScan.
+* Security: hardened serialized data processing.
 
 = 2.6.7 (2025-01-15) =
 * Fixed secured unserialized data handling to prevent potential vulnerabilities.
