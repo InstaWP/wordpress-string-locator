@@ -44,6 +44,11 @@ When writing your search string, make sure to wrap your search in forward slashe
 3. Having clicked the link for one of the results and being taken to the editor in the browser.
 4. Smart-Scan has detected an inconsistency in the use of braces.
 
+== Upgrade Notice ==
+
+= 2.6.8 =
+Security release. Updating is recommended for all sites.
+
 == Changelog ==
 
 = 2.6.8 (2026-09-24) =

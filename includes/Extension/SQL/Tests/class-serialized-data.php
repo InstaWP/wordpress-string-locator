@@ -127,6 +127,11 @@ class Serialized_Data {
 			 *
 			 * Objects still decode to `__PHP_Incomplete_Class`, which is not
 			 * `false`, so the validity test below is unchanged for legitimate data.
+			 *
+			 * Enum cases are the one thing PHP does not gate here -- an `E:` value
+			 * still resolves to the real case. That is safe: an enum may not declare
+			 * `__wakeup()`, `__destruct()`, `__construct()`, `__serialize()` or
+			 * `__unserialize()`, so it cannot carry a gadget.
 			 */
 			$test_data = @unserialize( $this->content, array( 'allowed_classes' => false ) );
 
